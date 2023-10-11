@@ -1,5 +1,15 @@
 [![license: Apache 2.0](https://img.shields.io/badge/license-Apache_2.0-green)](LICENSE)
 
+[![Reliability Rating](https://sonarcloud.io/api/project_badges/measure?project=mfrj22_socsport&metric=reliability_rating)](https://sonarcloud.io/summary/new_code?id=mfrj22_socsport)
+[![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=mfrj22_socsport&metric=sqale_rating)](https://sonarcloud.io/summary/new_code?id=mfrj22_socsport)
+[![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=mfrj22_socsport&metric=vulnerabilities)](https://sonarcloud.io/summary/new_code?id=mfrj22_socsport)
+[![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=mfrj22_socsport&metric=security_rating)](https://sonarcloud.io/summary/new_code?id=mfrj22_socsport)
+[![Bugs](https://sonarcloud.io/api/project_badges/measure?project=mfrj22_socsport&metric=bugs)](https://sonarcloud.io/summary/new_code?id=mfrj22_socsport)
+[![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=mfrj22_socsport&metric=code_smells)](https://sonarcloud.io/summary/new_code?id=mfrj22_socsport)
+[![Lines of Code](https://sonarcloud.io/api/project_badges/measure?project=mfrj22_socsport&metric=ncloc)](https://sonarcloud.io/summary/new_code?id=mfrj22_socsport)
+[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=mfrj22_socsport&metric=coverage)](https://sonarcloud.io/summary/new_code?id=mfrj22_socsport)
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=mfrj22_socsport&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=mfrj22_socsport)
+[![Duplicated Lines (%)](https://sonarcloud.io/api/project_badges/measure?project=mfrj22_socsport&metric=duplicated_lines_density)](https://sonarcloud.io/summary/new_code?id=mfrj22_socsport)
 
 # SocSport
 
