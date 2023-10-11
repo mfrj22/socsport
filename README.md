@@ -1,7 +1,7 @@
 # SocSport
 
 SocSport - Application de Réservation de Terrains Sportifs :
-Bienvenue dans SocSport, une application web qui permet aux utilisateurs de réserver des terrains sportifs à proximité de leur domicile. Cette application est construite avec Symfony, un framework PHP populaire, et utilise Composer pour la gestion des dépendances.
+Bienvenue dans SocSport, une application web qui permet aux utilisateurs de réserver des terrains sportifs à proximité de leur domicile. Cette application est construite avec un front React JS et un back Python, reliés entre eux à l'aide de l'API Flask.
 
 ## Installation
 Avant de pouvoir utiliser SocSport sur votre système, vous devez effectuer quelques étapes d'installation. 
@@ -26,7 +26,7 @@ Maintenant que Node.js et Flask sont installés, vous pouvez cloner le dépôt G
 git clone https://github.com/mfrj22/socsport.git
 ```
 
-### Lancement de l'Application
+## Lancement de l'Application
 Vous êtes maintenant prêt à lancer l'application !
 Utilisez la commande suivante pour démarrer le serveur de développement :
 
