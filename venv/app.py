@@ -1,13 +1,15 @@
-from flask import Flask, jsonify
+from flask import Flask, request, jsonify
 from flask_cors import CORS
 
 app = Flask(__name__)
+CORS(app)
 
 @app.route('/calcul', methods=['GET'])
 def effectuer_calcul():
-    # Effectuez votre calcul ici
-    resultat = 42  # Remplacez ceci par votre propre calcul
-    return jsonify({'resultat': resultat})
+    # Effectuez le calcul ici
+    # Renvoyez le résultat en JSON
+    result = {'resultat': 2+22}  # Remplacez par le résultat réel de votre calcul
+    return jsonify(result)
 
 if __name__ == '__main__':
     app.run()

@@ -24,30 +24,23 @@
 
 // export default App;
 
-import React, { Component } from 'react';
+import React, { useState } from 'react';
 
-class App extends Component {
-  state = {
-    resultatDuCalcul: null,
-  };
+function App() {
+    const [resultat, setResultat] = useState(null);
 
-  effectuerCalcul = () => {
-    fetch('/calcul')  // Assurez-vous que l'URL correspond à votre route Flask
-      .then((response) => response.json())
-      .then((data) => {
-        this.setState({ resultatDuCalcul: data.resultat });
-      });
-  };
+    const handleCalculClick = async () => {
+        const response = await fetch('http://localhost:5000/calcul');
+        const data = await response.json();
+        setResultat(data.resultat);
+    };
 
-  render() {
     return (
-      <div>
-        <button onClick={this.effectuerCalcul}>Effectuer le calcul</button>
-        <p>Résultat du calcul : {this.state.resultatDuCalcul}</p>
-      </div>
+        <div>
+            <button onClick={handleCalculClick}>Calculer</button>
+            {resultat && <p>Résultat : {resultat}</p>}
+        </div>
     );
-  }
 }
 
 export default App;
-
