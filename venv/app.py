@@ -6,9 +6,8 @@ CORS(app)
 
 @app.route('/calcul', methods=['GET'])
 def effectuer_calcul():
-    # Effectuez le calcul ici
-    # Renvoyez le résultat en JSON
-    result = {'resultat': 2+22}  # Remplacez par le résultat réel de votre calcul
+
+    result = {'resultat': 2+22}  
     return jsonify(result)
 
 if __name__ == '__main__':
