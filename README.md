@@ -46,11 +46,19 @@ Utilisez la commande suivante pour démarrer le serveur de développement :
 ```
 npm start
 ```
+Pour lancer l'API Flask, il vous faudra lancer un terminal depuis le répertoire "venv" (qui représente notre environnement virtuel Python), puis lancer cette ligne de commande :
 
-L'application sera disponible à l'adresese : [http://localhost:3000](http://localhost:3000)
+```
+python app.py
+```
+
+L'application sera disponible à l'adresse : [http://localhost:3000](http://localhost:3000)
+L'API Flask sera disponible à l'adresse : [http://localhost:5000](http://localhost:5000)
 
 ## Utilisation de l'Application (v0.1)
-?????
+La v0.1 de notre application SocSport vous permet d'additionner deux entiers de votre choix.
+Le front (React.js) affiche un bouton "Calculer".
+Le back (Python/Flask) effectue ensuite le calcul puis renvoie le résultat au format JSON au front.
 
 Nous apprécions toutes les contributions et le feedback de la communauté !
 
