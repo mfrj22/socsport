@@ -53,6 +53,7 @@ python app.py
 ```
 
 L'application sera disponible à l'adresse : [http://localhost:3000](http://localhost:3000)
+
 L'API Flask sera disponible à l'adresse : [http://localhost:5000](http://localhost:5000)
 
 ## Utilisation de l'Application (v0.1)
