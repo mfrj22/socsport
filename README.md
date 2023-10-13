@@ -1,4 +1,4 @@
-[![Build](https://github.com/mfrj22/socsport/actions/workflows/build2.yml/badge.svg)](https://github.com/mfrj22/socsport/actions/workflows/build2.yml)
+[![Build](https://github.com/mfrj22/socsport/actions/workflows/python-app.yml/badge.svg)](https://github.com/mfrj22/socsport/actions/workflows/python-app.yml)
 [![license: Apache 2.0](https://img.shields.io/badge/license-Apache_2.0-green)](LICENSE)
 [![Test Coverage](https://api.codeclimate.com/v1/badges/a99728c8bb5241ef2c7f/test_coverage)](https://codeclimate.com/github/mfrj22/socsport/test_coverage)
 
