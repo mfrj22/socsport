@@ -1,7 +1,7 @@
 [![Build](https://github.com/mfrj22/socsport/actions/workflows/python-app.yml/badge.svg)](https://github.com/mfrj22/socsport/actions/workflows/python-app.yml)
 [![license: Apache 2.0](https://img.shields.io/badge/license-Apache_2.0-green)](LICENSE)
 [![Test Coverage](https://api.codeclimate.com/v1/badges/a99728c8bb5241ef2c7f/test_coverage)](https://codeclimate.com/github/mfrj22/socsport/test_coverage)
-[![Tag](https://img.shields.io/github/v/release/mfrj22/socsport?label=Dernière%20version)](https://github.com/mfrj22/socsport/releases)
+[![Tag](https://img.shields.io/github/latest/release/mfrj22/socsport?label=Dernière%20version)](https://github.com/mfrj22/socsport/releases)
 
 [![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=mfrj22_socsport&metric=sqale_rating)](https://sonarcloud.io/summary/new_code?id=mfrj22_socsport)
 [![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=mfrj22_socsport&metric=security_rating)](https://sonarcloud.io/summary/new_code?id=mfrj22_socsport)
