@@ -38,7 +38,7 @@ class Evenement(db.Model):
 # Création des tables dans la base de données
 with app.app_context():
     db.create_all()
-    
+
 # Routes de l'API
 @app.route('/nearest-fields', methods=['POST'])
 def nearest_fields():

@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import LocationInput from './components/LocationInput';
 import NearbyFields from './components/NearbyFields';
-import EventForm from './components/EventForm';
+import EventForm from './EventForm';
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';

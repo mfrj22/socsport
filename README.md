@@ -1,15 +1,14 @@
-[![Build](https://github.com/mfrj22/socsport/actions/workflows/python-app.yml/badge.svg)](https://github.com/mfrj22/socsport/actions/workflows/python-app.yml)
 [![license: Apache 2.0](https://img.shields.io/badge/license-Apache_2.0-green)](LICENSE)
-[![Test Coverage](https://api.codeclimate.com/v1/badges/a99728c8bb5241ef2c7f/test_coverage)](https://codeclimate.com/github/mfrj22/socsport/test_coverage)
-[![Tag](https://img.shields.io/github/v/release/mfrj22/socsport?label=Dernière%20version)](https://github.com/mfrj22/socsport/releases)
 
+[![Reliability Rating](https://sonarcloud.io/api/project_badges/measure?project=mfrj22_socsport&metric=reliability_rating)](https://sonarcloud.io/summary/new_code?id=mfrj22_socsport)
 [![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=mfrj22_socsport&metric=sqale_rating)](https://sonarcloud.io/summary/new_code?id=mfrj22_socsport)
-[![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=mfrj22_socsport&metric=security_rating)](https://sonarcloud.io/summary/new_code?id=mfrj22_socsport)
-
 [![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=mfrj22_socsport&metric=vulnerabilities)](https://sonarcloud.io/summary/new_code?id=mfrj22_socsport)
+[![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=mfrj22_socsport&metric=security_rating)](https://sonarcloud.io/summary/new_code?id=mfrj22_socsport)
 [![Bugs](https://sonarcloud.io/api/project_badges/measure?project=mfrj22_socsport&metric=bugs)](https://sonarcloud.io/summary/new_code?id=mfrj22_socsport)
 [![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=mfrj22_socsport&metric=code_smells)](https://sonarcloud.io/summary/new_code?id=mfrj22_socsport)
 [![Lines of Code](https://sonarcloud.io/api/project_badges/measure?project=mfrj22_socsport&metric=ncloc)](https://sonarcloud.io/summary/new_code?id=mfrj22_socsport)
+[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=mfrj22_socsport&metric=coverage)](https://sonarcloud.io/summary/new_code?id=mfrj22_socsport)
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=mfrj22_socsport&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=mfrj22_socsport)
 [![Duplicated Lines (%)](https://sonarcloud.io/api/project_badges/measure?project=mfrj22_socsport&metric=duplicated_lines_density)](https://sonarcloud.io/summary/new_code?id=mfrj22_socsport)
 
 # SocSport
@@ -47,20 +46,11 @@ Utilisez la commande suivante pour démarrer le serveur de développement :
 ```
 npm start
 ```
-Pour lancer l'API Flask, il vous faudra lancer un terminal depuis le répertoire "venv" (qui représente notre environnement virtuel Python), puis lancer cette ligne de commande :
 
-```
-python app.py
-```
-
-L'application sera disponible à l'adresse : [http://localhost:3000](http://localhost:3000)
-
-L'API Flask sera disponible à l'adresse : [http://localhost:5000](http://localhost:5000)
+L'application sera disponible à l'adresese : [http://localhost:3000](http://localhost:3000)
 
 ## Utilisation de l'Application (v0.1)
-La v0.1 de notre application SocSport vous permet d'additionner deux entiers de votre choix.
-Le front (React.js) affiche un bouton "Calculer".
-Le back (Python/Flask) effectue ensuite le calcul puis renvoie le résultat au format JSON au front.
+?????
 
 Nous apprécions toutes les contributions et le feedback de la communauté !
 
