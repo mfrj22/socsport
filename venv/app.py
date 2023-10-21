@@ -77,6 +77,39 @@ def create_event(fieldId):
         # Clés JSON manquantes
         return jsonify({'message': 'Invalid JSON data'}), 400
 
+@app.route('/events-for-field/<int:fieldId>', methods=['GET'])
+def events_for_field(fieldId):
+    terrain = Terrain.query.get(fieldId)
+    if terrain:
+        events = Evenement.query.filter_by(terrain_id=fieldId).all()
+        event_data = [{
+            'nom': event.nom,
+            'date': str(event.date),
+            'heure_debut': str(event.heure_debut),
+            'heure_fin': str(event.heure_fin)
+        } for event in events]
+        return jsonify(event_data)
+    else:
+        return jsonify({'message': 'Terrain non trouvé'}), 404
+
+@app.route('/')
+def index():
+    # Renvoie la liste des terrains
+    terrains = Terrain.query.all()
+    terrain_data = []
+    for terrain in terrains:
+        terrain_data.append({
+            'id': terrain.id,
+            'nom': terrain.nom,
+            'adresse': terrain.adresse,
+            'latitude': terrain.latitude,
+            'longitude': terrain.longitude,
+            'ville': terrain.ville.nom,
+            'code_postal': terrain.ville.code_postal,
+            'departement': terrain.ville.departement
+        })
+    return jsonify(terrain_data)
+
 # Lancement du serveur
 if __name__ == '__main__':
     app.run(debug=True)
