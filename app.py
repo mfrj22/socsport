@@ -10,6 +10,7 @@ CORS(app)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:AliMaxou2002@localhost/socsport'
 db = SQLAlchemy(app)
 
+
 # Modèles de données
 class Ville(db.Model):
     id = db.Column(db.Integer, primary_key=True)
