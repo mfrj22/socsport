@@ -40,6 +40,49 @@ Maintenant que Node.js et Flask sont installés, vous pouvez cloner le dépôt G
 git clone https://github.com/mfrj22/socsport.git
 ```
 
+### 4. Installation des librairies Python
+Pour notre projet, nous avons utilisés différentes bibliothèques Python :
+
+SQLAlchemy permet d'intégrer une base de donées SQL dans notre application Flask.
+```
+pip install Flask-SQLAlchemy
+```
+
+PyMySQL permet d'assurer la connectivité et la communication avec notre base de données MySQL.
+```
+pip install pymysql
+```
+
+Cryptography est utilisé pour renforcer la sécurité.
+```
+pip install cryptography
+```
+
+Geopy gère les opérations de géocalisation (calcul de distances entre des points géopgraphiques).
+```
+pip install geopy
+```
+
+PyTest permet d'exécuter des tests unitaires.
+```
+pip install pytest
+```
+
+### 4. Installation des modules React
+Pour le bon fonctionnement de notre application, nous avons ajoutés des modules React :
+
+```
+npm install
+```
+
+```
+npm install react-router-dom
+```
+
+```
+npm install react-slick slick-carousel
+```
+
 ## Lancement de l'Application
 Vous êtes maintenant prêt à lancer l'application !
 Utilisez la commande suivante pour démarrer le serveur de développement :
@@ -47,7 +90,7 @@ Utilisez la commande suivante pour démarrer le serveur de développement :
 ```
 npm start
 ```
-Pour lancer l'API Flask, il vous faudra lancer un terminal depuis le répertoire "venv" (qui représente notre environnement virtuel Python), puis lancer cette ligne de commande :
+Pour lancer l'API Flask, il vous faudra lancer un terminal depuis la racine du projet puis lancer cette ligne de commande :
 
 ```
 python app.py
@@ -57,10 +100,9 @@ L'application sera disponible à l'adresse : [http://localhost:3000](http://loca
 
 L'API Flask sera disponible à l'adresse : [http://localhost:5000](http://localhost:5000)
 
-## Utilisation de l'Application (v0.1)
-La v0.1 de notre application SocSport vous permet d'additionner deux entiers de votre choix.
-Le front (React.js) affiche un bouton "Calculer".
-Le back (Python/Flask) effectue ensuite le calcul puis renvoie le résultat au format JSON au front.
+## Utilisation de l'Application (v0.2)
+La v0.2 de notre application SocSport vous permet d'obtenir les terrains à proximité de vous, ou d'un lieu donné. 
+Vous pourrez voir les événements des terrains de votre choix, et vous avez même la possibilité d'en créer.
 
 Nous apprécions toutes les contributions et le feedback de la communauté !
 
