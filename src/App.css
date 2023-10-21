@@ -36,3 +36,96 @@
     transform: rotate(360deg);
   }
 }
+
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f5f5f5;
+  margin: 0;
+  padding: 0;
+}
+
+.App {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #ffffff;
+  box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+  text-align: center;
+  margin-bottom: 20px;
+  font-family: 'Arial Black', sans-serif;
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+}
+
+.location-input {
+  margin-bottom: 1rem;
+}
+
+.field-link {
+  display: block;
+  padding: 10px;
+  margin-bottom: 10px;
+  background-color: #4caf50;
+  color: white;
+  text-align: center;
+  text-decoration: none;
+  border-radius: 5px;
+}
+
+.field-link:hover {
+  background-color: #45a049;
+}
+
+.event-form {
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 5px;
+}
+.nearby-fields {
+  margin-top: 20px;
+}
+
+.slick-slider {
+  width: 80%;
+  margin: 0 auto;
+}
+
+.slick-prev,
+.slick-next {
+  font-size: 24px;
+  color: #000;
+}
+
+
+.carousel-item img {
+  max-width: 80%; /* La largeur maximale de l'image sera de 100% de la largeur du conteneur */
+  max-height: 200px; /* La hauteur maximale de l'image sera de 300 pixels */
+  margin: 0 auto; /* Centrez l'image horizontalement */
+  object-fit: cover; /* L'image sera redimensionnée tout en conservant son ratio d'aspect */
+}
+
+.caption {
+  font-size: 14px;
+  text-align: center;
+  margin-top: 10px;
+}
+
+
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f7f7f7;
+  margin: 0;
+  padding: 0;
+}
+
+.header {
+  background-color: #4CAF50;
+  color: white;
+  text-align: center;
+  padding: 1rem;
+}
+
+
