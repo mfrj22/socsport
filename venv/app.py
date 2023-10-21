@@ -38,6 +38,44 @@ class Evenement(db.Model):
 # Création des tables dans la base de données
 with app.app_context():
     db.create_all()
+    
+# Routes de l'API
+@app.route('/nearest-fields', methods=['POST'])
+def nearest_fields():
+    user_location = request.get_json()  # Les coordonnées GPS de l'utilisateur
+    user_coordinates = (user_location['latitude'], user_location['longitude'])
+
+    nearest = []
+    for terrain in Terrain.query.all():
+        distance = geodesic(user_coordinates, (terrain.latitude, terrain.longitude)).kilometers
+        nearest.append({'id': terrain.id, 'nom': terrain.nom, 'latitude': terrain.latitude, 'longitude': terrain.longitude, 'distance': distance})
+
+    nearest = sorted(nearest, key=lambda x: x['distance'])
+
+    return jsonify(nearest)
+
+@app.route('/create-event/<int:fieldId>', methods=['POST'])
+def create_event(fieldId):
+    data = request.get_json()
+    if 'name' in data and 'date' in data and 'startTime' in data and 'endTime' in data:
+        terrain = Terrain.query.get(fieldId)
+        if terrain:
+            new_event = Evenement(
+                nom=data['name'],
+                date=data['date'],
+                heure_debut=data['startTime'],
+                heure_fin=data['endTime'],
+                terrain_id=fieldId
+            )
+            db.session.add(new_event)
+            db.session.commit()
+            return jsonify({'message': 'Event created successfully'})
+        else:
+            # Terrain avec l'ID donné non trouvé
+            return jsonify({'message': 'Invalid field ID'}), 400
+    else:
+        # Clés JSON manquantes
+        return jsonify({'message': 'Invalid JSON data'}), 400
 
 # Lancement du serveur
 if __name__ == '__main__':
