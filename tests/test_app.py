@@ -44,7 +44,7 @@ def test_nearest_fields(client):
 
 def test_create_event(client):
     terrain_id = 1
-    data = {'name': 'Test Event', 'date': '01/01/2022', 'startTime': '10:00', 'endTime': '12:00'}
+    data = {'name': 'Test Event', 'date': '2022-01-01', 'startTime': '10:00', 'endTime': '12:00'}
     response = client.post(f'/create-event/{terrain_id}', json=data)
     assert response.status_code == 200
     assert Evenement.query.count() == 1
