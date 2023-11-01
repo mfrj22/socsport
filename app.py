@@ -128,7 +128,7 @@ def create_event(fieldId):
         # Clés JSON manquantes
         return jsonify({'message': 'Invalid JSON data'}), 400
 
-@app.route('/events-for-field/<int:fieldId>', methods=['GET'])
+@app.route('/events-for-field/<int:fieldId>', methods=['GET', 'POST'])
 def events_for_field(fieldId):
     terrain = Terrain.query.get(fieldId)
     if terrain:
