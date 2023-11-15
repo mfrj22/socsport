@@ -33,6 +33,7 @@ jobs:
         pip install pymysql
         pip install cryptography
         pip install geopy
+        pip install flask-cors
         if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
 
     - name: Run tests
