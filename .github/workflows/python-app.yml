@@ -1,13 +1,10 @@
-# This workflow will install Python dependencies, run tests and lint with a single version of Python
-# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-python
-
 name: Python application
 
 on:
   push:
-    branches: [ "main" ]
+    branches: ["main"]
   pull_request:
-    branches: [ "main" ]
+    branches: ["main"]
 
 permissions:
   contents: read
@@ -18,52 +15,55 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v3
-    - name: Set up Python 3.x
-      uses: actions/setup-python@v3
-      with:
-        python-version: "3.x"
-    - name: Install dependencies
-      run: |
-        python -m pip install --upgrade pip
-        pip install flake8 pytest
-        pip install pytest-cov
-        pip install flask
-        pip install flask-SQLAlchemy
-        pip install pymysql
-        pip install cryptography
-        pip install geopy
-        pip install flask-cors
-        if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+      - uses: actions/checkout@v3
+      - name: Set up Python 3.x
+        uses: actions/setup-python@v3
+        with:
+          python-version: "3.x"
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install flake8 pytest
+          pip install pytest-cov
+          pip install flask
+          pip install flask-SQLAlchemy
+          pip install pymysql
+          pip install cryptography
+          pip install geopy
+          pip install flask-cors
+          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
 
-    - name: Set up MySQL client
-      run: |
+      - name: Set up MySQL client
+        run: |
           sudo apt-get update
           sudo apt-get install -y mysql-client
 
-    - name: Run tests
-      run: |
-        python -m pytest --cov=app
+      - name: Run tests
+        run: |
+          python -m pytest --cov=app
 
-    - name: Install Code Climate Test Reporter
-      run: |
-        Invoke-WebRequest -Uri 'https://codeclimate.com/downloads/test-reporter/test-reporter-latest-windows-amd64' -OutFile ./cc-test-reporter
-        Set-ExecutionPolicy RemoteSigned -Scope Process
-        ./cc-test-reporter
+      - name: Install Code Climate Test Reporter
+        run: |
+          Invoke-WebRequest -Uri 'https://codeclimate.com/downloads/test-reporter/test-reporter-latest-windows-amd64' -OutFile ./cc-test-reporter
+          Set-ExecutionPolicy RemoteSigned -Scope Process
+          ./cc-test-reporter
 
+      - name: Upload coverage data to Code Climate
+        env:
+          CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
+        run: |
+          ./cc-test-reporter before-build
+          ./cc-test-reporter after-build --exit-code $?
 
-    - name: Upload coverage data to Code Climate
-      env:
-        CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
-      run: |
-        ./cc-test-reporter before-build
-        ./cc-test-reporter after-build --exit-code $?
+      - name: Install Ruby and Asciidoctor dependencies
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: 3.0
 
+      - name: Install Asciidoctor gems
+        run: |
+          gem install rouge -v '3.15.0'
 
-    - name: Upload coverage data to Code Climate
-      run: |
-        ./cc-test-reporter format-coverage -t coverage.py coverage.xml
-
-    - name: Upload coverage data to Code Climate
-      run: |
-        ./cc-test-reporter upload-coverage
+      - name: Run Asciidoctor
+        run: |
+          ./gradlew asciidoctor
