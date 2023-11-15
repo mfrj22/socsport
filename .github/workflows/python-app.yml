@@ -29,6 +29,10 @@ jobs:
         pip install flake8 pytest
         pip install pytest-cov
         pip install flask
+        pip install flask-SQLAlchemy
+        pip install pymysql
+        pip install cryptography
+        pip install geopy
         if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
 
     - name: Run tests
