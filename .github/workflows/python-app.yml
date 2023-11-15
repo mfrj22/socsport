@@ -35,8 +35,10 @@ jobs:
 
     - name: Install Code Climate Test Reporter
       run: |
-        curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-windows-amd64 > ./cc-test-reporter
-        chmod +x ./cc-test-reporter
+        Invoke-WebRequest -Uri 'https://codeclimate.com/downloads/test-reporter/test-reporter-latest-windows-amd64' -OutFile ./cc-test-reporter
+        Set-ExecutionPolicy RemoteSigned -Scope Process
+        ./cc-test-reporter
+
 
     - name: Upload coverage data to Code Climate
       env:
