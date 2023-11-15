@@ -56,4 +56,4 @@ jobs:
 
       - name: Generate PDF from Asciidoctor
         run: |
-          asciidoctor-pdf -D docs/pdf main.adoc
+          asciidoctor-pdf -D assets main.adoc
