@@ -89,14 +89,11 @@ Pour lancer l'API Flask, il vous faudra lancer un terminal depuis la racine du p
 python app.py
 ----
 
-----
-L'application sera disponible à l'adresse : link:http://localhost:3000[http://localhost:3000]
-
-L'API Flask sera disponible à l'adresse : link:http://localhost:5000[http://localhost:5000]
-
 == 7. Diagramme UML
 
-Pour visualiser la structure du modèle, nous avons créé un diagramme UML à l'aide de PlantUML. Voici le contenu du fichier :
+Pour visualiser la structure du modèle, nous avons créé des diagrammes UML à l'aide de PlantUML. 
+
+Diagramme de classe :
 
 @startuml model
 
@@ -132,5 +129,65 @@ Terrain "1" -- "*" Evenement : has
 
 @enduml
 
+Diagramme de E/A :
+
+@startuml diagEA
+
+entity "Ville" {
+  + id: Integer
+  --
+  + nom: String
+  + code_postal: Integer
+  + departement: String
+}
+
+entity "Terrain" {
+  + id: Integer
+  --
+  + nom: String
+  + adresse: String
+  + latitude: Float
+  + longitude: Float
+}
+
+entity "Evenement" {
+  + id: Integer
+  --
+  + nom: String
+  + date: Date
+  + heure_debut: Time
+  + heure_fin: Time
+}
+
+Ville --o{ Terrain : "has"
+Terrain --o{ Evenement : "has"
+
+@enduml
+
+Diagramme de séquence :
+
+@startuml diagsec
+
+actor User
+participant App
+participant Vue
+participant Controller
+participant Terrain
+participant Evenement
+participant Database
+
+User -> App: Send request to create event
+App -> Vue: Handle user input
+Vue -> Controller: Request to create event
+Controller -> Terrain: Get terrain details
+Terrain --> Controller: Terrain details
+Controller -> Evenement: Create new event
+Evenement --> Controller: New event created
+Controller -> Database: Save event to database
+Database --> Controller: Event saved
+Controller --> Vue: Event created successfully
+Vue --> App: Notify user about event creation
+
+@enduml
 
 
