@@ -12,7 +12,7 @@ def client():
 
     # Mise en place de la base de données (si nécessaire) avant les tests
     with app.app_context():
-        db.create_all()
+        db.create_all() 
 
     yield client
 
