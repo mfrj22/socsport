@@ -155,3 +155,42 @@ Vue --> App: Notify user about event creation
 @enduml
 ----
 
+== 9. Diagramme entité/association :
+
+----
+@startuml diagEA
+
+entity "Ville" {
+  + id: Integer
+  --
+  + nom: String
+  + code_postal: Integer
+  + departement: String
+}
+
+entity "Terrain" {
+  + id: Integer
+  --
+  + nom: String
+  + adresse: String
+  + latitude: Float
+  + longitude: Float
+}
+
+entity "Evenement" {
+  + id: Integer
+  --
+  + nom: String
+  + date: Date
+  + heure_debut: Time
+  + heure_fin: Time
+}
+
+Ville --o{ Terrain : "has"
+Terrain --o{ Evenement : "has"
+
+@enduml
+----
+
+
+
