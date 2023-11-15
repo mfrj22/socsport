@@ -29,7 +29,24 @@ jobs:
         pip install flake8 pytest
         if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
 
-    - name: Upload coverage reports to Codecov
-      uses: codecov/codecov-action@v3
-      env:
-        CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+    - name: Run tests
+      run: |
+        python -m pytest --cov=socsport
+
+    - name: Install Code Climate Test Reporter
+      run: |
+        curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
+        chmod +x ./cc-test-reporter
+
+    - name: Upload coverage data to Code Climate
+      run: |
+        ./cc-test-reporter before-build
+        ./cc-test-reporter after-build --exit-code $?
+
+    - name: Upload coverage data to Code Climate
+      run: |
+        ./cc-test-reporter format-coverage -t coverage.py coverage.xml
+
+    - name: Upload coverage data to Code Climate
+      run: |
+        ./cc-test-reporter upload-coverage
