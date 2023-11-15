@@ -95,6 +95,7 @@ Pour visualiser la structure du modèle, nous avons créé des diagrammes UML à
 
 Diagramme de classe :
 
+----
 @startuml model
 
 class Ville {
@@ -128,9 +129,11 @@ Ville "1" -- "*" Terrain : has
 Terrain "1" -- "*" Evenement : has
 
 @enduml
+----
 
 Diagramme de E/A :
 
+----
 @startuml diagEA
 
 entity "Ville" {
@@ -189,5 +192,5 @@ Controller --> Vue: Event created successfully
 Vue --> App: Notify user about event creation
 
 @enduml
-
+----
 
