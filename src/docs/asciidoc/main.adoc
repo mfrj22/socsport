@@ -89,7 +89,7 @@ Pour lancer l'API Flask, il vous faudra lancer un terminal depuis la racine du p
 python app.py
 ----
 
-== 7. Diagramme de classe :
+== 7. Diagramme de classe 
 
 ----
 @startuml model
@@ -127,7 +127,7 @@ Terrain "1" -- "*" Evenement : has
 @enduml
 ----
 
-== 8. Diagramme de séquence :
+== 8. Diagramme de séquence 
 
 ----
 @startuml diagsec
@@ -155,7 +155,7 @@ Vue --> App: Notify user about event creation
 @enduml
 ----
 
-== 9. Diagramme entité/association :
+== 9. Diagramme entité/association 
 
 ----
 @startuml diagEA
