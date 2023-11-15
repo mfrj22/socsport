@@ -89,11 +89,7 @@ Pour lancer l'API Flask, il vous faudra lancer un terminal depuis la racine du p
 python app.py
 ----
 
-== 7. Diagramme UML
-
-Pour visualiser la structure du modèle, nous avons créé des diagrammes UML à l'aide de PlantUML. 
-
-Diagramme de classe :
+== 7. Diagramme de classe 
 
 ----
 @startuml model
@@ -131,7 +127,7 @@ Terrain "1" -- "*" Evenement : has
 @enduml
 ----
 
-Diagramme de séquence :
+== 8. Diagramme de séquence 
 
 ----
 @startuml diagsec
@@ -158,4 +154,43 @@ Vue --> App: Notify user about event creation
 
 @enduml
 ----
+
+== 9. Diagramme entité/association 
+
+----
+@startuml diagEA
+
+entity "Ville" {
+  + id: Integer
+  --
+  + nom: String
+  + code_postal: Integer
+  + departement: String
+}
+
+entity "Terrain" {
+  + id: Integer
+  --
+  + nom: String
+  + adresse: String
+  + latitude: Float
+  + longitude: Float
+}
+
+entity "Evenement" {
+  + id: Integer
+  --
+  + nom: String
+  + date: Date
+  + heure_debut: Time
+  + heure_fin: Time
+}
+
+Ville --o{ Terrain : "has"
+Terrain --o{ Evenement : "has"
+
+@enduml
+----
+
+
 
