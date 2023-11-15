@@ -32,7 +32,7 @@ jobs:
 
     - name: Run tests
       run: |
-        python -m pytest --cov=socsport
+        python -m pytest --cov=app
 
     - name: Install Code Climate Test Reporter
       run: |
