@@ -39,9 +39,12 @@ jobs:
         chmod +x ./cc-test-reporter
 
     - name: Upload coverage data to Code Climate
+      env:
+        CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
       run: |
         ./cc-test-reporter before-build
         ./cc-test-reporter after-build --exit-code $?
+
 
     - name: Upload coverage data to Code Climate
       run: |
