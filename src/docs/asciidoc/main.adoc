@@ -95,6 +95,7 @@ Pour visualiser la structure du modèle, nous avons créé des diagrammes UML à
 
 Diagramme de classe :
 
+----
 @startuml model
 
 class Ville {
@@ -128,44 +129,11 @@ Ville "1" -- "*" Terrain : has
 Terrain "1" -- "*" Evenement : has
 
 @enduml
-
-Diagramme de E/A :
-
-@startuml diagEA
-
-entity "Ville" {
-  + id: Integer
-  --
-  + nom: String
-  + code_postal: Integer
-  + departement: String
-}
-
-entity "Terrain" {
-  + id: Integer
-  --
-  + nom: String
-  + adresse: String
-  + latitude: Float
-  + longitude: Float
-}
-
-entity "Evenement" {
-  + id: Integer
-  --
-  + nom: String
-  + date: Date
-  + heure_debut: Time
-  + heure_fin: Time
-}
-
-Ville --o{ Terrain : "has"
-Terrain --o{ Evenement : "has"
-
-@enduml
+----
 
 Diagramme de séquence :
 
+----
 @startuml diagsec
 
 actor User
@@ -189,5 +157,5 @@ Controller --> Vue: Event created successfully
 Vue --> App: Notify user about event creation
 
 @enduml
-
+----
 
