@@ -1,6 +1,16 @@
 = ```socsport``` Documentation
 
-== Comment installer ?
+== Choix sujet
+
+"SocSport" est une application innovante visant à faciliter la vie active et sociale. Elle permet aux utilisateurs d'organiser facilement des matchs sportifs avec amis, collègues et passionnés. En favorisant un mode de vie sain, renforçant les liens sociaux, facilitant l'organisation d'événements sportifs, créant des communautés et offrant des opportunités commerciales, SocSport se positionne comme bien plus qu'une simple application, intégrant également des aspects technologiques modernes pour une expérience utilisateur optimale.
+
+== Concurrence
+
+Des applications comme SportyHQ, OpenSports, Beballer et Strava peuvent être utilisées pour organiser des événements sportifs et rassembler des communautés autour du sport. 
+
+SocSport se distingue de la concurrence en offrant une expérience unique et conviviale. En effet, notre application permet une réservation gratuite de terrains avec l'ajout facile d'événements sportifs personnalisés. Grâce à une technologie de localisation avancée, les utilisateurs peuvent trouver rapidement les terrains les plus proches. L'interface intuitive, les fonctionnalités sociales avancées et les retours positifs des utilisateurs renforcent notre engagement envers une communauté sportive dynamique. Optez pour SocSport pour une expérience inégalée dans l'organisation d'activités sportives.
+
+== Modèles
 
 = Installation de SocSport
 
