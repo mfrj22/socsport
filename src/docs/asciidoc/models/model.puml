@@ -1,1 +1,33 @@
+@startuml model
 
+class Ville {
+  + id: Integer
+  + nom: String
+  + code_postal: Integer
+  + departement: String
+}
+
+class Terrain {
+  + id: Integer
+  + nom: String
+  + adresse: String
+  + latitude: Float
+  + longitude: Float
+  + ville_id: Integer
+  + ville: Ville
+}
+
+class Evenement {
+  + id: Integer
+  + nom: String
+  + date: Date
+  + heure_debut: Time
+  + heure_fin: Time
+  + terrain_id: Integer
+  + terrain: Terrain
+}
+
+Ville "1" -- "*" Terrain : has
+Terrain "1" -- "*" Evenement : has
+
+@enduml
