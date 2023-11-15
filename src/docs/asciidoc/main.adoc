@@ -89,11 +89,7 @@ Pour lancer l'API Flask, il vous faudra lancer un terminal depuis la racine du p
 python app.py
 ----
 
-== 7. Diagramme UML
-
-Pour visualiser la structure du modèle, nous avons créé des diagrammes UML à l'aide de PlantUML. 
-
-Diagramme de classe :
+== 7. Diagramme de classe :
 
 ----
 @startuml model
@@ -131,7 +127,7 @@ Terrain "1" -- "*" Evenement : has
 @enduml
 ----
 
-Diagramme de séquence :
+== 8. Diagramme de séquence :
 
 ----
 @startuml diagsec
