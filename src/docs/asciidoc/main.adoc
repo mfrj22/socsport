@@ -57,7 +57,7 @@ pip install geopy
 pip install pytest
 ----
 
-== 4. Installation des modules React
+== 5. Installation des modules React
 Pour le bon fonctionnement de notre application, nous avons ajouté des modules React :
 [source, shell]
 ----
@@ -66,7 +66,7 @@ npm install react-router-dom
 npm install react-slick slick-carousel
 ----
 
-== Lancement de l'Application
+== 6. Lancement de l'Application
 Vous êtes maintenant prêt à lancer l'application ! Utilisez la commande suivante pour démarrer le serveur de développement :
 [source, shell]
 ----
@@ -84,7 +84,7 @@ L'application sera disponible à l'adresse : link:http://localhost:3000[http://l
 
 L'API Flask sera disponible à l'adresse : link:http://localhost:5000[http://localhost:5000]
 
-== 5. Diagramme UML
+== 7. Diagramme UML
 
 Pour visualiser la structure du modèle, nous avons créé un diagramme UML à l'aide de PlantUML. Voici le contenu du fichier :
 
