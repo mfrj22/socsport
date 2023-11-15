@@ -78,13 +78,15 @@ Pour lancer l'API Flask, il vous faudra lancer un terminal depuis la racine du p
 ----
 python app.py
 ----
+
+----
+L'application sera disponible à l'adresse : link:http://localhost:3000[http://localhost:3000]
+
+L'API Flask sera disponible à l'adresse : link:http://localhost:5000[http://localhost:5000]
+
 == 5. Diagramme UML
 
-Pour visualiser la structure du modèle, nous avons créé un diagramme UML à l'aide de PlantUML. Voici le contenu du fichier `model.puml` :
-
-[plantuml, model.puml]
-----
-!includeurl https://raw.githubusercontent.com/plantuml/plantuml-icon-font-sprites/v1.2023.3/common.puml
+Pour visualiser la structure du modèle, nous avons créé un diagramme UML à l'aide de PlantUML. Voici le contenu du fichier :
 
 @startuml model
 
@@ -120,8 +122,5 @@ Terrain "1" -- "*" Evenement : has
 
 @enduml
 
-----
-L'application sera disponible à l'adresse : link:http://localhost:3000[http://localhost:3000]
 
-L'API Flask sera disponible à l'adresse : link:http://localhost:5000[http://localhost:5000]
 
