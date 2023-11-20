@@ -1,13 +1,6 @@
-# import json
-# import pytest
-# import sys
-# sys.path.append('C:\\Users\\maxim\\Documents\\devops_socsport\\socsport\\socsport')
-# from app import app, db, Terrain, Evenement 
-
 import json
 import pytest
 from app import app, db, Terrain, Evenement
->>>>>>> 94712a68fe46240d9d620bd985ad2b388682d7b1
 
 
 @pytest.fixture
