@@ -43,6 +43,19 @@ jobs:
       - name: Run tests
         run: |
           python -m pytest --cov=app
+          
+      - name: Install Code Climate Test Reporter
+        run: |
+          Invoke-WebRequest -Uri 'https://codeclimate.com/downloads/test-reporter/test-reporter-latest-windows-amd64' -OutFile ./cc-test-reporter
+          Set-ExecutionPolicy RemoteSigned -Scope Process
+          ./cc-test-reporter
+
+      - name: Upload coverage data to Code Climate
+        env:
+          CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
+        run: |
+          ./cc-test-reporter before-build
+          ./cc-test-reporter after-build --exit-code $?
 
       - name: Install Ruby and Asciidoctor dependencies
         uses: actions/setup-ruby@v1
