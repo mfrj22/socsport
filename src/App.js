@@ -9,7 +9,7 @@ import 'slick-carousel/slick/slick-theme.css';
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet'; // Import de Leaflet
 import 'leaflet/dist/leaflet.css';
 import './App.css';
-
+import L from 'leaflet'; // Importez Leaflet
 function App() {
   const [userLocation, setUserLocation] = useState(null);
   const [nearestFields, setNearestFields] = useState([]);
@@ -101,18 +101,39 @@ function App() {
           ))}
           <Route path="/create-event/:fieldId" element={<EventForm selectedField={selectedField} />} />
         </Routes>
-     {/* Affichage de la carte interactive */}
-     <MapContainer center={userLocation || initialLocation} zoom={userLocation ? 13 : 1} style={{ height: '300px', width: '100%' }}>
-        <TileLayer
-          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-        />
-        {userLocation && userLocation.lat && userLocation.lng && (
-          <Marker position={userLocation}>
-            <Popup>Votre position actuelle</Popup>
-          </Marker>
-        )}
-      </MapContainer>
+       < MapContainer center={userLocation || initialLocation} zoom={userLocation ? 13 : 1} style={{ height: '500px', width: '100%' }}>
+  <TileLayer
+    url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+    attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+  />
+  {userLocation && userLocation.lat && userLocation.lng && (
+    <Marker position={[userLocation.lat, userLocation.lng]}>
+      <Popup>Votre position actuelle</Popup>
+    </Marker>
+  )}
+
+  {/* Définissez vos icônes personnalisées */}
+  {(() => {
+    const stadiumIcon = L.icon({
+      iconUrl: 'icon-markeur.png',
+      iconSize: [40, 40], // Taille de l'icône
+      iconAnchor: [20, 40], // Position de l'ancre de l'icône
+      popupAnchor: [0, -40], // Position du popup par rapport à l'icône
+    });
+
+    // Utilisez les icônes pour afficher les marqueurs
+    return nearestFields.slice(0, 3).map((field) => (
+      <Marker
+        key={field.id}
+        position={[field.latitude, field.longitude]}
+        icon={stadiumIcon}
+      >
+        <Popup>{field.nom}</Popup>
+      </Marker>
+    ));
+  })()}
+</MapContainer>
+
 
 
         {/* Affichage des images des stades */}
