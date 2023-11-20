@@ -6,7 +6,7 @@ from app import app, db, Terrain, Evenement
 @pytest.fixture
 def client():
     app.config['TESTING'] = True
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://devops:devops@localhost/test_socsport'
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://devops:devops@172.17.13.174/test_socsport'
     client = app.test_client()
 
     # Mise en place de la base de données (si nécessaire) avant les tests
