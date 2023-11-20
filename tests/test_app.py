@@ -1,18 +1,29 @@
+# import json
+# import pytest
+# import sys
+# sys.path.append('C:\\Users\\maxim\\Documents\\devops_socsport\\socsport\\socsport')
+# from app import app, db, Terrain, Evenement 
+
 import json
 import pytest
+<<<<<<< HEAD
 import sys
 sys.path.append('C:\\Users\\Asus\\OneDrive\\Bureau\\COURS M1 MIAGE\\Projet_devops\\socsport')
 from app import app, db, Terrain, Evenement 
+=======
+from app import app, db, Terrain, Evenement
+>>>>>>> 94712a68fe46240d9d620bd985ad2b388682d7b1
 
 
 @pytest.fixture
 def client():
     app.config['TESTING'] = True
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:AliMaxou2002@localhost/test_socsport'
     client = app.test_client()
 
     # Mise en place de la base de données (si nécessaire) avant les tests
     with app.app_context():
-        db.create_all()
+        db.create_all() 
 
     yield client
 
