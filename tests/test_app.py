@@ -1,5 +1,6 @@
 import json
 import pytest
+import os
 import sys
 sys.path.append('C:\\Users\\maxim\\Documents\\devops_socsport\\socsport\\socsport')
 from app import app, db, Terrain, Evenement 
