@@ -7,12 +7,13 @@
 import json
 import pytest
 from app import app, db, Terrain, Evenement
+>>>>>>> 94712a68fe46240d9d620bd985ad2b388682d7b1
 
 
 @pytest.fixture
 def client():
     app.config['TESTING'] = True
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://devops:devops@%/test_socsport'
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://devops:devops@localhost/test_socsport'
     client = app.test_client()
 
     # Mise en place de la base de données (si nécessaire) avant les tests
