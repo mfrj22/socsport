@@ -7,7 +7,7 @@ app = Flask(__name__)
 CORS(app)
 
 # Configuration de la base de données
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:@localhost/socsport'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://devops:devops@localhost/socsport'
 db = SQLAlchemy(app)
 
 
