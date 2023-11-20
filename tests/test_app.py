@@ -1,7 +1,7 @@
 import json
 import pytest
 import sys
-sys.path.append('C:\\Users\\maxim\\Documents\\devops_socsport\\socsport\\socsport')
+sys.path.append('C:\\Users\\Asus\\OneDrive\\Bureau\\COURS M1 MIAGE\\Projet_devops\\socsport')
 from app import app, db, Terrain, Evenement 
 
 
