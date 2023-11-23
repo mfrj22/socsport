@@ -7,7 +7,7 @@ app = Flask(__name__)
 CORS(app)
 
 # Configuration de la base de données
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:@localhost/socsport'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:AliMaxou2002@localhost/socsport'
 db = SQLAlchemy(app)
 
 
@@ -18,6 +18,12 @@ class Ville(db.Model):
     code_postal = db.Column(db.Integer)
     departement = db.Column(db.String(100))
 
+terrain_sport_association = db.Table(
+    'terrain_sport_association',
+    db.Column('terrain_id', db.Integer, db.ForeignKey('terrain.id')),
+    db.Column('sport_id', db.Integer, db.ForeignKey('sport.id'))
+)
+
 class Terrain(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     nom = db.Column(db.String(100))
@@ -25,7 +31,10 @@ class Terrain(db.Model):
     latitude = db.Column(db.Float)
     longitude = db.Column(db.Float)
     ville_id = db.Column(db.Integer, db.ForeignKey('ville.id'))
+    horaire_ouverture = db.Column(db.Time)
+    horaire_fermeture = db.Column(db.Time)
     ville = db.relationship('Ville', backref=db.backref('terrains', lazy=True))
+    sports = db.relationship('Sport', secondary=terrain_sport_association, backref=db.backref('terrains', lazy=True))
 
 
 class Evenement(db.Model):
@@ -36,6 +45,11 @@ class Evenement(db.Model):
     heure_fin = db.Column(db.Time)
     terrain_id = db.Column(db.Integer, db.ForeignKey('terrain.id'))
     terrain = db.relationship('Terrain', backref=db.backref('evenements', lazy=True))
+
+class Sport(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(100), unique=True, nullable=False)
+
 
 # Création des tables dans la base de données
 with app.app_context():
@@ -56,17 +70,32 @@ villes_a_ajouter = [
     Ville(nom="Boulogne-Billancourt", code_postal=92100, departement="Hauts-de-Seine"),
 ]
 terrains_a_ajouter = [
-    Terrain(nom="Stade Vincent Pascucci", adresse="135 Avenue de la Commune de Paris", latitude=48.907273, longitude=2.207743, ville_id=1),
-    Terrain(nom="Stade Jean Coteau", adresse="81 Avenue François Vincent Raspail", latitude=48.807719, longitude=2.341501, ville_id=3),
-    Terrain(nom="Stade Albert Smirlian", adresse="11 Avenue Renée", latitude=48.9193427, longitude=2.2699387, ville_id=2),
-    Terrain(nom="Stade Emile Anthoine", adresse="2 Avenue de Suffren", latitude=48.8469924, longitude=2.3073936, ville_id=10),
-    Terrain(nom="Stade du Parc", adresse="298 Avenue Napoléon Bonaparte", latitude=48.8719843, longitude=2.1616405, ville_id=7),
-    Terrain(nom="Stade Jean Moulin", adresse="131 Boulevard Washington", latitude=48.8768955904541016, longitude=2.2169318199157715,ville_id=9),
-    Terrain(nom="Stade Léon Rabbot", adresse="2 Allée Georges Hassoux", latitude=48.8773421, longitude=2.2440671,ville_id=8),
-    Terrain(nom="Stade Landy", adresse="Rue Calon", latitude=48.9255492, longitude=2.3434684,ville_id=6),
-    Terrain(nom="Stade de Gournail", adresse="179 Bouelvard de Stalingrad", latitude=48.80597686767578, longitude=2.3757195472717285,ville_id=5),
-    Terrain(nom="Stade des Glacières", adresse="65 Rue Nationale", latitude=48.82695770263672, longitude=2.242238998413086,ville_id=10),
-    Terrain(nom="Stade Gabriel Péri", adresse="136 Avenue Frédéric et Irène Joliot-Curie", latitude=48.89232635498047, longitude=2.209458112716675,ville_id=1),
+    Terrain(nom="Stade Vincent Pascucci", adresse="135 Avenue de la Commune de Paris", latitude=48.907273, longitude=2.207743, ville_id=1, horaire_ouverture='08:00:00', horaire_fermeture='22:00:00'),
+    Terrain(nom="Stade Jean Coteau", adresse="81 Avenue François Vincent Raspail", latitude=48.807719, longitude=2.341501, ville_id=3, horaire_ouverture='09:00:00', horaire_fermeture='00:00:00'),
+    Terrain(nom="Stade Albert Smirlian", adresse="11 Avenue Renée", latitude=48.9193427, longitude=2.2699387, ville_id=2, horaire_ouverture='10:00:00', horaire_fermeture='02:00:00'),
+    Terrain(nom="Stade Emile Anthoine", adresse="2 Avenue de Suffren", latitude=48.8469924, longitude=2.3073936, ville_id=10, horaire_ouverture='08:00:00', horaire_fermeture='23:00:00'),
+    Terrain(nom="Stade du Parc", adresse="298 Avenue Napoléon Bonaparte", latitude=48.8719843, longitude=2.1616405, ville_id=7, horaire_ouverture='08:00:00', horaire_fermeture='21:00:00'),
+    Terrain(nom="Stade Jean Moulin", adresse="131 Boulevard Washington", latitude=48.8768955904541016, longitude=2.2169318199157715,ville_id=9, horaire_ouverture='09:00:00', horaire_fermeture='20:00:00'),
+    Terrain(nom="Stade Léon Rabbot", adresse="2 Allée Georges Hassoux", latitude=48.8773421, longitude=2.2440671,ville_id=8, horaire_ouverture='08:00:00', horaire_fermeture='22:00:00'),
+    Terrain(nom="Stade Landy", adresse="Rue Calon", latitude=48.9255492, longitude=2.3434684,ville_id=6, horaire_ouverture='08:00:00', horaire_fermeture='22:00:00'),
+    Terrain(nom="Stade de Gournail", adresse="179 Bouelvard de Stalingrad", latitude=48.80597686767578, longitude=2.3757195472717285,ville_id=5, horaire_ouverture='07:00:00', horaire_fermeture='18:00:00'),
+    Terrain(nom="Stade des Glacières", adresse="65 Rue Nationale", latitude=48.82695770263672, longitude=2.242238998413086,ville_id=10, horaire_ouverture='07:00:00', horaire_fermeture='20:00:00'),
+    Terrain(nom="Stade Gabriel Péri", adresse="136 Avenue Frédéric et Irène Joliot-Curie", latitude=48.89232635498047, longitude=2.209458112716675,ville_id=1, horaire_ouverture='09:00:00', horaire_fermeture='03:00:00'),
+]
+
+sports_a_ajouter = [
+    Sport(name="Football"),
+    Sport(name="Basketball"),
+    Sport(name="Tennis"),
+    Sport(name="Handball"),
+    Sport(name="Rugby"),
+    Sport(name="Volleyball"),
+    Sport(name="Badminton"),
+    Sport(name="Athlétisme"),
+    Sport(name="Boxe"),
+    Sport(name="Judo"),
+    Sport(name="Yoga"),
+    Sport(name="Zumba"),
 ]
 
 with app.app_context():
@@ -88,6 +117,15 @@ with app.app_context():
         # Si l'enregistrement n'existe pas, ajoutez-le
         if not existant:
             db.session.add(terrain)
+
+    db.session.commit()
+
+with app.app_context():
+    for sport in sports_a_ajouter:
+        existing_sport = Sport.query.filter_by(name=sport.name).first()
+
+        if not existing_sport:
+            db.session.add(sport)
 
     db.session.commit()
 
@@ -158,7 +196,9 @@ def index():
             'longitude': terrain.longitude,
             'ville': terrain.ville.nom,
             'code_postal': terrain.ville.code_postal,
-            'departement': terrain.ville.departement
+            'departement': terrain.ville.departement,
+            'horaire_ouverture': str(terrain.horaire_ouverture),
+            'horaire_fermeture': str(terrain.horaire_fermeture)
         })
     return jsonify(terrain_data)
 
