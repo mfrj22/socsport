@@ -10,18 +10,55 @@ import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet'; // Impor
 import 'leaflet/dist/leaflet.css';
 import './App.css';
 import L from 'leaflet'; // Importez Leaflet
+// import AddTerrainForm from './AddTerrainForm';
+import AddTerrainForm from './components/AddTerrainForm';
+
 function App() {
   const [userLocation, setUserLocation] = useState(null);
   const [nearestFields, setNearestFields] = useState([]);
   const [selectedField, setSelectedField] = useState(null);
+  const [sports, setSports] = useState([]);
+
+  const handleAddTerrain = (terrainData) => {
+    console.log("Terrain data submitted", terrainData);
+
+    fetch('http://localhost:5000/ajouter-terrain', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(terrainData),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log('Terrain added successfully:', data);
+      })
+      .catch((error) => {
+        console.error('Error adding terrain:', error);
+      });
+  };
+
 
   const handleLocationSubmit = (location) => {
     setUserLocation(location);
   };
 
   useEffect(() => {
+    fetch('http://localhost:5000/sports')
+      .then((response) => response.json())
+      .then((data) => {
+        console.log('Sports data:', data);
+        setSports(data);
+      })
+      .catch((error) => {
+        console.error('Error fetching sports:', error);
+      });
+  }, []);
+
+  
+
+  useEffect(() => {
     if (userLocation) {
-      // Effectuer une requête au backend pour obtenir les terrains proches
       fetch('http://localhost:5000/nearest-fields', {
         method: 'POST',
         headers: {
@@ -86,6 +123,11 @@ function App() {
         </div>
         <Routes>
           <Route path="/" element={<NearbyFields fields={nearestFields} />} />
+          {/* <Route path="/add-terrain" element={<AddTerrainForm onTerrainSubmit={handleAddTerrain} sports={sports} />} /> */}
+          <Route
+            path="/add-terrain"
+            element={<AddTerrainForm onTerrainSubmit={handleAddTerrain} sports={sports} />}
+          />
           {nearestFields.map((field) => (
             <Route
               key={field.id}
