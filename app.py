@@ -27,6 +27,7 @@ class Terrain(db.Model):
     ville_id = db.Column(db.Integer, db.ForeignKey('ville.id'))
     ville = db.relationship('Ville', backref=db.backref('terrains', lazy=True))
 
+
 class Evenement(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     nom = db.Column(db.String(100))
