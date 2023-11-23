@@ -11,6 +11,7 @@ const NearbyFields = ({ fields }) => {
   return (
     <div>
       <h2>Terrains proches :</h2>
+      <Link to="/add-terrain">Ajouter un terrain</Link>
       <table>
         <thead>
           <tr>
