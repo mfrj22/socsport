@@ -187,7 +187,7 @@ def create_reservation():
         evenement_id = data['evenement_id']
         evenement = Evenement.query.get(evenement_id)
 
-        if evenement:
+        if evenement and evenement.nb_participants > 0:
             new_reservation = Reservation(
                 evenement_id=evenement_id,
                 nom_participant=data['nom_participant'],
