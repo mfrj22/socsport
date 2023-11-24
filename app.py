@@ -6,9 +6,11 @@ from flask_sqlalchemy import SQLAlchemy
 app = Flask(__name__)
 CORS(app)
 
+
 # Configuration de la base de données
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:AliMaxou2002@localhost/socsport'
 db = SQLAlchemy(app)
+
 
 # Modèles de données
 class Ville(db.Model):
@@ -42,6 +44,7 @@ class Evenement(db.Model):
     date = db.Column(db.Date)
     heure_debut = db.Column(db.Time)
     heure_fin = db.Column(db.Time)
+    nb_participants = db.Column(db.Integer)
     terrain_id = db.Column(db.Integer, db.ForeignKey('terrain.id'))
     terrain = db.relationship('Terrain', backref=db.backref('evenements', lazy=True))
 
@@ -154,6 +157,7 @@ def create_event(fieldId):
                 date=data['date'],
                 heure_debut=data['startTime'],
                 heure_fin=data['endTime'],
+                nb_participants=data['nbParticpants'],
                 terrain_id=fieldId
             )
             db.session.add(new_event)
@@ -175,11 +179,63 @@ def events_for_field(fieldId):
             'nom': event.nom,
             'date': str(event.date),
             'heure_debut': str(event.heure_debut),
-            'heure_fin': str(event.heure_fin)
+            'heure_fin': str(event.heure_fin),
+            'nb_participants': event.nb_participants,
         } for event in events]
         return jsonify(event_data)
     else:
         return jsonify({'message': 'Terrain non trouvé'}), 404
+
+@app.route('/ajouter-terrain', methods=['POST'])
+def ajouter_terrain():
+    data = request.get_json()
+    nom = data.get('nom')
+    adresse = data.get('adresse')
+    latitude = data.get('latitude')
+    longitude = data.get('longitude')
+    ville_nom = data.get('ville')
+    code_postal = data.get('code_postal')
+    departement = data.get('departement')
+    horaire_ouverture = data.get('horaire_ouverture')
+    horaire_fermeture = data.get('horaire_fermeture')
+    # sports_ids = data.get('sport')  # Utilisez les ID des sports sélectionnés
+    #Utilise les ids des sports sélectionnés par l'utilisateur dans la checkbox
+    sports_ids = Sport.query.filter(Sport.id.in_(data.get('sport'))).all()
+
+    # Vérifiez si la ville existe dans la base de données
+    ville = Ville.query.filter_by(nom=ville_nom).first()
+    if not ville:
+        # Si la ville n'existe pas, ajoutez-la
+        ville = Ville(nom=ville_nom, code_postal=code_postal, departement=departement)
+
+        db.session.add(ville)
+        db.session.commit()
+
+    # Ajoutez le terrain
+    nouveau_terrain = Terrain(
+        nom=nom,
+        adresse=adresse,
+        latitude=latitude,
+        longitude=longitude,
+        ville_id=ville.id,
+        horaire_ouverture=horaire_ouverture,
+        horaire_fermeture=horaire_fermeture,
+    )
+
+    db.session.add(nouveau_terrain)
+    db.session.commit()
+
+    # Ajoutez les associations entre le terrain et les sports dans la table d'association
+    for sport_id in sports_ids:
+        sport = Sport.query.get(sport_id.id)
+        if sport:
+            # association = terrain_sport_association.insert().values(terrain_id=nouveau_terrain.id, sport_id=sport_id)
+            nouveau_terrain.sports.append(sport)
+
+    # Committez les changements dans la base de données
+    db.session.commit()
+
+    return jsonify({'message': 'Terrain ajouté avec succès'})
 
 @app.route('/')
 def index():
@@ -200,6 +256,14 @@ def index():
             'horaire_fermeture': str(terrain.horaire_fermeture)
         })
     return jsonify(terrain_data)
+
+@app.route('/sports')
+def sports():
+    sports = Sport.query.all()
+    sports_data = [{'id': sport.id, 'name': sport.name} for sport in sports]
+    return jsonify(sports_data)
+
+
 
 # Lancement du serveur
 if __name__ == '__main__':

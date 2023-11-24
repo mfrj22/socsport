@@ -8,6 +8,7 @@ const EventForm = () => {
   const [eventDate, setEventDate] = useState('');
   const [eventStartTime, setEventStartTime] = useState('');
   const [eventEndTime, setEventEndTime] = useState('');
+  const[eventNbP,setEventNbP] = useState('');
   const [events, setEvents] = useState([]); // État pour stocker la liste des événements
 
   useEffect(() => {
@@ -33,6 +34,7 @@ const EventForm = () => {
       date: eventDate,
       startTime: eventStartTime,
       endTime: eventEndTime,
+      nbParticipants : eventNbP
     };
 
     
@@ -94,6 +96,9 @@ fetch(`http://localhost:5000/create-event/${fieldId}`, {
         <label>Heure de fin:</label>
         <input type="time" value={eventEndTime} onChange={(e) => setEventEndTime(e.target.value)} />
 
+        <label>Nombre de participants:</label>
+        <input type="number" value={eventNbP} onChange={(e) => setEventNbP(e.target.value)} />
+
         {/* <input type="hidden" value={fieldId} /> */}
         <button type="submit">Créer l'événement</button>
       </form>
@@ -103,7 +108,7 @@ fetch(`http://localhost:5000/create-event/${fieldId}`, {
         <ul>
           {events.map((event, index) => (
             <li key={index}>
-              {event.nom} - {event.date} - {event.heure_debut} - {event.heure_fin}
+              {event.nom} - {event.date} - {event.heure_debut} - {event.heure_fin} - {event.nb_participants}
             </li>
           ))}
         </ul>
