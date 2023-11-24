@@ -52,10 +52,19 @@ class Sport(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(100), unique=True, nullable=False)
 
+class Reservation(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    evenement_id = db.Column(db.Integer, db.ForeignKey('evenement.id'))
+    nom_participant = db.Column(db.String(100))
+    prenom_participant = db.Column(db.String(100))
+    email_participant = db.Column(db.String(100))
+    tel_participant = db.Column(db.String(100))
+    evenement = db.relationship('Evenement', backref=db.backref('reservations', lazy=True))
 
 # Création des tables dans la base de données
 with app.app_context():
     db.create_all()
+
 
 # Déplacez la liste de terrains à ajouter à l'intérieur de l'app_context
 villes_a_ajouter = [
@@ -149,7 +158,7 @@ def nearest_fields():
 @app.route('/create-event/<int:fieldId>', methods=['POST'])
 def create_event(fieldId):
     data = request.get_json()
-    if 'name' in data and 'date' in data and 'startTime' in data and 'endTime' in data:
+    if 'name' in data and 'date' in data and 'startTime' in data and 'endTime' in data and 'nbParticipants' in data:
         terrain = Terrain.query.get(fieldId)
         if terrain:
             new_event = Evenement(
@@ -157,7 +166,7 @@ def create_event(fieldId):
                 date=data['date'],
                 heure_debut=data['startTime'],
                 heure_fin=data['endTime'],
-                nb_participants=data['nbParticpants'],
+                nb_participants=data['nbParticipants'],
                 terrain_id=fieldId
             )
             db.session.add(new_event)
