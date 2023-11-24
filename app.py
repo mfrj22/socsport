@@ -8,7 +8,7 @@ CORS(app)
 
 
 # Configuration de la base de données
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:@localhost/socsport'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:AliMaxou2002@localhost/socsport'
 db = SQLAlchemy(app)
 
 
@@ -195,6 +195,8 @@ def create_reservation():
                 email_participant=data['email_participant'],
                 tel_participant=data['tel_participant']
             )
+            # décrémenter le nombre de participants
+            evenement.nb_participants -= 1
 
             db.session.add(new_reservation)
             db.session.commit()
