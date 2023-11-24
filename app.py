@@ -57,6 +57,8 @@ class Sport(db.Model):
 with app.app_context():
     db.create_all()
 
+# class Reservation(db.Model):
+
 # Déplacez la liste de terrains à ajouter à l'intérieur de l'app_context
 villes_a_ajouter = [
     Ville(nom="Nanterre", code_postal=92000, departement="Hauts-de-Seine"),
@@ -149,7 +151,7 @@ def nearest_fields():
 @app.route('/create-event/<int:fieldId>', methods=['POST'])
 def create_event(fieldId):
     data = request.get_json()
-    if 'name' in data and 'date' in data and 'startTime' in data and 'endTime' in data:
+    if 'name' in data and 'date' in data and 'startTime' in data and 'endTime' in data and 'nbParticipants' in data:
         terrain = Terrain.query.get(fieldId)
         if terrain:
             new_event = Evenement(
@@ -157,7 +159,7 @@ def create_event(fieldId):
                 date=data['date'],
                 heure_debut=data['startTime'],
                 heure_fin=data['endTime'],
-                nb_participants=data['nbParticpants'],
+                nb_participants=data['nbParticipants'],
                 terrain_id=fieldId
             )
             db.session.add(new_event)
