@@ -1,15 +1,19 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
+// import AddReservationForm from './components/AddReservationForm';
+
 
 const EventForm = () => {
-  const { fieldId } = useParams();
+  const { fieldId } = useParams(); // 
 
   const [eventName, setEventName] = useState('');
   const [eventDate, setEventDate] = useState('');
   const [eventStartTime, setEventStartTime] = useState('');
   const [eventEndTime, setEventEndTime] = useState('');
-  const[eventNbP,setEventNbP] = useState('');
+  const [eventNbP,setEventNbP] = useState('');
   const [events, setEvents] = useState([]); // État pour stocker la liste des événements
+  // const [selectedEventId, setSelectedEventId] = useState(null);
+  //
 
   useEffect(() => {
     // Récupérez la liste des événements sur le terrain du backend
@@ -27,6 +31,7 @@ const EventForm = () => {
       alert('Veuillez remplir tous les champs');
       return;
     }
+    //
 
     // Créez l'objet d'événement avec les informations
     const eventData = {
@@ -36,7 +41,7 @@ const EventForm = () => {
       endTime: eventEndTime,
       nbParticipants : eventNbP
     };
-
+    //
     
     console.log('Événements dans le composant EventForm :', events);
 
@@ -105,13 +110,32 @@ fetch(`http://localhost:5000/create-event/${fieldId}`, {
 
       <div>
         <h2>Événements pour le terrain avec l'ID {fieldId}</h2>
-        <ul>
-          {events.map((event, index) => (
-            <li key={index}>
-              {event.nom} - {event.date} - {event.heure_debut} - {event.heure_fin} - {event.nb_participants}
-            </li>
-          ))}
-        </ul>
+        <Link to="/add-terrain">Ajouter un terrain</Link>
+      <table>
+        <thead>
+          <tr>
+            <th>Nom</th>
+            <th>Date</th>
+            <th>Heure début</th>
+            <th>Heure fin</th>
+            <th>Nombre de participants</th>
+          </tr>
+        </thead>
+        <tbody>
+        {events.map((event, index) => (
+            <tr key={index}>
+                <td>{event.id}</td>
+                <td>
+                    <Link to={`/add-reservation/${event.id}`}>{event.nom}</Link>
+                </td>
+                <td>{event.date}</td>
+                <td>{event.heure_debut}</td>
+                <td>{event.heure_fin}</td>
+                <td>{event.nb_participants}</td>
+            </tr>
+        ))}
+        </tbody>
+      </table>
       </div>
     </div>
   );

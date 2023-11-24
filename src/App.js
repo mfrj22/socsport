@@ -1,22 +1,22 @@
 import React, { useState, useEffect } from 'react';
-import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Link, useParams } from 'react-router-dom';
 import LocationInput from './components/LocationInput';
 import NearbyFields from './components/NearbyFields';
-import EventForm from './EventForm';
+import EventForm from './components/EventForm';
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
-import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet'; // Import de Leaflet
+import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
-import './App.css';
-import L from 'leaflet'; // Importez Leaflet
-// import AddTerrainForm from './AddTerrainForm';
+import L from 'leaflet';
 import AddTerrainForm from './components/AddTerrainForm';
+import AddReservationForm from './components/AddReservationForm';
 
 function App() {
   const [userLocation, setUserLocation] = useState(null);
   const [nearestFields, setNearestFields] = useState([]);
   const [selectedField, setSelectedField] = useState(null);
+  const [selectedEvent, setSelectedEvent] = useState(null);
   const [sports, setSports] = useState([]);
 
   const handleAddTerrain = (terrainData) => {
@@ -38,7 +38,6 @@ function App() {
       });
   };
 
-
   const handleLocationSubmit = (location) => {
     setUserLocation(location);
   };
@@ -54,8 +53,6 @@ function App() {
         console.error('Error fetching sports:', error);
       });
   }, []);
-
-  
 
   useEffect(() => {
     if (userLocation) {
@@ -114,6 +111,7 @@ function App() {
     slidesToScroll: 1,
   };
   const initialLocation = { lat: 0, lng: 0 }; // Valeur par défaut
+
   return (
     <Router>
       <div className="App">
@@ -123,11 +121,11 @@ function App() {
         </div>
         <Routes>
           <Route path="/" element={<NearbyFields fields={nearestFields} />} />
-          {/* <Route path="/add-terrain" element={<AddTerrainForm onTerrainSubmit={handleAddTerrain} sports={sports} />} /> */}
           <Route
             path="/add-terrain"
             element={<AddTerrainForm onTerrainSubmit={handleAddTerrain} sports={sports} />}
           />
+          <Route path="/add-reservation/:eventId" element={<AddReservationForm />} />
           {nearestFields.map((field) => (
             <Route
               key={field.id}
@@ -141,10 +139,10 @@ function App() {
               }
             />
           ))}
-          <Route path="/create-event/:fieldId" element={<EventForm selectedField={selectedField} />} />
+          <Route path="/create-event/:fieldId" element={<EventForm setSelectedEvent={setSelectedEvent} />} />
+          <Route path="/add-reservation/:eventId" element={<AddReservationForm selectedEvent={selectedEvent} />} />
         </Routes>
-       < MapContainer center={userLocation || initialLocation} zoom={userLocation ? 13 : 1} style={{ height: '500px', width: '100%' }}>
-  <TileLayer
+        <MapContainer center={userLocation || initialLocation} zoom={userLocation ? 13 : 1} style={{ height: '500px', width: '100%' }}>  <TileLayer
     url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
     attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
   />
@@ -175,11 +173,7 @@ function App() {
     ));
   })()}
 </MapContainer>
-
-
-
-        {/* Affichage des images des stades */}
-        <div className="carousel-container">
+<div className="carousel-container">
           <Slider {...settings}>
             {nearestFields.slice(0, 3).map((field) => (
               <div key={field.id} className="carousel-item">

@@ -179,6 +179,33 @@ def create_event(fieldId):
         # Clés JSON manquantes
         return jsonify({'message': 'Invalid JSON data'}), 400
 
+@app.route('/add-reservation', methods=['POST'])
+def create_reservation():
+    data = request.get_json()
+
+    if 'evenement_id' in data and 'nom_participant' in data and 'prenom_participant' in data and 'email_participant' in data and 'tel_participant' in data:
+        evenement_id = data['evenement_id']
+        evenement = Evenement.query.get(evenement_id)
+
+        if evenement:
+            new_reservation = Reservation(
+                evenement_id=evenement_id,
+                nom_participant=data['nom_participant'],
+                prenom_participant=data['prenom_participant'],
+                email_participant=data['email_participant'],
+                tel_participant=data['tel_participant']
+            )
+
+            db.session.add(new_reservation)
+            db.session.commit()
+            return jsonify({'message': 'Reservation created successfully'})
+        else:
+            # Événement avec l'ID donné non trouvé
+            return jsonify({'message': 'Invalid event ID'}), 400
+    else:
+        # Clés JSON manquantes
+        return jsonify({'message': 'Invalid JSON data'}), 400
+
 @app.route('/events-for-field/<int:fieldId>', methods=['GET', 'POST'])
 def events_for_field(fieldId):
     terrain = Terrain.query.get(fieldId)
