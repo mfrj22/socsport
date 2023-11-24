@@ -8,7 +8,7 @@ CORS(app)
 
 
 # Configuration de la base de données
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:AliMaxou2002@localhost/socsport'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:@localhost/socsport'
 db = SQLAlchemy(app)
 
 
@@ -212,6 +212,7 @@ def events_for_field(fieldId):
     if terrain:
         events = Evenement.query.filter_by(terrain_id=fieldId).all()
         event_data = [{
+            'id': event.id,  # Ajoutez l'ID de l'événement à la réponse JSON
             'nom': event.nom,
             'date': str(event.date),
             'heure_debut': str(event.heure_debut),
