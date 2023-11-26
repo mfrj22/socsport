@@ -1,4 +1,4 @@
-= Titre du Document
+= SocSport
 :doctype: book
 
 = ```socsport``` Documentation
