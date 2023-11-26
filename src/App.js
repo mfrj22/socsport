@@ -23,11 +23,8 @@ function App() {
   const [sports, setSports] = useState([]);
   const [notificationCount, setNotificationCount] = useState(0);
 
-  useEffect(() => {
-    // Récupérer le nombre actuel de notifications depuis le localStorage
-    const storedNotificationCount = JSON.parse(localStorage.getItem('notificationCount')) || 0;
-    setNotificationCount(storedNotificationCount);
-  }, []);
+  // compter le nombre de notif
+  
 
   const handleAddTerrain = (terrainData) => {
     console.log("Terrain data submitted", terrainData);
@@ -135,7 +132,10 @@ function App() {
         </div>
         <Routes>
           <Route path="/" element={<NearbyFields fields={nearestFields} />} />
-          <Route path="/notifications" element={<Notifications />} />
+          <Route
+            path="/notifications"
+            element={<Notifications updateNotificationCount={setNotificationCount} />}
+          />
           <Route
             path="/add-terrain"
             element={<AddTerrainForm onTerrainSubmit={handleAddTerrain} sports={sports} />}
