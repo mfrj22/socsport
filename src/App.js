@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route, Link, useParams } from 'react-r
 import LocationInput from './components/LocationInput';
 import NearbyFields from './components/NearbyFields';
 import EventForm from './components/EventForm';
+import Notifications from './components/Notifications';
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
@@ -11,6 +12,8 @@ import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
 import AddTerrainForm from './components/AddTerrainForm';
 import AddReservationForm from './components/AddReservationForm';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faBell } from '@fortawesome/free-solid-svg-icons';
 
 function App() {
   const [userLocation, setUserLocation] = useState(null);
@@ -18,6 +21,13 @@ function App() {
   const [selectedField, setSelectedField] = useState(null);
   const [selectedEvent, setSelectedEvent] = useState(null);
   const [sports, setSports] = useState([]);
+  const [notificationCount, setNotificationCount] = useState(0);
+
+  useEffect(() => {
+    // Récupérer le nombre actuel de notifications depuis le localStorage
+    const storedNotificationCount = JSON.parse(localStorage.getItem('notificationCount')) || 0;
+    setNotificationCount(storedNotificationCount);
+  }, []);
 
   const handleAddTerrain = (terrainData) => {
     console.log("Terrain data submitted", terrainData);
@@ -115,12 +125,17 @@ function App() {
   return (
     <Router>
       <div className="App">
+        <Link to="/notifications">
+          <FontAwesomeIcon icon={faBell} size="2x" />
+          {notificationCount > 0 && <span style={{ marginLeft: '5px' }}>{notificationCount}</span>}
+        </Link>
         <h1>SocSport</h1>
         <div className="location-input">
           <LocationInput onLocationSubmit={handleLocationSubmit} />
         </div>
         <Routes>
           <Route path="/" element={<NearbyFields fields={nearestFields} />} />
+          <Route path="/notifications" element={<Notifications />} />
           <Route
             path="/add-terrain"
             element={<AddTerrainForm onTerrainSubmit={handleAddTerrain} sports={sports} />}
@@ -141,6 +156,7 @@ function App() {
           ))}
           <Route path="/create-event/:fieldId" element={<EventForm setSelectedEvent={setSelectedEvent} />} />
           <Route path="/add-reservation/:eventId" element={<AddReservationForm selectedEvent={selectedEvent} />} />
+          <Route path="/notifications" element={<Notifications />} />
         </Routes>
   <MapContainer center={userLocation || initialLocation} zoom={userLocation ? 13 : 1} style={{ height: '400px', width: '100%' }}>
       <TileLayer

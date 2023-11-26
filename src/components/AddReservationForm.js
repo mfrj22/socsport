@@ -42,8 +42,16 @@ function AddReservationForm() {
       .then((data) => {
         console.log('Reservation created successfully:', data);
         toast.success('Réservation avec succès');
-        localStorage.setItem('reservationId', data.reservation_id);
-        console.log(localStorage.getItem('reservationId'));
+      
+        // Récupérer le tableau actuel des identifiants de réservation
+        const existingReservations = JSON.parse(localStorage.getItem('evenements')) || [];
+      
+        // Ajouter le nouvel identifiant à la liste
+        existingReservations.push(data.evenement_id);
+      
+        // Stocker le tableau mis à jour dans le localStorage
+        localStorage.setItem('evenements', JSON.stringify(existingReservations));
+        console.log('evenements id', localStorage.getItem('evenements'));
         // navigate(`/nouvelle-page`);
       })
       .catch((error) =>  {
