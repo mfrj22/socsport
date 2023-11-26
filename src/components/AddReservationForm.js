@@ -42,7 +42,8 @@ function AddReservationForm() {
       .then((data) => {
         console.log('Reservation created successfully:', data);
         toast.success('Réservation avec succès');
-        // Vous pouvez rediriger l'utilisateur vers une autre page après la création de la réservation
+        localStorage.setItem('reservationId', data.reservation_id);
+        console.log(localStorage.getItem('reservationId'));
         // navigate(`/nouvelle-page`);
       })
       .catch((error) =>  {

@@ -200,7 +200,11 @@ def create_reservation():
 
             db.session.add(new_reservation)
             db.session.commit()
-            return jsonify({'message': 'Reservation created successfully'})
+
+            # récupérer l'id de la réservation créée
+            reservation_id = new_reservation.id
+
+            return jsonify({'message': 'Reservation created successfully', 'reservation_id': reservation_id})
         else:
             # Événement avec l'ID donné non trouvé
             return jsonify({'message': 'Invalid event ID'}), 400
