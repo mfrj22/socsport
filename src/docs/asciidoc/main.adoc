@@ -1,9 +1,13 @@
 = SocSport
 :doctype: book
+:pdf-page-size: A4
+:pdf-page-layout: single
+
 
 = ```socsport``` Documentation
 
 == Choix sujet
+:page-break-before:
 
 "SocSport" est une application innovante visant à faciliter la vie active et sociale. Elle permet aux utilisateurs d'organiser facilement des matchs sportifs avec amis, collègues et passionnés. En favorisant un mode de vie sain, renforçant les liens sociaux, facilitant l'organisation d'événements sportifs, créant des communautés et offrant des opportunités commerciales, SocSport se positionne comme bien plus qu'une simple application, intégrant également des aspects technologiques modernes pour une expérience utilisateur optimale.
 
@@ -12,8 +16,6 @@
 Des applications comme SportyHQ, OpenSports, Beballer et Strava peuvent être utilisées pour organiser des événements sportifs et rassembler des communautés autour du sport. 
 
 SocSport se distingue de la concurrence en offrant une expérience unique et conviviale. En effet, notre application permet une réservation gratuite de terrains avec l'ajout facile d'événements sportifs personnalisés. Grâce à une technologie de localisation avancée, les utilisateurs peuvent trouver rapidement les terrains les plus proches. L'interface intuitive, les fonctionnalités sociales avancées et les retours positifs des utilisateurs renforcent notre engagement envers une communauté sportive dynamique. Optez pour SocSport pour une expérience inégalée dans l'organisation d'activités sportives.
-
-== Modèles
 
 = Installation de SocSport
 
@@ -94,136 +96,12 @@ python app.py
 
 == 7. Diagramme de classe 
 
-----
-@startuml
-class Ville {
-  + id: Integer
-  + nom: String
-  + code_postal: Integer
-  + departement: String
-}
-
-class Terrain {
-  + id: Integer
-  + nom: String
-  + adresse: String
-  + latitude: Float
-  + longitude: Float
-  + horaire_ouverture: Time
-  + horaire_fermeture: Time
-}
-
-class Evenement {
-  + id: Integer
-  + nom: String
-  + date: Date
-  + heure_debut: Time
-  + heure_fin: Time
-  + nb_participants: Integer
-}
-
-class Sport {
-  + id: Integer
-  + name: String
-}
-
-class Reservation {
-  + id: Integer
-  + nom_participant: String
-  + prenom_participant: String
-  + email_participant: String
-  + tel_participant: String
-}
-
-Ville "1" -- "*" Terrain : a
-Terrain "1" -- "*" Evenement : a
-Evenement "1" -- "0..1" Terrain : a
-Evenement "1" -- "*" Reservation : a
-Sport "1" -- "*" Terrain : a
-Sport "1" -- "*" Reservation : a
-@enduml
-----
+image::models/images/DiagClasse.png[Diagramme de Classe]
 
 == 8. Diagramme de séquence 
 
-----
-@startuml
-actor User
-participant Client
-participant FlaskApp
-database Database
-
-User -> Client: Send POST request /nearest-fields
-activate Client
-
-Client -> FlaskApp: Handle POST /nearest-fields
-activate FlaskApp
-
-FlaskApp -> Database: Query all terrains
-activate Database
-
-Database --> FlaskApp: Return terrain data
-deactivate Database
-
-FlaskApp --> Client: Return JSON response
-deactivate FlaskApp
-
-Client --> User: Return nearest fields data
-deactivate Client
-@enduml
-----
+image::models/images/DiagSeq.png[Diagramme de Classe]
 
 == 9. Diagramme entité/association 
 
-----
-@startuml
-entity "Ville" {
-  + id: Integer
-  nom: String
-  code_postal: Integer
-  departement: String
-}
-
-entity "Terrain" {
-  + id: Integer
-  nom: String
-  adresse: String
-  latitude: Float
-  longitude: Float
-  horaire_ouverture: Time
-  horaire_fermeture: Time
-}
-
-entity "Evenement" {
-  + id: Integer
-  nom: String
-  date: Date
-  heure_debut: Time
-  heure_fin: Time
-  nb_participants: Integer
-}
-
-entity "Sport" {
-  + id: Integer
-  name: String
-}
-
-entity "Reservation" {
-  + id: Integer
-  nom_participant: String
-  prenom_participant: String
-  email_participant: String
-  tel_participant: String
-}
-
-Ville --{ Terrain
-Terrain --{ Evenement
-Evenement }--|> Terrain
-Evenement --{ Reservation
-Sport --{ Terrain
-Sport --{ Reservation
-@enduml
-----
-
-
-
+image::models/images/DiagEA.png[Diagramme de Classe]
