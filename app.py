@@ -302,6 +302,22 @@ def sports():
     sports_data = [{'id': sport.id, 'name': sport.name} for sport in sports]
     return jsonify(sports_data)
 
+@app.route('/all-reservations', methods=['GET'])
+def get_all_reservations():
+    reservations = Reservation.query.all()
+    reservations_data = []
+
+    for reservation in reservations:
+        reservations_data.append({
+            'id': reservation.id,
+            'evenement_id': reservation.evenement_id,
+            'nom_participant': reservation.nom_participant,
+            'prenom_participant': reservation.prenom_participant,
+            'email_participant': reservation.email_participant,
+            'tel_participant': reservation.tel_participant
+        })
+
+    return jsonify(reservations_data)
 
 
 # Lancement du serveur
