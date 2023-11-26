@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 
-function NotificationsPage() {
+function Notifications({ updateNotificationCount }) {
   const [evenements, setEvenements] = useState([]);
+  // const [notificationCount, setNotificationCount] = useState(0);
 
   useEffect(() => {
     // Récupérer les données nécessaires depuis le localStorage
@@ -10,6 +11,9 @@ function NotificationsPage() {
     // Filtrer les événements distincts et avec une date dans la semaine à venir
     const filteredEvenements = filterEvenements(storedEvenements);
     console.log('filteredEvenements', filteredEvenements);
+
+    // Mettre à jour le nombre de notifications
+    updateNotificationCount(filteredEvenements.length);
     
     setEvenements(filteredEvenements);
   }, []);
@@ -27,7 +31,7 @@ function NotificationsPage() {
       // Vérifier si l'événement a une date dans la semaine à venir
       console.log('evenement.date', evenement.date)
       const eventDate = new Date(evenement.date);
-      if (eventDate <= oneWeekFromNow) {
+      if (eventDate <= oneWeekFromNow && eventDate >= currentDate) {
         // Vérifier si l'ID de l'événement est unique
         if (!uniqueIds.has(evenement.id)) {
           uniqueIds.add(evenement.id);
@@ -69,4 +73,4 @@ function NotificationsPage() {
   );
 }
 
-export default NotificationsPage;
+export default Notifications;
