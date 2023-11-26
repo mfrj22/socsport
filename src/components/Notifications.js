@@ -4,6 +4,7 @@ function Notifications({ updateNotificationCount }) {
   const [evenements, setEvenements] = useState([]);
   // const [notificationCount, setNotificationCount] = useState(0);
 
+  
   useEffect(() => {
     // Récupérer les données nécessaires depuis le localStorage
     const storedEvenements = JSON.parse(localStorage.getItem('evenements')) || [];
