@@ -204,13 +204,28 @@ def create_reservation():
             # récupérer l'id de la réservation créée
             reservation_id = new_reservation.id
 
-            return jsonify({'message': 'Reservation created successfully', 'reservation_id': reservation_id, 'evenement_id': evenement_id})
+            # récupérer les détails de l'événement
+            event_details = {
+                'id': evenement.id,
+                'nom': evenement.nom,
+                'date': str(evenement.date),
+                'heure_debut': str(evenement.heure_debut),
+                'heure_fin': str(evenement.heure_fin),
+                'nb_participants': evenement.nb_participants,
+            }
+
+            return jsonify({
+                'message': 'Reservation created successfully',
+                'evenement_id': evenement_id,
+                'event_details': event_details
+            })
         else:
             # Événement avec l'ID donné non trouvé
             return jsonify({'message': 'Invalid event ID'}), 400
     else:
         # Clés JSON manquantes
         return jsonify({'message': 'Invalid JSON data'}), 400
+
 
 @app.route('/events-for-field/<int:fieldId>', methods=['GET', 'POST'])
 def events_for_field(fieldId):
