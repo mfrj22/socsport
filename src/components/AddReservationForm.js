@@ -47,7 +47,7 @@ function AddReservationForm() {
         const existingReservations = JSON.parse(localStorage.getItem('evenements')) || [];
       
         // Ajouter le nouvel identifiant à la liste
-        existingReservations.push(data.evenement_id);
+        existingReservations.push(data.event_details);
       
         // Stocker le tableau mis à jour dans le localStorage
         localStorage.setItem('evenements', JSON.stringify(existingReservations));
