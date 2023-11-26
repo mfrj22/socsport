@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
+import { ToastContainer,toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function AddReservationForm() {
   const [reservationData, setReservationData] = useState({
@@ -30,19 +32,31 @@ function AddReservationForm() {
         ...reservationData,
       }),
     })
-      .then((response) => response.json())
+      .then((response)  => {
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        return response.json();
+      })
+
       .then((data) => {
         console.log('Reservation created successfully:', data);
+        toast.success('Réservation avec succès');
         // Vous pouvez rediriger l'utilisateur vers une autre page après la création de la réservation
         // navigate(`/nouvelle-page`);
       })
-      .catch((error) => {
-        console.error('Error creating reservation:', error);
-      });
+      .catch((error) =>  {
+      console.error('Error creating reservation:', error);
+      if (error.message === 'Network response was not ok') {
+        toast.error('Vous ne pouvez plus reserver!'); // Affichage de la notification
+      }
+      
+    });
   };
 
   return (
     <div>
+       <ToastContainer />
       <h2>Formulaire de Réservation</h2>
       <form onSubmit={handleSubmit}>
         <label>

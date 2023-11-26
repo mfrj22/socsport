@@ -142,42 +142,46 @@ function App() {
           <Route path="/create-event/:fieldId" element={<EventForm setSelectedEvent={setSelectedEvent} />} />
           <Route path="/add-reservation/:eventId" element={<AddReservationForm selectedEvent={selectedEvent} />} />
         </Routes>
-        <MapContainer center={userLocation || initialLocation} zoom={userLocation ? 13 : 1} style={{ height: '500px', width: '100%' }}>  <TileLayer
-    url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-    attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-  />
-  {userLocation && userLocation.lat && userLocation.lng && (
-    <Marker position={[userLocation.lat, userLocation.lng]}>
-      <Popup>Votre position actuelle</Popup>
-    </Marker>
-  )}
+  <MapContainer center={userLocation || initialLocation} zoom={userLocation ? 13 : 1} style={{ height: '400px', width: '100%' }}>
+      <TileLayer
+        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+        attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+      />
+      {userLocation && userLocation.lat && userLocation.lng && (
+        <Marker position={[userLocation.lat, userLocation.lng]}>
+          <Popup>Votre position actuelle</Popup>
+        </Marker>
+      )}
 
-  {/* Définissez vos icônes personnalisées */}
-  {(() => {
-    const stadiumIcon = L.icon({
-      iconUrl: 'icon-markeur.png',
-      iconSize: [40, 40], // Taille de l'icône
-      iconAnchor: [20, 40], // Position de l'ancre de l'icône
-      popupAnchor: [0, -40], // Position du popup par rapport à l'icône
-    });
+      {/* Définissez vos icônes personnalisées */}
+      {(() => {
+        const stadiumIcon = L.icon({
+          iconUrl: 'icon-markeur.png',
+          iconSize: [40, 40], // Taille de l'icône
+          iconAnchor: [20, 40], // Position de l'ancre de l'icône
+          popupAnchor: [0, -40], // Position du popup par rapport à l'icône
+        });
 
-    // Utilisez les icônes pour afficher les marqueurs
-    return nearestFields.slice(0, 3).map((field) => (
-      <Marker
-        key={field.id}
-        position={[field.latitude, field.longitude]}
-        icon={stadiumIcon}
-      >
-        <Popup>{field.nom}</Popup>
-      </Marker>
-    ));
-  })()}
+        // Utilisez les icônes pour afficher les marqueurs
+        return nearestFields.slice(0, 3).map((field) => (
+          <Marker
+            key={field.id}
+            position={[field.latitude, field.longitude]}
+            icon={stadiumIcon}
+          >
+            <Popup>{field.nom}</Popup>
+          </Marker>
+        ));
+      })()}
+
+    <div style={{ textAlign: 'center', maxWidth: '500px', margin: '0 auto' }}></div>
 </MapContainer>
+
 <div className="carousel-container">
           <Slider {...settings}>
             {nearestFields.slice(0, 3).map((field) => (
               <div key={field.id} className="carousel-item">
-                <img src={getStadiumImage(field.nom)} alt={field.nom} />
+                <img src={getStadiumImage(field.nom)} alt={field.nom}  style={{ height: "300px", objectFit: "cover", margin: "0 auto" }} />
                 <p className="legend">{field.nom}</p>
               </div>
             ))}

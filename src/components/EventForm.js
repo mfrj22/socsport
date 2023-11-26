@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 // import AddReservationForm from './components/AddReservationForm';
-
+import { ToastContainer,toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const EventForm = () => {
   const { fieldId } = useParams(); // 
@@ -57,6 +58,7 @@ fetch(`http://localhost:5000/create-event/${fieldId}`, {
   .then((response) => response.json())
   .then((data) => {
     if (data.message === 'Event created successfully') {
+      toast.success('Evènement créé avec succès');
       // Événement créé avec succès, vous pouvez effectuer une action ici (par exemple, redirection)
       // Réinitialisez les champs du formulaire
       setEventName('');
@@ -85,6 +87,7 @@ fetch(`http://localhost:5000/create-event/${fieldId}`, {
 
   return (
     <div>
+      <ToastContainer />
       <h2>Créer un événement pour le terrain avec l'ID {fieldId}</h2>
       <Link to="/">Retour aux terrains</Link>
       <form onSubmit={handleEventSubmit}>
