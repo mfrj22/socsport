@@ -1,32 +1,47 @@
-@startuml diagEA
-
+@startuml
 entity "Ville" {
   + id: Integer
-  --
-  + nom: String
-  + code_postal: Integer
-  + departement: String
+  nom: String
+  code_postal: Integer
+  departement: String
 }
 
 entity "Terrain" {
   + id: Integer
-  --
-  + nom: String
-  + adresse: String
-  + latitude: Float
-  + longitude: Float
+  nom: String
+  adresse: String
+  latitude: Float
+  longitude: Float
+  horaire_ouverture: Time
+  horaire_fermeture: Time
 }
 
 entity "Evenement" {
   + id: Integer
-  --
-  + nom: String
-  + date: Date
-  + heure_debut: Time
-  + heure_fin: Time
+  nom: String
+  date: Date
+  heure_debut: Time
+  heure_fin: Time
+  nb_participants: Integer
 }
 
-Ville --o{ Terrain : "has"
-Terrain --o{ Evenement : "has"
+entity "Sport" {
+  + id: Integer
+  name: String
+}
 
+entity "Reservation" {
+  + id: Integer
+  nom_participant: String
+  prenom_participant: String
+  email_participant: String
+  tel_participant: String
+}
+
+Ville --{ Terrain
+Terrain --{ Evenement
+Evenement }--|> Terrain
+Evenement --{ Reservation
+Sport --{ Terrain
+Sport --{ Reservation
 @enduml

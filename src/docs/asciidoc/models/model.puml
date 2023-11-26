@@ -1,5 +1,4 @@
-@startuml model
-
+@startuml
 class Ville {
   + id: Integer
   + nom: String
@@ -13,8 +12,8 @@ class Terrain {
   + adresse: String
   + latitude: Float
   + longitude: Float
-  + ville_id: Integer
-  + ville: Ville
+  + horaire_ouverture: Time
+  + horaire_fermeture: Time
 }
 
 class Evenement {
@@ -23,11 +22,26 @@ class Evenement {
   + date: Date
   + heure_debut: Time
   + heure_fin: Time
-  + terrain_id: Integer
-  + terrain: Terrain
+  + nb_participants: Integer
 }
 
-Ville "1" -- "*" Terrain : has
-Terrain "1" -- "*" Evenement : has
+class Sport {
+  + id: Integer
+  + name: String
+}
 
+class Reservation {
+  + id: Integer
+  + nom_participant: String
+  + prenom_participant: String
+  + email_participant: String
+  + tel_participant: String
+}
+
+Ville "1" -- "*" Terrain : a
+Terrain "1" -- "*" Evenement : a
+Evenement "1" -- "0..1" Terrain : a
+Evenement "1" -- "*" Reservation : a
+Sport "1" -- "*" Terrain : a
+Sport "1" -- "*" Reservation : a
 @enduml

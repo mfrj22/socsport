@@ -8,7 +8,7 @@ CORS(app)
 
 
 # Configuration de la base de données
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:@localhost/socsport'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:AliMaxou2002@localhost/socsport'
 db = SQLAlchemy(app)
 
 

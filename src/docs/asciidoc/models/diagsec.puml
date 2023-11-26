@@ -1,23 +1,24 @@
-@startuml diagsec
-
+@startuml
 actor User
-participant App
-participant Vue
-participant Controller
-participant Terrain
-participant Evenement
-participant Database
+participant Client
+participant FlaskApp
+database Database
 
-User -> App: Send request to create event
-App -> Vue: Handle user input
-Vue -> Controller: Request to create event
-Controller -> Terrain: Get terrain details
-Terrain --> Controller: Terrain details
-Controller -> Evenement: Create new event
-Evenement --> Controller: New event created
-Controller -> Database: Save event to database
-Database --> Controller: Event saved
-Controller --> Vue: Event created successfully
-Vue --> App: Notify user about event creation
+User -> Client: Send POST request /nearest-fields
+activate Client
 
+Client -> FlaskApp: Handle POST /nearest-fields
+activate FlaskApp
+
+FlaskApp -> Database: Query all terrains
+activate Database
+
+Database --> FlaskApp: Return terrain data
+deactivate Database
+
+FlaskApp --> Client: Return JSON response
+deactivate FlaskApp
+
+Client --> User: Return nearest fields data
+deactivate Client
 @enduml
