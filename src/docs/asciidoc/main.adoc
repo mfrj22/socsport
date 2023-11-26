@@ -1,3 +1,6 @@
+= Titre du Document
+:doctype: book
+
 = ```socsport``` Documentation
 
 == Choix sujet
