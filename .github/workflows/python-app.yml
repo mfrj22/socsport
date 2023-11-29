@@ -58,9 +58,8 @@ jobs:
           CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
         run: |
           ./cc-test-reporter before-build
-          pytest -m pytest --cov=app
-          run ls -R
-          ./cc-test-reporter after-build --exit-code $?
+          python -m pytest --cov=app
+          ./cc-test-reporter after-build --exit-code $? -t coverage.py --prefix /home/runner/work/socsport/socsport/app 
 
       - name: Install Ruby and Asciidoctor dependencies
         uses: actions/setup-ruby@v1
