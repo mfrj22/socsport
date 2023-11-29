@@ -53,7 +53,7 @@ jobs:
           
       - name: Install Code Climate Test Reporter
         run: |
-          Invoke-WebRequest -Uri 'https://codeclimate.com/downloads/test-reporter/test-reporter-latest-windows-amd64' -OutFile ./cc-test-reporter
+          Invoke-WebRequest -Uri 'https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64' -OutFile ./cc-test-reporter
           Set-ExecutionPolicy RemoteSigned -Scope Process
           ./cc-test-reporter
 
