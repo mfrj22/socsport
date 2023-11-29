@@ -92,21 +92,30 @@ fetch(`http://localhost:5000/create-event/${fieldId}`, {
       <Link to="/">Retour aux terrains</Link>
       <form onSubmit={handleEventSubmit}>
         {/* ... Reste du formulaire */}
+        <div>
         <label>Nom de l'événement:</label>
         <input type="text" value={eventName} onChange={(e) => setEventName(e.target.value)} />
+        </div>
 
+        <div>
         <label>Date:</label>
         <input type="date" value={eventDate} onChange={(e) => setEventDate(e.target.value)} />
+        </div>
 
+        <div>
         <label>Heure de début:</label>
         <input type="time" value={eventStartTime} onChange={(e) => setEventStartTime(e.target.value)} />
+        </div>
 
+        <div>
         <label>Heure de fin:</label>
         <input type="time" value={eventEndTime} onChange={(e) => setEventEndTime(e.target.value)} />
+        </div>
 
+        <div>
         <label>Nombre de participants:</label>
         <input type="number" value={eventNbP} onChange={(e) => setEventNbP(e.target.value)} />
-
+        </div>
         {/* <input type="hidden" value={fieldId} /> */}
         <button type="submit">Créer l'événement</button>
       </form>
@@ -117,6 +126,7 @@ fetch(`http://localhost:5000/create-event/${fieldId}`, {
       <table>
         <thead>
           <tr>
+            <th>ID</th>
             <th>Nom</th>
             <th>Date</th>
             <th>Heure début</th>

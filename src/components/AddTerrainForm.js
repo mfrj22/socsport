@@ -45,36 +45,46 @@ const AddTerrainForm = ({ onTerrainSubmit, sports }) => {
 
 
   return (
-    <div>
+    <div style={{ textAlign: 'center' }}>
       <h2>Ajouter un terrain</h2>
       <form onSubmit={handleSubmit}>
+      <div>
         <label>Nom:</label>
         <input type="text" name="nom" value={terrainData.nom} onChange={handleChange} required />
-
+      </div>
+      <div>
         <label>Adresse:</label>
         <input type="text" name="adresse" value={terrainData.adresse} onChange={handleChange} required />
-
+      </div>
+      <div>
         <label>Latitude:</label>
         <input type="number" step="0.000001" name="latitude" value={terrainData.latitude} onChange={handleChange} required />
-
+      </div>
+      <div>
         <label>Longitude:</label>
         <input type="number" step="0.000001" name="longitude" value={terrainData.longitude} onChange={handleChange} required />
-
+      </div>
+      <div>
         <label>Ville:</label>
         <input type="text" name="ville" value={terrainData.ville} onChange={handleChange} required />
-
+      </div>
+      <div>
         <label>Code Postal:</label>
         <input type="text" name="code_postal" value={terrainData.code_postal} onChange={handleChange} required />
-
+      </div>
+      <div>
         <label>Département:</label>
         <input type="text" name="departement" value={terrainData.departement} onChange={handleChange} required />
-
+      </div>
+      <div>
         <label>Horaire d'ouverture:</label>
         <input type="time" name="horaire_ouverture" value={terrainData.horaire_ouverture} onChange={handleChange} required />
-
+      </div>
+      <div>
         <label>Horaire de fermeture:</label>
         <input type="time" name="horaire_fermeture" value={terrainData.horaire_fermeture} onChange={handleChange} required />
-
+      </div>
+      <div>
         <label>Sports:</label>
         {sports.map((sport) => (
           <div key={sport.id}>
@@ -89,7 +99,7 @@ const AddTerrainForm = ({ onTerrainSubmit, sports }) => {
             <label htmlFor={`sport-${sport.id}`}>{sport.name}</label>
           </div>
         ))}
-
+      </div>
         <button type="submit">Ajouter</button>
       </form>
     </div>

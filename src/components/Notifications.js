@@ -54,12 +54,12 @@ function Notifications({ updateNotificationCount }) {
   }
 
   return (
-    <div>
+    <div className="notifications-container">
       <h2>Notifications</h2>
       {evenements.length > 0 ? (
         <ul>
           {evenements.map((evenement) => (
-            <li key={evenement.id}>
+            <li key={evenement.id} className="notification-item">
               L'événement {evenement.nom} a lieu dans {getDaysLeft(evenement.date)+1} jours.
               <br />
               {evenement.date} à {evenement.heure_debut}

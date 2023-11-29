@@ -22,9 +22,9 @@ function App() {
   const [selectedEvent, setSelectedEvent] = useState(null);
   const [sports, setSports] = useState([]);
   const [notificationCount, setNotificationCount] = useState(0);
-
+ 
   // compter le nombre de notif
-  
+   //const location = useLocation();
 
   const handleAddTerrain = (terrainData) => {
     console.log("Terrain data submitted", terrainData);
@@ -121,11 +121,17 @@ function App() {
 
   return (
     <Router>
-      <div className="App">
-        <Link to="/notifications">
-          <FontAwesomeIcon icon={faBell} size="2x" />
-          {notificationCount > 0 && <span style={{ marginLeft: '5px' }}>{notificationCount}</span>}
-        </Link>
+      <div className="App centered-container">
+        <div className="menu">
+          {/* Ajoutez un menu avec un bouton "Ajouter un terrain" */}
+          <Link to="/add-terrain" className="menu-button">Ajouter un terrain</Link>
+
+          {/* Déplacez l'icône de la cloche ici */}
+          <Link to="/notifications" className="menu-button">
+            <FontAwesomeIcon icon={faBell} size="2x" />
+            {notificationCount > 0 && <span style={{ marginLeft: '5px' }}>{notificationCount}</span>}
+          </Link>
+        </div>
         <h1>SocSport</h1>
         <div className="location-input">
           <LocationInput onLocationSubmit={handleLocationSubmit} />
@@ -140,6 +146,8 @@ function App() {
             path="/add-terrain"
             element={<AddTerrainForm onTerrainSubmit={handleAddTerrain} sports={sports} />}
           />
+          
+
           <Route path="/add-reservation/:eventId" element={<AddReservationForm />} />
           {nearestFields.map((field) => (
             <Route
@@ -158,7 +166,7 @@ function App() {
           <Route path="/add-reservation/:eventId" element={<AddReservationForm selectedEvent={selectedEvent} />} />
           <Route path="/notifications" element={<Notifications />} />
         </Routes>
-  <MapContainer center={userLocation || initialLocation} zoom={userLocation ? 13 : 1} style={{ height: '400px', width: '100%' }}>
+      <MapContainer center={userLocation || initialLocation} zoom={userLocation ? 13 : 1} style={{ height: "400px", objectFit: "cover", width: '60%', margin: "0 auto" }}>
       <TileLayer
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
@@ -198,7 +206,7 @@ function App() {
             {nearestFields.slice(0, 3).map((field) => (
               <div key={field.id} className="carousel-item">
                 <img src={getStadiumImage(field.nom)} alt={field.nom}  style={{ height: "300px", objectFit: "cover", margin: "0 auto" }} />
-                <p className="legend">{field.nom}</p>
+                <p className="legend" style={{ textAlign: 'center', fontSize: '16px', marginTop: '10px' }}>{field.nom}</p>
               </div>
             ))}
           </Slider>

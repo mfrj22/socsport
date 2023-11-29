@@ -38,7 +38,7 @@ const LocationInput = ({ onLocationSubmit }) => {
   };
 
   return (
-    <div>
+    <div className="centered-container"> 
       <div>
         <label>Latitude:</label>
         <input
