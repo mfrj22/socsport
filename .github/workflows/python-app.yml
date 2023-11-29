@@ -59,7 +59,7 @@ jobs:
           CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
         run: |
           ./cc-test-reporter before-build
-          coverage run -m pytest coverage.py
+          coverage run -m pytest --cov=app
           ./cc-test-reporter after-build --exit-code $? -t coverage.py
 
       - name: Install Ruby and Asciidoctor dependencies
