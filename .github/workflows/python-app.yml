@@ -15,6 +15,17 @@ jobs:
 
     runs-on: ubuntu-latest
 
+    services:
+      mysql:
+        image: mysql:latest
+        env:
+          MYSQL_ROOT_PASSWORD: AliMaxou2002
+          MYSQL_DATABASE: socsport
+
+        ports:
+          - 3306:3306
+        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
+
     steps:
       - uses: actions/checkout@v3
 
@@ -35,16 +46,11 @@ jobs:
           pip install geopy
           pip install flask-cors
           if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
-
-      - name: Run tests with SQLite
-        run: |
-          sed -i 's|mysql://user:password@localhost/dbname|sqlite:///:memory:|' app.py
-          python -m pytest --cov=app
           
       - name: Install Code Climate Test Reporter
         run: |
-          Invoke-WebRequest -Uri 'https://codeclimate.com/downloads/test-reporter/test-reporter-latest-windows-amd64' -OutFile ./cc-test-reporter
-          Set-ExecutionPolicy RemoteSigned -Scope Process
+          curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
+          chmod +x ./cc-test-reporter
           ./cc-test-reporter
 
       - name: Upload coverage data to Code Climate
@@ -52,6 +58,7 @@ jobs:
           CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
         run: |
           ./cc-test-reporter before-build
+          pytest -m pytest --cov=app
           ./cc-test-reporter after-build --exit-code $?
 
       - name: Install Ruby and Asciidoctor dependencies
