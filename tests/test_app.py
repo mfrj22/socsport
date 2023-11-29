@@ -2,11 +2,11 @@ import json
 import pytest
 from app import app, db, Terrain, Evenement
 
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://devops:devops@172.17.13.174/test_socsport'
 
 @pytest.fixture
 def client():
     app.config['TESTING'] = True
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://devops:devops@172.17.13.174/test_socsport'
     client = app.test_client()
 
     # Mise en place de la base de données (si nécessaire) avant les tests
@@ -25,7 +25,7 @@ def test_nearest_fields(client):
     # Vérifier que les données renvoyées correspondent à nos attentes
     assert data[0]['nom'] == 'Stade Vincent Pascucci'
     assert data[1]['nom'] == 'Stade Gabriel Péri'
-    assert data[2]['nom'] == 'Stade Jean Moulin'    
+    assert data[2]['nom'] == 'Stade Jean Moulin' 
 
 def test_create_event(client):
     # Tester la route /create-event/2
