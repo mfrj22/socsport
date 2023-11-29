@@ -11,12 +11,6 @@ CORS(app)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:AliMaxou2002@localhost/socsport'
 db = SQLAlchemy(app)
 
-# Add this configuration for testing
-class TestConfig:
-    SQLALCHEMY_DATABASE_URI = 'sqlite:///:memory:'
-    SQLALCHEMY_TRACK_MODIFICATIONS = False
-
-app.config.from_object(TestConfig)
 
 # Modèles de données
 class Ville(db.Model):
