@@ -63,6 +63,16 @@ jobs:
           ./cc-test-reporter before-build
           ./cc-test-reporter after-build --exit-code $? -t coverage.py
 
+      - name: Install Ruby and Asciidoctor dependencies
+        uses: actions/setup-ruby@v1
+        with:
+          ruby-version: 3.0
+
+      - name: Install Asciidoctor gems
+        run: |
+          gem install asciidoctor-pdf -v '1.5.3'
+          gem install rouge -v '3.15.0'
+
       - name: Generate PDF from Asciidoctor
         run: |
           asciidoctor-pdf -D assets main.adoc
