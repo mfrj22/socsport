@@ -59,6 +59,7 @@ jobs:
         run: |
           ./cc-test-reporter before-build
           pytest -m pytest --cov=app
+          run ls -R
           ./cc-test-reporter after-build --exit-code $?
 
       - name: Install Ruby and Asciidoctor dependencies
