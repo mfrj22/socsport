@@ -40,6 +40,24 @@ def test_create_event(client):
     assert response.status_code == 200
     data = response.get_json()
 
+def test_create_terrain(client):
+    # Tester la route /create-terrain
+    response = client.post('/ajouter-terrain', json={
+        'nom': 'Test Nom',
+        'adresse': 'Test Adresse',
+        'code_postal': 92000,
+        'departement': 'Test Département',
+        'latitude': 48,
+        'longitude': 2,
+        'horaire_ouverture': '10:00',
+        'horaire_fermeture': '12:00',
+        'ville': 'Ville du terrain',
+        'sport': [1, 2]
+    })
+
+    assert response.status_code == 200
+    data = response.get_json()
+
 def test_index_route(client):
     # Tester la route '/'
     response = client.get('/')
