@@ -58,7 +58,7 @@ jobs:
         env:
           CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
         run: |
-          coverage run -m pytest --cov=app
+          coverage run -m pytest
           coverage xml -o coverage.xml
           ./cc-test-reporter before-build
           ./cc-test-reporter after-build --exit-code $? -t coverage.py
