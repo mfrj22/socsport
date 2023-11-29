@@ -45,11 +45,13 @@ jobs:
           pip install cryptography
           pip install geopy
           pip install flask-cors
+          pip install coverage
           if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
 
       - name: Run tests
         run: |
-          python -m pytest --cov=app
+          coverage run -m pytest
+          coverage xml -o coverage.xml
           
       - name: Install Code Climate Test Reporter
         run: |
@@ -61,8 +63,8 @@ jobs:
         env:
           CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
         run: |
-          ./cc-test-reporter format-coverage -t lcov .coverage
           ./cc-test-reporter before-build
+          ./cc-test-reporter format-coverage -t lcov coverage.xml
           ./cc-test-reporter after-build --exit-code $?
 
       - name: Install Ruby and Asciidoctor dependencies
