@@ -61,8 +61,8 @@ jobs:
         env:
           CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
         run: |
-          ./cc-test-reporter before-build
           ./cc-test-reporter format-coverage -t lcov .coverage
+          ./cc-test-reporter before-build
           ./cc-test-reporter after-build --exit-code $?
 
       - name: Install Ruby and Asciidoctor dependencies
