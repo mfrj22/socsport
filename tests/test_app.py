@@ -34,6 +34,7 @@ def test_create_event(client):
         'date': '2023-11-01',
         'startTime': '10:00:00',
         'endTime': '12:00:00',
+        'nbParticipants': 10,
     })
 
     assert response.status_code == 200
