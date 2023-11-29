@@ -45,6 +45,7 @@ jobs:
           pip install cryptography
           pip install geopy
           pip install flask-cors
+          pip install coverage
           if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
           
       - name: Install Code Climate Test Reporter
@@ -58,9 +59,9 @@ jobs:
           CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
         run: |
           ./cc-test-reporter before-build
-          python -m pytest --cov=app
-          ./cc-test-reporter after-build --exit-code $? -t coverage.py -r "**/*.coverage"
-          
+          coverage run -m pytest coverage.py
+          ./cc-test-reporter after-build --exit-code $? -t coverage.py
+
       - name: Install Ruby and Asciidoctor dependencies
         uses: actions/setup-ruby@v1
         with:
