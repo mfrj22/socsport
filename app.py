@@ -1,14 +1,19 @@
+import os
 from flask import Flask, request, jsonify
 from geopy.distance import geodesic
 from flask_cors import CORS
 from flask_sqlalchemy import SQLAlchemy
+from dotenv import load_dotenv
+
+load_dotenv()
 
 app = Flask(__name__)
 CORS(app)
 
+db_password = os.getenv('DB_PASSWORD')
 
 # Configuration de la base de données
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:@localhost/socsport'
+app.config['SQLALCHEMY_DATABASE_URI'] = f"mysql+pymysql://root:{db_password}@localhost/socsport"
 db = SQLAlchemy(app)
 
 
