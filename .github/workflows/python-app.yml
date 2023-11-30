@@ -19,7 +19,7 @@ jobs:
       mysql:
         image: mysql:latest
         env:
-          MYSQL_ROOT_PASSWORD: AliMaxou2002
+          MYSQL_ROOT_PASSWORD: ${{ secrets.MYSQL_ROOT_PASSWORD }}
           MYSQL_DATABASE: socsport
 
         ports:
@@ -46,6 +46,7 @@ jobs:
           pip install geopy
           pip install flask-cors
           pip install coverage
+          pip install python_dotenv
           if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
           
       - name: Install Code Climate Test Reporter
@@ -57,6 +58,7 @@ jobs:
       - name: Upload coverage data to Code Climate
         env:
           CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
+          DB_PASSWORD: ${{ secrets.MYSQL_ROOT_PASSWORD }}
         run: |
           coverage run -m pytest
           coverage xml -o coverage.xml
