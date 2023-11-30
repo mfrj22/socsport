@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { BrowserRouter as Router, Routes, Route, Link, useParams } from 'react-router-dom';
 import LocationInput from './components/LocationInput';
 import NearbyFields from './components/NearbyFields';
@@ -22,6 +22,7 @@ function App() {
   const [selectedEvent, setSelectedEvent] = useState(null);
   const [sports, setSports] = useState([]);
   const [notificationCount, setNotificationCount] = useState(0);
+  const mapRef = useRef(); // Ajoutez une référence à la carte
  
   // compter le nombre de notif
    //const location = useLocation();
@@ -47,6 +48,13 @@ function App() {
 
   const handleLocationSubmit = (location) => {
     setUserLocation(location);
+    //zoomToNearestFields(); // Appeler la fonction pour zoomer sur les terrains les plus proches
+  };
+  const zoomToNearestFields = () => {
+    if (nearestFields.length > 0) {
+      const bounds = L.latLngBounds(nearestFields.slice(0, 3).map(field => [field.latitude, field.longitude]));
+      mapRef.current.fitBounds(bounds);
+    }
   };
 
   useEffect(() => {
@@ -76,7 +84,11 @@ function App() {
           console.error('Erreur lors de la récupération des terrains:', error);
         });
     }
-  }, [userLocation]);
+    if (mapRef.current && userLocation) {
+      zoomToNearestFields();
+    }
+  }, [userLocation, nearestFields]);
+
 
   const getStadiumImage = (stadiumName) => {
     console.log("Nom du stade transmis :", stadiumName);
@@ -166,16 +178,16 @@ function App() {
           <Route path="/add-reservation/:eventId" element={<AddReservationForm selectedEvent={selectedEvent} />} />
           <Route path="/notifications" element={<Notifications />} />
         </Routes>
-      <MapContainer center={userLocation || initialLocation} zoom={userLocation ? 13 : 1} style={{ height: "400px", objectFit: "cover", width: '60%', margin: "0 auto" }}>
-      <TileLayer
-        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-        attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-      />
-      {userLocation && userLocation.lat && userLocation.lng && (
-        <Marker position={[userLocation.lat, userLocation.lng]}>
-          <Popup>Votre position actuelle</Popup>
-        </Marker>
-      )}
+      <MapContainer ref={mapRef} center={userLocation || initialLocation} zoom={userLocation ? 13 : 1} style={{ height: "400px", objectFit: "cover", width: '60%', margin: "0 auto" }}>
+        <TileLayer
+          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        />
+        {userLocation && userLocation.lat && userLocation.lng && (
+          <Marker position={[userLocation.lat, userLocation.lng]}>
+            <Popup>Votre position actuelle</Popup>
+          </Marker>
+        )}
 
       {/* Définissez vos icônes personnalisées */}
       {(() => {
