@@ -71,7 +71,7 @@ with app.app_context():
     db.create_all()
 
 
-# Déplacez la liste de terrains à ajouter à l'intérieur de l'app_context
+# Déplacer la liste de terrains à ajouter à l'intérieur de l'app_context
 villes_a_ajouter = [
     Ville(nom="Nanterre", code_postal=92000, departement="Hauts-de-Seine"),
     Ville(nom="Bois-Colombes", code_postal=92270, departement="Hauts-de-Seine"),
@@ -116,10 +116,10 @@ sports_a_ajouter = [
 
 with app.app_context():
     for ville in villes_a_ajouter:
-        # Vérifiez si un enregistrement avec le même nom existe déjà
+        # Vérifier si un enregistrement avec le même nom existe déjà
         existant = Ville.query.filter_by(nom=ville.nom).first()
 
-        # Si l'enregistrement n'existe pas, ajoutez-le
+        # Si l'enregistrement n'existe pas, on l'ajoute
         if not existant:
             db.session.add(ville)
 
@@ -127,10 +127,10 @@ with app.app_context():
 
 with app.app_context():
     for terrain in terrains_a_ajouter:
-        # Vérifiez si un enregistrement avec le même nom existe déjà
+        # Vérifier si un enregistrement avec le même nom existe déjà
         existant = Terrain.query.filter_by(nom=terrain.nom).first()
 
-        # Si l'enregistrement n'existe pas, ajoutez-le
+        # Si l'enregistrement n'existe pas, on l'ajoute
         if not existant:
             db.session.add(terrain)
 
@@ -238,7 +238,7 @@ def events_for_field(fieldId):
     if terrain:
         events = Evenement.query.filter_by(terrain_id=fieldId).all()
         event_data = [{
-            'id': event.id,  # Ajoutez l'ID de l'événement à la réponse JSON
+            'id': event.id,  # Ajouter l'ID de l'événement à la réponse JSON
             'nom': event.nom,
             'date': str(event.date),
             'heure_debut': str(event.heure_debut),
@@ -261,20 +261,20 @@ def ajouter_terrain():
     departement = data.get('departement')
     horaire_ouverture = data.get('horaire_ouverture')
     horaire_fermeture = data.get('horaire_fermeture')
-    # sports_ids = data.get('sport')  # Utilisez les ID des sports sélectionnés
+    # sports_ids = data.get('sport')  # Utiliser les ID des sports sélectionnés
     #Utilise les ids des sports sélectionnés par l'utilisateur dans la checkbox
     sports_ids = Sport.query.filter(Sport.id.in_(data.get('sport'))).all()
 
-    # Vérifiez si la ville existe dans la base de données
+    # Vérifier si la ville existe dans la base de données
     ville = Ville.query.filter_by(nom=ville_nom).first()
     if not ville:
-        # Si la ville n'existe pas, ajoutez-la
+        # Si la ville n'existe pas, on l'ajoute
         ville = Ville(nom=ville_nom, code_postal=code_postal, departement=departement)
 
         db.session.add(ville)
         db.session.commit()
 
-    # Ajoutez le terrain
+    # Ajouter le terrain
     nouveau_terrain = Terrain(
         nom=nom,
         adresse=adresse,
@@ -288,14 +288,14 @@ def ajouter_terrain():
     db.session.add(nouveau_terrain)
     db.session.commit()
 
-    # Ajoutez les associations entre le terrain et les sports dans la table d'association
+    # Ajouter les associations entre le terrain et les sports dans la table d'association
     for sport_id in sports_ids:
         sport = Sport.query.get(sport_id.id)
         if sport:
             # association = terrain_sport_association.insert().values(terrain_id=nouveau_terrain.id, sport_id=sport_id)
             nouveau_terrain.sports.append(sport)
 
-    # Committez les changements dans la base de données
+    # Commit les changements dans la base de données
     db.session.commit()
 
     return jsonify({'message': 'Terrain ajouté avec succès'})
