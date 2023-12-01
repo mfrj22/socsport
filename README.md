@@ -68,6 +68,16 @@ PyTest permet d'exécuter des tests unitaires.
 pip install pytest
 ```
 
+Coverage permet d'obtenir la couverture de code et de créer un fichier avec les résultats.
+```
+pip install coverage
+```
+
+Python_Dotenv est utilisé pour utiliser les variables d'environnement du fichier .env.
+```
+pip install python_dotenv
+```
+
 ### 4. Installation des modules React
 Pour le bon fonctionnement de notre application, nous avons ajoutés des modules React :
 
