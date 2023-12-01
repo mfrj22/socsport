@@ -2,16 +2,23 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 const NearbyFields = ({ fields }) => {
-  // Triez les terrains en fonction de la distance (ordre croissant)
+  // Trier les terrains en fonction de la distance (ordre croissant)
   const sortedFields = [...fields].sort((a, b) => a.distance - b.distance);
 
-  // Prenez seulement les premiers terrains (les plus proches)
+  // Prendre seulement les premiers terrains (les plus proches)
   const nearestFields = sortedFields.slice(0, 3);
+
+  // Vérifier si la liste des terrains proches est vide
+  const isEmpty = nearestFields.length === 0;
+
+  if (isEmpty) {
+    // Si la liste est vide, `null` pour ne rien afficher
+    return null;
+  }
 
   return (
     <div>
       <h2>Terrains proches :</h2>
-      {/* <Link to="/add-terrain">Ajouter un terrain</Link> */}
       <table>
         <thead>
           <tr>
@@ -23,17 +30,17 @@ const NearbyFields = ({ fields }) => {
           </tr>
         </thead>
         <tbody>
-        {nearestFields.map((field, index) => (
+          {nearestFields.map((field, index) => (
             <tr key={index}>
-                <td>{field.id}</td>
-                <td>
-                    <Link to={`/create-event/${field.id}`}>{field.nom}</Link>
-                </td>
-                <td>{field.latitude}</td>
-                <td>{field.longitude}</td>
-                <td>{field.distance} km</td>
+              <td>{field.id}</td>
+              <td>
+                <Link to={`/create-event/${field.id}`}>{field.nom}</Link>
+              </td>
+              <td>{field.latitude}</td>
+              <td>{field.longitude}</td>
+              <td>{field.distance} km</td>
             </tr>
-        ))}
+          ))}
         </tbody>
       </table>
     </div>
