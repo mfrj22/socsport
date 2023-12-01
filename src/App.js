@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { BrowserRouter as Router, Routes, Route, Link, useParams } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import LocationInput from './components/LocationInput';
 import NearbyFields from './components/NearbyFields';
 import EventForm from './components/EventForm';
@@ -18,14 +18,11 @@ import { faBell } from '@fortawesome/free-solid-svg-icons';
 function App() {
   const [userLocation, setUserLocation] = useState(null);
   const [nearestFields, setNearestFields] = useState([]);
-  const [selectedField, setSelectedField] = useState(null);
+  const [setSelectedField] = useState(null);
   const [selectedEvent, setSelectedEvent] = useState(null);
   const [sports, setSports] = useState([]);
   const [notificationCount, setNotificationCount] = useState(0);
-  const mapRef = useRef(); // Ajoutez une référence à la carte
- 
-  // compter le nombre de notif
-   //const location = useLocation();
+  const mapRef = useRef();
 
   const handleAddTerrain = (terrainData) => {
     console.log("Terrain data submitted", terrainData);
@@ -135,10 +132,8 @@ function App() {
     <Router>
       <div className="App centered-container">
         <div className="menu">
-          {/* Ajoutez un menu avec un bouton "Ajouter un terrain" */}
           <Link to="/add-terrain" className="menu-button">Ajouter un terrain</Link>
 
-          {/* Déplacez l'icône de la cloche ici */}
           <Link to="/notifications" className="menu-button">
             <FontAwesomeIcon icon={faBell} size="2x" />
             {notificationCount > 0 && <span style={{ marginLeft: '5px' }}>{notificationCount}</span>}
@@ -181,7 +176,6 @@ function App() {
                       popupAnchor: [0, -40], // Position du popup par rapport à l'icône
                     });
 
-                    // Utilisez les icônes pour afficher les marqueurs
                     return nearestFields.slice(0, 3).map((field) => (
                       <Marker
                         key={field.id}
