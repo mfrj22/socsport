@@ -150,17 +150,19 @@ function App() {
         </div>
         <Routes>
           <Route path="/" element={<NearbyFields fields={nearestFields} />} />
+
           <Route
             path="/notifications"
             element={<Notifications updateNotificationCount={setNotificationCount} />}
           />
+
           <Route
             path="/add-terrain"
             element={<AddTerrainForm onTerrainSubmit={handleAddTerrain} sports={sports} />}
           />
           
-
           <Route path="/add-reservation/:eventId" element={<AddReservationForm />} />
+
           {nearestFields.map((field) => (
             <Route
               key={field.id}
@@ -174,46 +176,46 @@ function App() {
               }
             />
           ))}
+
           <Route path="/create-event/:fieldId" element={<EventForm setSelectedEvent={setSelectedEvent} />} />
+
           <Route path="/add-reservation/:eventId" element={<AddReservationForm selectedEvent={selectedEvent} />} />
+
           <Route path="/notifications" element={<Notifications />} />
         </Routes>
-      <MapContainer ref={mapRef} center={userLocation || initialLocation} zoom={userLocation ? 13 : 1} style={{ height: "400px", objectFit: "cover", width: '60%', margin: "0 auto" }}>
-        <TileLayer
-          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-        />
-        {userLocation && userLocation.lat && userLocation.lng && (
-          <Marker position={[userLocation.lat, userLocation.lng]}>
-            <Popup>Votre position actuelle</Popup>
-          </Marker>
-        )}
 
-      {/* Définissez vos icônes personnalisées */}
-      {(() => {
-        const stadiumIcon = L.icon({
-          iconUrl: 'icon-markeur.png',
-          iconSize: [40, 40], // Taille de l'icône
-          iconAnchor: [20, 40], // Position de l'ancre de l'icône
-          popupAnchor: [0, -40], // Position du popup par rapport à l'icône
-        });
+        <MapContainer ref={mapRef} center={userLocation || initialLocation} zoom={userLocation ? 13 : 1} style={{ height: "400px", objectFit: "cover", width: '60%', margin: "0 auto" }}>
+          <TileLayer
+            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+          />
+          {userLocation && userLocation.lat && userLocation.lng && (
+            <Marker position={[userLocation.lat, userLocation.lng]}>
+              <Popup>Votre position actuelle</Popup>
+            </Marker>
+          )}
+          {(() => {
+            const stadiumIcon = L.icon({
+              iconUrl: 'icon-markeur.png',
+              iconSize: [40, 40], // Taille de l'icône
+              iconAnchor: [20, 40], // Position de l'ancre de l'icône
+              popupAnchor: [0, -40], // Position du popup par rapport à l'icône
+            });
 
-        // Utilisez les icônes pour afficher les marqueurs
-        return nearestFields.slice(0, 3).map((field) => (
-          <Marker
-            key={field.id}
-            position={[field.latitude, field.longitude]}
-            icon={stadiumIcon}
-          >
-            <Popup>{field.nom}</Popup>
-          </Marker>
-        ));
-      })()}
+            // Utilisez les icônes pour afficher les marqueurs
+            return nearestFields.slice(0, 3).map((field) => (
+              <Marker
+                key={field.id}
+                position={[field.latitude, field.longitude]}
+                icon={stadiumIcon}
+              >
+                <Popup>{field.nom}</Popup>
+              </Marker>
+            ));
+          })()}
+        </MapContainer>
 
-    <div style={{ textAlign: 'center', maxWidth: '500px', margin: '0 auto' }}></div>
-</MapContainer>
-
-<div className="carousel-container">
+        <div className="carousel-container">
           <Slider {...settings}>
             {nearestFields.slice(0, 3).map((field) => (
               <div key={field.id} className="carousel-item">
