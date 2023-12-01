@@ -24,6 +24,7 @@ function App() {
   const [notificationCount, setNotificationCount] = useState(0);
   const mapRef = useRef();
 
+  
   const handleAddTerrain = (terrainData) => {
     console.log("Terrain data submitted", terrainData);
 
