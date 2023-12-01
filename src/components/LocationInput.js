@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const LocationInput = ({ onLocationSubmit }) => {
   const [isLocating, setIsLocating] = useState(false);
   const [manualLatitude, setManualLatitude] = useState('');
   const [manualLongitude, setManualLongitude] = useState('');
+  const navigate = useNavigate();
 
   const handleLocateClick = () => {
     setIsLocating(true);
@@ -14,6 +16,7 @@ const LocationInput = ({ onLocationSubmit }) => {
           const { latitude, longitude } = position.coords;
           onLocationSubmit({ latitude, longitude });
           setIsLocating(false);
+          navigate('/');
         },
         (error) => {
           console.error('Erreur de géolocalisation :', error);
@@ -32,6 +35,7 @@ const LocationInput = ({ onLocationSubmit }) => {
 
     if (!isNaN(latitude) && !isNaN(longitude)) {
       onLocationSubmit({ latitude, longitude });
+      navigate('/');
     } else {
       alert('Veuillez entrer des coordonnées GPS valides.');
     }
