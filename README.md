@@ -110,9 +110,12 @@ L'application sera disponible à l'adresse : [http://localhost:3000](http://loca
 
 L'API Flask sera disponible à l'adresse : [http://localhost:5000](http://localhost:5000)
 
-## Utilisation de l'Application (v0.2)
-La v0.2 de notre application SocSport vous permet d'obtenir les terrains à proximité de vous, ou d'un lieu donné. 
-Vous pourrez voir les événements des terrains de votre choix, et vous avez même la possibilité d'en créer.
+## Utilisation de l'Application (v0.3)
+La v0.3 de notre application SocSport vous permet d'obtenir les terrains à proximité de vous, ou d'un lieu donné. 
+Ces terrains sont affichées sur une carte intéractive, illustré par des marqueurs de carte.
+Nous avons également la possibilité d'ajouter des terrains.
+Vous pourrez voir les événements des terrains de votre choix, et vous avez même la possibilité d'en créer et de les réserver. 
+De plus, afin d'alerter l'utilisateur, l'application permet d'avoir des rappels 7 jours avant les évènements le concernant.
 
 Nous apprécions toutes les contributions et le feedback de la communauté !
 
