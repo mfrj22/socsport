@@ -27,6 +27,8 @@ const NearbyFields = ({ fields }) => {
             <th>Latitude</th>
             <th>Longitude</th>
             <th>Distance (km)</th>
+            <th>Horaire d'ouverture</th>
+            <th>Horaire de fermeture</th>
           </tr>
         </thead>
         <tbody>
@@ -39,6 +41,8 @@ const NearbyFields = ({ fields }) => {
               <td>{field.latitude}</td>
               <td>{field.longitude}</td>
               <td>{field.distance} km</td>
+              <td>{field.horaire_ouverture}</td>
+              <td>{field.horaire_fermeture}</td>
             </tr>
           ))}
         </tbody>

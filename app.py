@@ -154,7 +154,15 @@ def nearest_fields():
     nearest = []
     for terrain in Terrain.query.all():
         distance = geodesic(user_coordinates, (terrain.latitude, terrain.longitude)).kilometers
-        nearest.append({'id': terrain.id, 'nom': terrain.nom, 'latitude': terrain.latitude, 'longitude': terrain.longitude, 'distance': distance})
+        nearest.append({
+                'id': terrain.id,
+                'nom': terrain.nom,
+                'latitude': terrain.latitude,
+                'longitude': terrain.longitude,
+                'distance': distance,
+                'horaire_ouverture': str(terrain.horaire_ouverture),
+                'horaire_fermeture': str(terrain.horaire_fermeture),
+            })
 
     nearest = sorted(nearest, key=lambda x: x['distance'])
 
