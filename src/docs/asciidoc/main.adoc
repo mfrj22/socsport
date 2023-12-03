@@ -7,7 +7,6 @@
 = ```socsport``` Documentation
 
 == Choix sujet
-:page-break-before:
 
 "SocSport" est une application innovante visant à faciliter la vie active et sociale. Elle permet aux utilisateurs d'organiser facilement des matchs sportifs avec amis, collègues et passionnés. En favorisant un mode de vie sain, renforçant les liens sociaux, facilitant l'organisation d'événements sportifs, créant des communautés et offrant des opportunités commerciales, SocSport se positionne comme bien plus qu'une simple application, intégrant également des aspects technologiques modernes pour une expérience utilisateur optimale.
 
@@ -70,6 +69,18 @@ pip install geopy
 [source, shell]
 ----
 pip install pytest
+----
+
+* Coverage permet d'obtenir à la couverture de code et de créer un fichier avec les résultats.
+[source, shell]
+----
+pip install coverage
+----
+
+* Python_Dotenv est utilisé pour utliser les variables d'environnement fichier .env.
+[source, shell]
+----
+pip install Python_Dotenv
 ----
 
 == 5. Installation des modules React
