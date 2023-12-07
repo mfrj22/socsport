@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import axios from 'axios';
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import LocationInput from './components/LocationInput';
 import NearbyFields from './components/NearbyFields';
@@ -23,11 +24,10 @@ function App() {
   const [selectedEvent, setSelectedEvent] = useState(null);
   const [sports, setSports] = useState([]);
   const [notificationCount, setNotificationCount] = useState(0);
+  const [weather, setWeather] = useState(null);
   const mapRef = useRef();
 
   const [selectedDirectionField, setSelectedDirectionField] = useState(null);
-
-
 
   const handleAddTerrain = (terrainData) => {
     console.log("Terrain data submitted", terrainData);
@@ -56,6 +56,17 @@ function App() {
     if (nearestFields.length > 0) {
       const bounds = L.latLngBounds(nearestFields.slice(0, 3).map(field => [field.latitude, field.longitude]));
       mapRef.current.fitBounds(bounds);
+    }
+  };
+  const fetchWeatherData = async (lat, lon) => {
+    try {
+      const apiKey = "27d4aea42c5f755fb0db8882993fe81d";
+      const response = await axios.get(
+        `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${apiKey}`
+      );
+      setWeather(response.data);
+    } catch (error) {
+      console.error("Error fetching weather data:", error);
     }
   };
 
@@ -90,6 +101,14 @@ function App() {
       zoomToNearestFields();
     }
   }, [userLocation, nearestFields]);
+
+  useEffect(() => {
+    if (userLocation) {
+      fetchWeatherData(48, 2);
+      // fetchWeatherData(userLocation.lat, userLocation.lng);
+      // ... le reste de votre code
+    }
+  }, [userLocation]);
 
 
   const getStadiumImage = (stadiumName) => {
@@ -153,6 +172,13 @@ function App() {
             <FontAwesomeIcon icon={faBell} size="2x" />
             {notificationCount > 0 && <span style={{ marginLeft: '5px' }}>{notificationCount}</span>}
           </Link>
+          <div className="weather-info">
+            {weather && (
+              <p>
+                Météo actuelle à {userLocation.lat}, {userLocation.lng}: {weather.weather[0].description}, {Math.round(weather.main.temp - 273.15)}°C
+              </p>
+            )}
+          </div>
         </div>
         <h1>SocSport</h1>
         <div className="location-input">
