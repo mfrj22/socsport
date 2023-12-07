@@ -10,10 +10,12 @@ const HandballStats = ({ updateGlobalStats }) => {
     e.preventDefault();
 
     updateGlobalStats({
+        handball: {
       goals: parseInt(goals, 10),
       assists: parseInt(assists, 10),
       saves: parseInt(saves, 10),
       penalties: parseInt(penalties, 10),
+    }
     });
   };
 
@@ -36,6 +38,7 @@ const HandballStats = ({ updateGlobalStats }) => {
         <label>Pénalties marqués :</label>
         <input type="number" value={penalties} onChange={(e) => setPenalties(e.target.value)} />
       </div>
+      <button type="submit" onClick={handleStatistiquesSubmit}>Valider</button>
     </div>
   );
 };

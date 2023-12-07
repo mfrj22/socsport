@@ -11,11 +11,12 @@ const BasketballStats = ({ updateGlobalStats }) => {
 
     // Mettez à jour les statistiques globales via la fonction fournie
     updateGlobalStats({
-      points: parseInt(points, 10),
-      assists: parseInt(assists, 10),
-      rebounds: parseInt(rebounds, 10),
-      steals: parseInt(steals, 10),
-      // ... ajoutez d'autres statistiques globales au besoin
+      basketball : {
+        points: parseInt(points, 10),
+        assists: parseInt(assists, 10),
+        rebounds: parseInt(rebounds, 10),
+        steals: parseInt(steals, 10),
+      }
     });
   };
 
@@ -38,6 +39,7 @@ const BasketballStats = ({ updateGlobalStats }) => {
         <label>Interceptions :</label>
         <input type="number" value={steals} onChange={(e) => setSteals(e.target.value)} />
       </div>
+      <button type="submit" onClick={handleStatistiquesSubmit}>Valider</button>
     </div>
   );
 };

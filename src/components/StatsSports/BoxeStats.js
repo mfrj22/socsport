@@ -10,10 +10,12 @@ const BoxeStats = ({ updateGlobalStats }) => {
     e.preventDefault();
 
     updateGlobalStats({
-      roundsWon: parseInt(roundsWon, 10),
-      totalPunches: parseInt(totalPunches, 10),
-      knockouts: parseInt(knockouts, 10),
-      penalties: parseInt(penalties, 10),
+      boxe: {
+        roundsWon: parseInt(roundsWon, 10),
+        totalPunches: parseInt(totalPunches, 10),
+        knockouts: parseInt(knockouts, 10),
+        penalties: parseInt(penalties, 10),
+      }
     });
   };
 
@@ -36,6 +38,7 @@ const BoxeStats = ({ updateGlobalStats }) => {
         <label>Pénalités :</label>
         <input type="number" value={penalties} onChange={(e) => setPenalties(e.target.value)} />
       </div>
+      <button type="submit" onClick={handleStatistiquesSubmit}>Valider</button>
     </div>
   );
 };

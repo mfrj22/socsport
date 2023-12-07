@@ -10,10 +10,12 @@ const AthletismeStats = ({ updateGlobalStats })=> {
     e.preventDefault();
 
     updateGlobalStats({
-      sprintTime: parseInt(sprintTime, 10),
-      longJumpDistance: parseInt(longJumpDistance, 10),
-      shotPutDistance: parseInt(shotPutDistance, 10),
-      highJumpHeight: parseInt(highJumpHeight, 10),
+      athletisme: {
+        sprintTime: parseInt(sprintTime, 10),
+        longJumpDistance: parseInt(longJumpDistance, 10),
+        shotPutDistance: parseInt(shotPutDistance, 10),
+        highJumpHeight: parseInt(highJumpHeight, 10),
+      }
     });
   };
 
@@ -36,6 +38,7 @@ const AthletismeStats = ({ updateGlobalStats })=> {
         <label>Hauteur de saut en hauteur :</label>
         <input type="number" value={highJumpHeight} onChange={(e) => setHighJumpHeight(e.target.value)} />
       </div>
+      <button type="submit" onClick={handleStatistiquesSubmit}>Valider</button>
     </div>
   );
 };

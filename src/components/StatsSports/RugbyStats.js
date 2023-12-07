@@ -10,10 +10,12 @@ const RugbyStats = ({ updateGlobalStats }) => {
     e.preventDefault();
 
     updateGlobalStats({
-      tries: parseInt(tries, 10),
-      conversions: parseInt(conversions, 10),
-      penaltyGoals: parseInt(penaltyGoals, 10),
-      dropGoals: parseInt(dropGoals, 10),
+      rugby: {
+        tries: parseInt(tries, 10),
+        conversions: parseInt(conversions, 10),
+        penaltyGoals: parseInt(penaltyGoals, 10),
+        dropGoals: parseInt(dropGoals, 10),
+      }
     });
   };
 
@@ -36,6 +38,7 @@ const RugbyStats = ({ updateGlobalStats }) => {
         <label>Drops réussis :</label>
         <input type="number" value={dropGoals} onChange={(e) => setDropGoals(e.target.value)} />
       </div>
+    <button type="submit" onClick={handleStatistiquesSubmit}>Valider</button>
     </div>
   );
 };
