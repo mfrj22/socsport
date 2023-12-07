@@ -10,10 +10,12 @@ const TennisStats = ({ updateGlobalStats }) => {
     e.preventDefault();
 
     updateGlobalStats({
-      aces: parseInt(aces, 10),
-      doubleFaults: parseInt(doubleFaults, 10),
-      firstServePercentage: parseInt(firstServePercentage, 10),
-      winningPercentage: parseInt(winningPercentage, 10),
+      tennis: {
+        aces: parseInt(aces, 10),
+        doubleFaults: parseInt(doubleFaults, 10),
+        firstServePercentage: parseInt(firstServePercentage, 10),
+        winningPercentage: parseInt(winningPercentage, 10),
+        }
     });
   };
 
@@ -40,6 +42,7 @@ const TennisStats = ({ updateGlobalStats }) => {
         <label>Pourcentage de victoires :</label>
         <input type="number" value={winningPercentage} onChange={(e) => setWinningPercentage(e.target.value)} />
       </div>
+      <button type="submit" onClick={handleStatistiquesSubmit}>Valider</button>
     </div>
   );
 };
