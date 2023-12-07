@@ -1,10 +1,23 @@
 import React, { useState } from 'react';
 
-const FootballStats = () => {
+const FootballStats = ({ updateGlobalStats }) => {
   const [goals, setGoals] = useState(0);
   const [assists, setAssists] = useState(0);
   const [yellowCards, setYellowCards] = useState(0);
   const [redCards, setRedCards] = useState(0);
+
+  const handleStatistiquesSubmit = (e) => {
+    e.preventDefault();
+
+    updateGlobalStats({
+      football: {
+        goals: parseInt(goals, 10),
+        assists: parseInt(assists, 10),
+        yellowCards: parseInt(yellowCards, 10),
+        redCards: parseInt(redCards, 10),
+      }
+    });
+  };
 
   return (
     <div>
@@ -25,6 +38,7 @@ const FootballStats = () => {
         <label>Cartons rouges :</label>
         <input type="number" value={redCards} onChange={(e) => setRedCards(e.target.value)} />
       </div>
+      <button type="submit" onClick={handleStatistiquesSubmit}>Valider</button>
     </div>
   );
 };

@@ -1,10 +1,21 @@
 import React, { useState } from 'react';
 
-const TennisStats = () => {
+const TennisStats = ({ updateGlobalStats }) => {
   const [aces, setAces] = useState(0);
   const [doubleFaults, setDoubleFaults] = useState(0);
   const [firstServePercentage, setFirstServePercentage] = useState(0);
   const [winningPercentage, setWinningPercentage] = useState(0);
+
+  const handleStatistiquesSubmit = (e) => {
+    e.preventDefault();
+
+    updateGlobalStats({
+      aces: parseInt(aces, 10),
+      doubleFaults: parseInt(doubleFaults, 10),
+      firstServePercentage: parseInt(firstServePercentage, 10),
+      winningPercentage: parseInt(winningPercentage, 10),
+    });
+  };
 
   return (
     <div>
