@@ -3,25 +3,62 @@ import { useParams, Link } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
+import FootballStats from './StatsSports/FootballStats'; 
+import BasketballStats from './StatsSports/BasketballStats'; 
+import BoxeStats from './StatsSports/BoxeStats'; 
+import TennisStats from './StatsSports/TennisStats'; 
+import RugbyStats from './StatsSports/RugbyStats'; 
+import HandballStats from './StatsSports/HandballStats';
+import AthletismeStats from './StatsSports/AthletismeStats'; 
+
 const AddStatistiquesForm = () => {
   const { eventId } = useParams();
 
-  const [sports, setSports] = useState([]); // Ajoutez cet état pour stocker la liste des sports
+  const [sports, setSports] = useState([]);
   const [selectedSport, setSelectedSport] = useState('');
   const [statistiquesData, setStatistiquesData] = useState({
-    // Ajoutez d'autres champs de statistiques au besoin
     buts: 0,
     passes: 0,
     tirs: 0,
   });
+  const [selectedSportComponent, setSelectedSportComponent] = useState(null);
 
   useEffect(() => {
-    // Chargez la liste des sports depuis la base de données
-    fetch('http://localhost:5000/sports') // Assurez-vous d'utiliser le bon endpoint pour récupérer les sports
+    fetch('http://localhost:5000/sports')
       .then((response) => response.json())
       .then((data) => setSports(data))
       .catch((error) => console.error('Erreur lors de la récupération des sports:', error));
   }, []);
+
+  const handleSportChange = (selectedSport) => {
+    setSelectedSport(selectedSport);
+
+    switch (selectedSport) {
+      case 'Football':
+        setSelectedSportComponent(<FootballStats />);
+        break;
+      case 'Basketball':
+        setSelectedSportComponent(<BasketballStats />);
+        break;
+      case 'Boxe':
+        setSelectedSportComponent(<BoxeStats />);
+        break;
+      case 'Tennis':
+        setSelectedSportComponent(<TennisStats />);
+        break;
+      case 'Rugby':
+        setSelectedSportComponent(<RugbyStats />);
+        break;
+      case 'Handball':
+        setSelectedSportComponent(<HandballStats />);
+        break;
+      case 'Athlétisme':
+        setSelectedSportComponent(<AthletismeStats />);
+        break;
+      default:
+        setSelectedSportComponent(null);
+    }
+  };
 
   const handleStatistiquesSubmit = (e) => {
     e.preventDefault();
@@ -31,16 +68,13 @@ const AddStatistiquesForm = () => {
       return;
     }
 
-    // Construisez l'objet de données des statistiques
     const statistiquesEventData = {
       sport: selectedSport,
-      // Ajoutez d'autres champs de statistiques au besoin
       buts: statistiquesData.buts,
       passes: statistiquesData.passes,
       tirs: statistiquesData.tirs,
     };
 
-    // Appelez le serveur pour créer les statistiques de l'événement
     fetch(`http://localhost:5000/add-statistiques/${eventId}`, {
       method: 'POST',
       headers: {
@@ -52,7 +86,6 @@ const AddStatistiquesForm = () => {
       .then((data) => {
         if (data.message === 'Statistiques added successfully') {
           toast.success('Statistiques ajoutées avec succès');
-          // Réinitialisez les champs du formulaire après la soumission réussie
           setSelectedSport('');
           setStatistiquesData({
             buts: 0,
@@ -76,7 +109,7 @@ const AddStatistiquesForm = () => {
       <form onSubmit={handleStatistiquesSubmit}>
         <div>
           <label>Sport:</label>
-          <select value={selectedSport} onChange={(e) => setSelectedSport(e.target.value)}>
+          <select value={selectedSport} onChange={(e) => handleSportChange(e.target.value)}>
             <option value="">Sélectionnez un sport</option>
             {sports.map((sport) => (
               <option key={sport.id} value={sport.name}>
@@ -85,34 +118,12 @@ const AddStatistiquesForm = () => {
             ))}
           </select>
         </div>
-
-        <div>
-          <label>Buts:</label>
-          <input
-            type="number"
-            value={statistiquesData.buts}
-            onChange={(e) => setStatistiquesData({ ...statistiquesData, buts: e.target.value })}
-          />
-        </div>
-
-        <div>
-          <label>Passes:</label>
-          <input
-            type="number"
-            value={statistiquesData.passes}
-            onChange={(e) => setStatistiquesData({ ...statistiquesData, passes: e.target.value })}
-          />
-        </div>
-
-        <div>
-          <label>Tirs:</label>
-          <input
-            type="number"
-            value={statistiquesData.tirs}
-            onChange={(e) => setStatistiquesData({ ...statistiquesData, tirs: e.target.value })}
-          />
-        </div>
-
+        {selectedSportComponent && (
+          <div>
+            <h3>Statistiques spécifiques au sport</h3>
+            {selectedSportComponent}
+          </div>
+        )}
         <button type="submit">Ajouter les statistiques</button>
       </form>
     </div>

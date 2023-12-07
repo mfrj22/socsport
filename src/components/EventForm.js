@@ -75,7 +75,6 @@ const EventForm = () => {
     return eventDateObj < currentDate;
   };
 
-  // vérifier que l'événement est bien dans le localStorage "evenements"
   const isEventInLocalStorage = (event) => {
     const storedEvenements = JSON.parse(localStorage.getItem('evenements')) || [];
     const eventIds = storedEvenements.map((evenement) => evenement.id);
@@ -88,7 +87,6 @@ const EventForm = () => {
       <ToastContainer />
       <h2>Créer un événement pour le terrain avec l'ID {fieldId}</h2>
       <form onSubmit={handleEventSubmit}>
-        {/* ... Reste du formulaire */}
         <div>
         <label>Nom de l'événement:</label>
         <input type="text" value={eventName} onChange={(e) => setEventName(e.target.value)} />
