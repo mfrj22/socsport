@@ -1,10 +1,21 @@
 import React, { useState } from 'react';
 
-const RugbyStats = () => {
+const RugbyStats = ({ updateGlobalStats }) => {
   const [tries, setTries] = useState(0);
   const [conversions, setConversions] = useState(0);
   const [penaltyGoals, setPenaltyGoals] = useState(0);
   const [dropGoals, setDropGoals] = useState(0);
+
+  const handleStatistiquesSubmit = (e) => {
+    e.preventDefault();
+
+    updateGlobalStats({
+      tries: parseInt(tries, 10),
+      conversions: parseInt(conversions, 10),
+      penaltyGoals: parseInt(penaltyGoals, 10),
+      dropGoals: parseInt(dropGoals, 10),
+    });
+  };
 
   return (
     <div>

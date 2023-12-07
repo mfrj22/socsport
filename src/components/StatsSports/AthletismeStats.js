@@ -1,10 +1,21 @@
 import React, { useState } from 'react';
 
-const AthletismeStats = () => {
+const AthletismeStats = ({ updateGlobalStats })=> {
   const [sprintTime, setSprintTime] = useState('');
   const [longJumpDistance, setLongJumpDistance] = useState(0);
   const [shotPutDistance, setShotPutDistance] = useState(0);
   const [highJumpHeight, setHighJumpHeight] = useState(0);
+
+  const handleStatistiquesSubmit = (e) => {
+    e.preventDefault();
+
+    updateGlobalStats({
+      sprintTime: parseInt(sprintTime, 10),
+      longJumpDistance: parseInt(longJumpDistance, 10),
+      shotPutDistance: parseInt(shotPutDistance, 10),
+      highJumpHeight: parseInt(highJumpHeight, 10),
+    });
+  };
 
   return (
     <div>

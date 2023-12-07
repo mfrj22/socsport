@@ -1,10 +1,21 @@
 import React, { useState } from 'react';
 
-const BoxeStats = () => {
+const BoxeStats = ({ updateGlobalStats }) => {
   const [roundsWon, setRoundsWon] = useState(0);
   const [totalPunches, setTotalPunches] = useState(0);
   const [knockouts, setKnockouts] = useState(0);
   const [penalties, setPenalties] = useState(0);
+
+  const handleStatistiquesSubmit = (e) => {
+    e.preventDefault();
+
+    updateGlobalStats({
+      roundsWon: parseInt(roundsWon, 10),
+      totalPunches: parseInt(totalPunches, 10),
+      knockouts: parseInt(knockouts, 10),
+      penalties: parseInt(penalties, 10),
+    });
+  };
 
   return (
     <div>
