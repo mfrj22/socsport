@@ -48,10 +48,29 @@ function App() {
       });
   };
 
-  const handleLocationSubmit = (location) => {
-    setUserLocation(location);
-    //zoomToNearestFields(); // Appeler la fonction pour zoomer sur les terrains les plus proches
-  };
+  // const handleLocationSubmit = (location) => {
+  //   setUserLocation(location);
+  //   //zoomToNearestFields(); 
+  // };
+
+  const handleLocationSubmit = () => {
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        const { latitude, longitude } = position.coords;
+        setUserLocation({ lat: latitude, lng: longitude });
+        // Optionally, you can also fetch weather data here
+        fetchWeatherData(latitude, longitude);
+      },
+      (error) => {
+        console.error('Error getting user location:', error.message);
+      }
+    );
+  } else {
+    console.error('Geolocation is not supported by this browser.');
+  }
+};
+
   const zoomToNearestFields = () => {
     if (nearestFields.length > 0) {
       const bounds = L.latLngBounds(nearestFields.slice(0, 3).map(field => [field.latitude, field.longitude]));
@@ -60,7 +79,7 @@ function App() {
   };
   const fetchWeatherData = async (lat, lon) => {
     try {
-      const apiKey = "27d4aea42c5f755fb0db8882993fe81d";
+      const apiKey = "e46c347779f1d83501e8fda216cf14e1";
       const response = await axios.get(
         `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${apiKey}`
       );
@@ -89,7 +108,10 @@ function App() {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(userLocation),
+        body: JSON.stringify({
+          latitude: userLocation.lat,
+          longitude: userLocation.lng,
+        }),
       })
         .then((response) => response.json())
         .then((data) => setNearestFields(data))
@@ -104,12 +126,18 @@ function App() {
 
   useEffect(() => {
     if (userLocation) {
-      fetchWeatherData(48, 2);
-      // fetchWeatherData(userLocation.lat, userLocation.lng);
-      // ... le reste de votre code
+      fetchWeatherData(userLocation.lat, userLocation.lng);
     }
   }, [userLocation]);
 
+  useEffect(() => {
+    console.log('userLocation:', userLocation);
+  
+    if (userLocation) {
+      fetchWeatherData(userLocation.lat, userLocation.lng);
+    }
+  }, [userLocation]);
+  
 
   const getStadiumImage = (stadiumName) => {
     console.log("Nom du stade transmis :", stadiumName);
@@ -138,7 +166,6 @@ function App() {
       return "./Albert-Smirlian.jpg";
     } else {
       console.log("Aucune correspondance trouvée, utilisant l'image par défaut");
-      // Si aucun nom de stade correspondant n'est trouvé, retourner l'image par défaut
       return "./default-image.jpg";
     }
   };
@@ -150,16 +177,17 @@ function App() {
     slidesToShow: 1,
     slidesToScroll: 1,
   };
-  const initialLocation = { lat: 0, lng: 0 }; // Valeur par défaut
+  const initialLocation = { lat: 0, lng: 0 }; 
 
   const handleGetDirectionsClick = (field) => {
     setSelectedDirectionField(field);
-
-    // Implémentez ici la logique pour obtenir l'itinéraire, par exemple, redirigez vers une nouvelle page avec les informations du terrain sélectionné.
-    // history.push('/directions', { field }); // Assurez-vous d'avoir le router history disponible (peut nécessiter withRouter ou useHistory).
-
-    // Vous pouvez également utiliser une bibliothèque externe pour l'intégration des directions, comme react-router-dom.
   };
+  const userLocationIcon = L.icon({
+    iconUrl: 'user-icon.png', 
+    iconSize: [40, 40],
+    iconAnchor: [20, 40],
+    popupAnchor: [0, -40],
+  });
 
 
   return (
@@ -205,16 +233,16 @@ function App() {
                     attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
                   />
                   {userLocation && userLocation.lat && userLocation.lng && (
-                    <Marker position={[userLocation.lat, userLocation.lng]}>
+                    <Marker position={[userLocation.lat, userLocation.lng]} icon={userLocationIcon}>
                       <Popup>Votre position actuelle</Popup>
                     </Marker>
                   )}
                   {(() => {
                     const stadiumIcon = L.icon({
                       iconUrl: 'icon-markeur.png',
-                      iconSize: [40, 40], // Taille de l'icône
-                      iconAnchor: [20, 40], // Position de l'ancre de l'icône
-                      popupAnchor: [0, -40], // Position du popup par rapport à l'icône
+                      iconSize: [40, 40],
+                      iconAnchor: [20, 40],
+                      popupAnchor: [0, -40],
                     });
 
                     return nearestFields.slice(0, 3).map((field) => (
@@ -228,6 +256,7 @@ function App() {
                     ));
                   })()}
                 </MapContainer>
+
 
                 <div className="carousel-container">
                   <Slider {...settings}>
