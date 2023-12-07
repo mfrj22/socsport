@@ -9,16 +9,15 @@ import BoxeStats from './StatsSports/BoxeStats';
 import TennisStats from './StatsSports/TennisStats'; 
 import RugbyStats from './StatsSports/RugbyStats'; 
 import HandballStats from './StatsSports/HandballStats';
-import AthletismeStats from './StatsSports/AthletismeStats'; 
 
 const AddStatistiquesForm = () => {
-    const { eventId } = useParams();
+  const { eventId } = useParams();
   
-    const [sports, setSports] = useState([]);
-    const [selectedSport, setSelectedSport] = useState('');
-    const [selectedSportComponent, setSelectedSportComponent] = useState(null);
-    const [globalStats, setGlobalStats] = useState({
-        football: {
+  const [sports, setSports] = useState([]);
+  const [selectedSport, setSelectedSport] = useState('');
+  const [selectedSportComponent, setSelectedSportComponent] = useState(null);
+  const [globalStats, setGlobalStats] = useState({
+    football: {
       goals: 0,
       assists: 0,
       yellowCards: 0,
@@ -48,19 +47,13 @@ const AddStatistiquesForm = () => {
       penalties: 0,
       dropGoals: 0,
     },
-    athletisme: {
-      sprintTime: 0,
-      longJumpDistance: 0,
-      shotPutDistance: 0,
-      highJumpHeight: 0,
-    },
     handball: {
       goals: 0,
       assists: 0,
       saves: 0,
       penalties: 0,
     },
-    });
+  });
 
   useEffect(() => {
     fetch('http://localhost:5000/sports')
@@ -68,8 +61,6 @@ const AddStatistiquesForm = () => {
       .then((data) => setSports(data))
       .catch((error) => console.error('Erreur lors de la récupération des sports:', error));
   }, []);
-
-
 
   const handleSportChange = (selectedSport) => {
     setSelectedSport(selectedSport);
@@ -93,16 +84,12 @@ const AddStatistiquesForm = () => {
       case 'Handball':
         setSelectedSportComponent(<HandballStats updateGlobalStats={updateGlobalStats} />);
         break;
-      case 'Athlétisme':
-        setSelectedSportComponent(<AthletismeStats updateGlobalStats={updateGlobalStats} />);
-        break;
       default:
         setSelectedSportComponent(null);
     }
   };
 
   const updateGlobalStats = (stats) => {
-    // Mettez à jour les statistiques globales avec les nouvelles statistiques
     setGlobalStats((prevStats) => ({ ...prevStats, ...stats }));
   };
 
@@ -114,12 +101,87 @@ const AddStatistiquesForm = () => {
       return;
     }
 
-    // Stockez les statistiques globales dans le localStorage
     localStorage.setItem('globalStats', JSON.stringify(globalStats));
     console.log('Statistiques globales:', localStorage.getItem('globalStats'));
-
-    // Autres logiques pour la soumission du formulaire...
   };
+
+  const calculateTotalScore = () => {
+    const { football, basketball, boxe, tennis, rugby, handball } = globalStats;
+  
+    const coefficients = {
+      football: {
+        goals: 2,         
+        assists: 1,      
+        yellowCards: -0.5, 
+        redCards: -1,
+      },
+      basketball: {
+        points: 1,      
+        rebounds: 1.5,  
+        steals: 2,   
+        assists: 1,     
+      },
+      boxe: {
+        roundsWon: 2,      
+        totalPunches: 1,  
+        knockouts: 5,   
+        penalties: -1,     
+      },
+      tennis: {
+        aces: 1,      
+        doubleFaults: -1.5,  
+        firstServePercentage: 0.2,   
+        winningPercentage: 0.2,     
+      },
+      rugby: {
+        tries: 1,      
+        conversions: 1.5,  
+        penaltyGoals: 2,   
+        dropGoals: 1,     
+      },
+      handball: {
+        goals: 1,      
+        assists: 1.5,  
+        saves: 2,   
+        penalties: -1,     
+      },
+    };
+  
+    let totalScore = 0;
+  
+    totalScore += isFinite(football.goals) ? football.goals * coefficients.football.goals : 0;
+    totalScore += isFinite(football.assists) ? football.assists * coefficients.football.assists : 0;
+    totalScore += isFinite(football.yellowCards) ? football.yellowCards * coefficients.football.yellowCards : 0;
+    totalScore += isFinite(football.redCards) ? football.redCards * coefficients.football.redCards : 0;
+  
+    totalScore += isFinite(basketball.points) ? basketball.points * coefficients.basketball.points : 0;
+    totalScore += isFinite(basketball.rebounds) ? basketball.rebounds * coefficients.basketball.rebounds : 0;
+    totalScore += isFinite(basketball.steals) ? basketball.steals * coefficients.basketball.steals : 0;
+    totalScore += isFinite(basketball.assists) ? basketball.assists * coefficients.basketball.assists : 0;
+    
+    totalScore += isFinite(boxe.roundsWon) ? boxe.roundsWon * coefficients.boxe.roundsWon : 0;
+    totalScore += isFinite(boxe.totalPunches) ? boxe.totalPunches * coefficients.boxe.totalPunches : 0;
+    totalScore += isFinite(boxe.knockouts) ? boxe.knockouts * coefficients.boxe.knockouts : 0;
+    totalScore += isFinite(boxe.penalties) ? boxe.penalties * coefficients.boxe.penalties : 0;
+    
+    totalScore += isFinite(tennis.aces) ? tennis.aces * coefficients.tennis.aces : 0;
+    totalScore += isFinite(tennis.doubleFaults) ? tennis.doubleFaults * coefficients.tennis.doubleFaults : 0;
+    totalScore += isFinite(tennis.firstServePercentage) ? tennis.firstServePercentage * coefficients.tennis.firstServePercentage : 0;
+    totalScore += isFinite(tennis.winningPercentage) ? tennis.winningPercentage * coefficients.tennis.winningPercentage : 0;
+
+    totalScore += isFinite(rugby.tries) ? rugby.tries * coefficients.rugby.tries : 0;
+    totalScore += isFinite(rugby.conversions) ? rugby.conversions * coefficients.rugby.conversions : 0;
+    totalScore += isFinite(rugby.penaltyGoals) ? rugby.penaltyGoals * coefficients.rugby.penaltyGoals : 0;
+    totalScore += isFinite(rugby.dropGoals) ? rugby.dropGoals * coefficients.rugby.dropGoals : 0;
+    
+    totalScore += isFinite(handball.goals) ? handball.goals * coefficients.handball.goals : 0;
+    totalScore += isFinite(handball.assists) ? handball.assists * coefficients.handball.assists : 0;
+    totalScore += isFinite(handball.saves) ? handball.saves * coefficients.handball.saves : 0;
+    totalScore += isFinite(handball.penalties) ? handball.penalties * coefficients.handball.penalties : 0;
+
+    return totalScore;
+  };
+  
 
   return (
     <div>
@@ -144,6 +206,12 @@ const AddStatistiquesForm = () => {
           </div>
         )}
         <button type="submit">Ajouter les statistiques</button>
+        {selectedSport && (
+          <div>
+            <h3>Score total :</h3>
+            <p>{calculateTotalScore()}</p>
+          </div>
+        )}
       </form>
     </div>
   );

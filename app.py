@@ -105,7 +105,6 @@ sports_a_ajouter = [
     Sport(name="Tennis"),
     Sport(name="Handball"),
     Sport(name="Rugby"),
-    Sport(name="Athlétisme"),
     Sport(name="Boxe"),
 ]
 
