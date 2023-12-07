@@ -144,7 +144,7 @@ const EventForm = () => {
                 <td>{event.nb_participants}</td>
                 <td>
                   {isEventInFuture(event) && isEventInLocalStorage(event) && (
-                    <Link to={`/form-for-event/${event.id}`}>Statistiques</Link>
+                    <Link to={`/stats-event/${event.id}`}>Statistiques</Link>
                   )}
                 </td>
               </tr>

@@ -4,6 +4,7 @@ import LocationInput from './components/LocationInput';
 import NearbyFields from './components/NearbyFields';
 import EventForm from './components/EventForm';
 import Notifications from './components/Notifications';
+import AddStatistiquesForm from './components/AddStatistiquesForm';
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
@@ -233,6 +234,8 @@ function App() {
           <Route path="/add-reservation/:eventId" element={<AddReservationForm selectedEvent={selectedEvent} />} />
 
           <Route path="/notifications" element={<Notifications />} />
+
+          <Route path="/stats-event/:eventId" element={<AddStatistiquesForm />} />
         </Routes>
 
 
