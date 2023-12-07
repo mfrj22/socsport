@@ -105,13 +105,8 @@ sports_a_ajouter = [
     Sport(name="Tennis"),
     Sport(name="Handball"),
     Sport(name="Rugby"),
-    Sport(name="Volleyball"),
-    Sport(name="Badminton"),
     Sport(name="Athlétisme"),
     Sport(name="Boxe"),
-    Sport(name="Judo"),
-    Sport(name="Yoga"),
-    Sport(name="Zumba"),
 ]
 
 with app.app_context():

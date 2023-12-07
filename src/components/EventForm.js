@@ -119,7 +119,6 @@ const EventForm = () => {
 
       <div>
         <h2>Événements pour le terrain avec l'ID {fieldId}</h2>
-        <Link to="/add-terrain">Ajouter un terrain</Link>
         <table>
           <thead>
             <tr>
