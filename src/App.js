@@ -16,6 +16,7 @@ import AddTerrainForm from './components/AddTerrainForm';
 import AddReservationForm from './components/AddReservationForm';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBell } from '@fortawesome/free-solid-svg-icons';
+import { Icon } from 'leaflet';
 
 function App() {
   const [userLocation, setUserLocation] = useState(null);
@@ -48,10 +49,29 @@ function App() {
       });
   };
 
-  const handleLocationSubmit = (location) => {
-    setUserLocation(location);
-    //zoomToNearestFields(); // Appeler la fonction pour zoomer sur les terrains les plus proches
-  };
+  // const handleLocationSubmit = (location) => {
+  //   setUserLocation(location);
+  //   //zoomToNearestFields(); // Appeler la fonction pour zoomer sur les terrains les plus proches
+  // };
+
+  const handleLocationSubmit = () => {
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        const { latitude, longitude } = position.coords;
+        setUserLocation({ lat: latitude, lng: longitude });
+        // Optionally, you can also fetch weather data here
+        fetchWeatherData(latitude, longitude);
+      },
+      (error) => {
+        console.error('Error getting user location:', error.message);
+      }
+    );
+  } else {
+    console.error('Geolocation is not supported by this browser.');
+  }
+};
+
   const zoomToNearestFields = () => {
     if (nearestFields.length > 0) {
       const bounds = L.latLngBounds(nearestFields.slice(0, 3).map(field => [field.latitude, field.longitude]));
@@ -60,7 +80,7 @@ function App() {
   };
   const fetchWeatherData = async (lat, lon) => {
     try {
-      const apiKey = "27d4aea42c5f755fb0db8882993fe81d";
+      const apiKey = "e46c347779f1d83501e8fda216cf14e1";
       const response = await axios.get(
         `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${apiKey}`
       );
@@ -89,7 +109,10 @@ function App() {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(userLocation),
+        body: JSON.stringify({
+          latitude: userLocation.lat,
+          longitude: userLocation.lng,
+        }),
       })
         .then((response) => response.json())
         .then((data) => setNearestFields(data))
@@ -104,12 +127,20 @@ function App() {
 
   useEffect(() => {
     if (userLocation) {
-      fetchWeatherData(48, 2);
-      // fetchWeatherData(userLocation.lat, userLocation.lng);
+      // fetchWeatherData(48, 2);
+      fetchWeatherData(userLocation.lat, userLocation.lng);
       // ... le reste de votre code
     }
   }, [userLocation]);
 
+  useEffect(() => {
+    console.log('userLocation:', userLocation);
+  
+    if (userLocation) {
+      fetchWeatherData(userLocation.lat, userLocation.lng);
+    }
+  }, [userLocation]);
+  
 
   const getStadiumImage = (stadiumName) => {
     console.log("Nom du stade transmis :", stadiumName);
@@ -160,6 +191,13 @@ function App() {
 
     // Vous pouvez également utiliser une bibliothèque externe pour l'intégration des directions, comme react-router-dom.
   };
+  // eslint-disable-next-line no-undef
+  const userLocationIcon = new Icon({
+    iconUrl: './public/icon-userloc.png',
+    iconSize: [40, 40], // Taille de l'icône
+    iconAnchor: [20, 40], // Position de l'ancre de l'icône
+    popupAnchor: [0, -40], // Position du popup par rapport à l'icône
+  });
 
 
   return (
@@ -205,7 +243,7 @@ function App() {
                     attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
                   />
                   {userLocation && userLocation.lat && userLocation.lng && (
-                    <Marker position={[userLocation.lat, userLocation.lng]}>
+                    <Marker position={[userLocation.lat, userLocation.lng]} icon={userLocationIcon}>
                       <Popup>Votre position actuelle</Popup>
                     </Marker>
                   )}
