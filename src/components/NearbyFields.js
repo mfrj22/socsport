@@ -1,18 +1,14 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-const NearbyFields = ({ fields }) => {
-  // Trier les terrains en fonction de la distance (ordre croissant)
+const NearbyFields = ({ fields, onGetDirectionsClick }) => {
   const sortedFields = [...fields].sort((a, b) => a.distance - b.distance);
 
-  // Prendre seulement les premiers terrains (les plus proches)
   const nearestFields = sortedFields.slice(0, 3);
 
-  // Vérifier si la liste des terrains proches est vide
   const isEmpty = nearestFields.length === 0;
 
   if (isEmpty) {
-    // Si la liste est vide, `null` pour ne rien afficher
     return null;
   }
 
@@ -29,6 +25,7 @@ const NearbyFields = ({ fields }) => {
             <th>Distance (km)</th>
             <th>Horaire d'ouverture</th>
             <th>Horaire de fermeture</th>
+            <th>Action</th>
           </tr>
         </thead>
         <tbody>
@@ -43,6 +40,9 @@ const NearbyFields = ({ fields }) => {
               <td>{field.distance} km</td>
               <td>{field.horaire_ouverture}</td>
               <td>{field.horaire_fermeture}</td>
+              <td>
+                <button onClick={() => onGetDirectionsClick(field)}>Obtenir l'itinéraire</button>
+              </td>
             </tr>
           ))}
         </tbody>

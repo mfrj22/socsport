@@ -25,6 +25,9 @@ function App() {
   const [notificationCount, setNotificationCount] = useState(0);
   const mapRef = useRef();
 
+  const [selectedDirectionField, setSelectedDirectionField] = useState(null);
+
+
 
   const handleAddTerrain = (terrainData) => {
     console.log("Terrain data submitted", terrainData);
@@ -130,6 +133,16 @@ function App() {
   };
   const initialLocation = { lat: 0, lng: 0 }; // Valeur par défaut
 
+  const handleGetDirectionsClick = (field) => {
+    setSelectedDirectionField(field);
+
+    // Implémentez ici la logique pour obtenir l'itinéraire, par exemple, redirigez vers une nouvelle page avec les informations du terrain sélectionné.
+    // history.push('/directions', { field }); // Assurez-vous d'avoir le router history disponible (peut nécessiter withRouter ou useHistory).
+
+    // Vous pouvez également utiliser une bibliothèque externe pour l'intégration des directions, comme react-router-dom.
+  };
+
+
   return (
     <Router>
       <div className="App centered-container">
@@ -150,7 +163,7 @@ function App() {
             path="/" 
             element={
               <>
-                <NearbyFields fields={nearestFields} />
+                <NearbyFields fields={nearestFields} onGetDirectionsClick={handleGetDirectionsClick} />
                 <MapContainer
                   ref={mapRef}
                   center={
