@@ -27,6 +27,7 @@ function App() {
   const [weather, setWeather] = useState(null);
   const [directions, setDirections] = useState(null);
   const mapRef = useRef();
+  const prevUserLocation = useRef();
 
   const [selectedDirectionField, setSelectedDirectionField] = useState(null);
 
@@ -125,7 +126,8 @@ function App() {
   }, []);
 
   useEffect(() => {
-    if (userLocation) {
+    if (userLocation && userLocation !== prevUserLocation.current) { // Vérifier si userLocation a changé
+      prevUserLocation.current = userLocation; // Mettre à jour l'état précédent
       fetch('http://localhost:5000/nearest-fields', {
         method: 'POST',
         headers: {
@@ -145,7 +147,7 @@ function App() {
     if (mapRef.current && userLocation) {
       zoomToNearestFields();
     }
-  }, [userLocation, nearestFields]);
+  }, [userLocation]);
 
   useEffect(() => {
     if (userLocation) {
