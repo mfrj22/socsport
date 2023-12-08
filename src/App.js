@@ -28,6 +28,7 @@ function App() {
   const [directions, setDirections] = useState(null);
   const mapRef = useRef();
   const prevUserLocation = useRef();
+  const [initialZoom, setInitialZoom] = useState(13);
 
   const [selectedDirectionField, setSelectedDirectionField] = useState(null);
 
@@ -78,22 +79,25 @@ function App() {
   // };
 
   const handleLocationSubmit = () => {
-  if (navigator.geolocation) {
-    navigator.geolocation.getCurrentPosition(
-      (position) => {
-        const { latitude, longitude } = position.coords;
-        setUserLocation({ lat: latitude, lng: longitude });
-        // Optionally, you can also fetch weather data here
-        fetchWeatherData(latitude, longitude);
-      },
-      (error) => {
-        console.error('Error getting user location:', error.message);
-      }
-    );
-  } else {
-    console.error('Geolocation is not supported by this browser.');
-  }
-};
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          const { latitude, longitude } = position.coords;
+          setUserLocation({ lat: latitude, lng: longitude });
+          setInitialZoom(13); // Définir le niveau de zoom initial
+          // Optionally, you can also fetch weather data here
+          fetchWeatherData(latitude, longitude);
+          // Zoomer vers la nouvelle position de l'utilisateur
+          mapRef.current.flyTo([latitude, longitude], initialZoom);
+        },
+        (error) => {
+          console.error('Error getting user location:', error.message);
+        }
+      );
+    } else {
+      console.error('Geolocation is not supported by this browser.');
+    }
+  };
 
   const zoomToNearestFields = () => {
     if (nearestFields.length > 0) {
