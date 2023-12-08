@@ -9,7 +9,7 @@ import AddStatistiquesForm from './components/AddStatistiquesForm';
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
-import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
+import { MapContainer, TileLayer, Marker, Popup, Polyline } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
 import AddTerrainForm from './components/AddTerrainForm';
@@ -25,9 +25,32 @@ function App() {
   const [sports, setSports] = useState([]);
   const [notificationCount, setNotificationCount] = useState(0);
   const [weather, setWeather] = useState(null);
+  const [directions, setDirections] = useState(null);
   const mapRef = useRef();
 
   const [selectedDirectionField, setSelectedDirectionField] = useState(null);
+
+  const fetchDirections = async (startLocation, endLocation) => {
+    const apiKey = '5b3ce3597851110001cf6248f0d06cd0df8640da9da60b6f7788f270'; // Remplacez par votre clé API OpenRouteService
+    const url = `https://api.openrouteservice.org/v2/directions/driving-car?api_key=${apiKey}&start=${startLocation.lng},${startLocation.lat}&end=${endLocation.lng},${endLocation.lat}`;
+
+    try {
+      const response = await axios.get(url);
+      setDirections(response.data.features[0].geometry.coordinates);
+    } catch (error) {
+      console.error('Error fetching directions:', error);
+    }
+  };
+
+  useEffect(() => {
+    if (selectedDirectionField && userLocation) {
+      fetchDirections(
+        { lat: userLocation.lat, lng: userLocation.lng },
+        { lat: selectedDirectionField.latitude, lng: selectedDirectionField.longitude }
+      );
+    }
+  }, [selectedDirectionField, userLocation]);
+
 
   const handleAddTerrain = (terrainData) => {
     console.log("Terrain data submitted", terrainData);
@@ -179,9 +202,21 @@ function App() {
   };
   const initialLocation = { lat: 0, lng: 0 }; 
 
+  // const handleGetDirectionsClick = (field) => {
+  //   setSelectedDirectionField(field);
+  // };
+  const buildDirectionsUrl = (startLocation, endLocation) => {
+    // Utilisez les coordonnées pour construire l'URL de l'itinéraire
+    const url = `https://www.openstreetmap.org/directions?engine=graphhopper_foot&route=${startLocation.lat}%2C${startLocation.lng}%3B${endLocation.lat}%2C${endLocation.lng}`;
+    return url;
+  };
+  
+
   const handleGetDirectionsClick = (field) => {
     setSelectedDirectionField(field);
   };
+
+  
   const userLocationIcon = L.icon({
     iconUrl: 'user-icon.png', 
     iconSize: [40, 40],
@@ -219,44 +254,51 @@ function App() {
               <>
                 <NearbyFields fields={nearestFields} onGetDirectionsClick={handleGetDirectionsClick} />
                 <MapContainer
-                  ref={mapRef}
-                  center={
-                    userLocation && userLocation.lat && userLocation.lng
-                      ? [userLocation.lat, userLocation.lng]
-                      : [initialLocation.lat, initialLocation.lng]
-                  }
-                  zoom={userLocation ? 13 : 1}
-                  style={{ height: "400px", objectFit: "cover", width: '60%', margin: "0 auto" }}
-                >
-                  <TileLayer
-                    url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                    attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-                  />
-                  {userLocation && userLocation.lat && userLocation.lng && (
-                    <Marker position={[userLocation.lat, userLocation.lng]} icon={userLocationIcon}>
-                      <Popup>Votre position actuelle</Popup>
-                    </Marker>
-                  )}
-                  {(() => {
-                    const stadiumIcon = L.icon({
-                      iconUrl: 'icon-markeur.png',
-                      iconSize: [40, 40],
-                      iconAnchor: [20, 40],
-                      popupAnchor: [0, -40],
-                    });
-
-                    return nearestFields.slice(0, 3).map((field) => (
-                      <Marker
-                        key={field.id}
-                        position={[field.latitude, field.longitude]}
-                        icon={stadiumIcon}
-                      >
-                        <Popup>{field.nom}</Popup>
+                    ref={mapRef}
+                    center={
+                      userLocation && userLocation.lat && userLocation.lng
+                        ? [userLocation.lat, userLocation.lng]
+                        : [initialLocation.lat, initialLocation.lng]
+                    }
+                    zoom={userLocation ? 13 : 1}
+                    style={{ height: "400px", objectFit: "cover", width: '60%', margin: "0 auto" }}
+                  >
+                    <TileLayer
+                      url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                      attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+                    />
+                    {userLocation && userLocation.lat && userLocation.lng && (
+                      <Marker position={[userLocation.lat, userLocation.lng]} icon={userLocationIcon}>
+                        <Popup>Votre position actuelle</Popup>
                       </Marker>
-                    ));
-                  })()}
-                </MapContainer>
+                    )}
+                    {(() => {
+                      const stadiumIcon = L.icon({
+                        iconUrl: 'icon-markeur.png',
+                        iconSize: [40, 40],
+                        iconAnchor: [20, 40],
+                        popupAnchor: [0, -40],
+                      });
 
+                      return nearestFields.slice(0, 3).map((field) => (
+                        <Marker
+                          key={field.id}
+                          position={[field.latitude, field.longitude]}
+                          icon={stadiumIcon}
+                        >
+                          <Popup>
+                            {field.nom}
+                          </Popup>
+                        </Marker>
+                      ));
+                    })()}
+                    {directions && (
+                      <Polyline
+                        positions={directions.map(coord => [coord[1], coord[0]])}
+                        color="blue"
+                      />
+                    )}
+                  </MapContainer>
 
                 <div className="carousel-container">
                   <Slider {...settings}>
