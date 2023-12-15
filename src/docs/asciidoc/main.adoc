@@ -105,7 +105,7 @@ Pour lancer l'API Flask, il vous faudra lancer un terminal depuis la racine du p
 python app.py
 ----
 
-== 7. API Utilisées dans SocSport
+== 7. API 
 
 == OpenWeatherMap API
 
