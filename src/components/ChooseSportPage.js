@@ -1,12 +1,89 @@
-// ChooseSportPage.js
-
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import ChooseSportForm from './ChooseSportForm';
+import { Link } from 'react-router-dom';
 
 const ChooseSportPage = () => {
+  const [sports, setSports] = useState([]);
+  const [recommendedSport, setRecommendedSport] = useState('');
+  const [recommendedEvents, setRecommendedEvents] = useState([]);
+
+  useEffect(() => {
+    // Effectuer une requête vers le backend pour obtenir la liste des sports
+    fetch('http://localhost:5000/sports')
+      .then(response => response.json())
+      .then(data => setSports(data))
+      .catch(error => console.error('Erreur lors de la récupération des sports :', error));
+  }, []);
+
+  const recommendSport = (formData) => {
+    const { teamOrIndividual, typeSport, playStyle, indoorOutdoor } = formData;
+
+    let recommendedSport = '';
+
+    if (teamOrIndividual === 'equipe' && typeSport === 'ballon' && playStyle === 'pied') {
+        recommendedSport = sports.find(sport => sport.name.toLowerCase() === 'football');
+    } else if (teamOrIndividual === 'equipe' && typeSport === 'ballon' && playStyle === 'main' && indoorOutdoor === 'interieur') {
+        recommendedSport = sports.find(sport => sport.name.toLowerCase() === 'handball');
+    } else if (teamOrIndividual === 'equipe' && typeSport === 'ballon' && playStyle === 'main' && indoorOutdoor === 'exterieur') {
+        recommendedSport = sports.find(sport => sport.name.toLowerCase() === 'basketball');
+    } else if (teamOrIndividual === 'equipe' && typeSport === 'ballon' && playStyle === 'deux' && indoorOutdoor === 'exterieur') {
+        recommendedSport = sports.find(sport => sport.name.toLowerCase() === 'rugby');
+    } else if (typeSport === 'raquette') {
+        recommendedSport = sports.find(sport => sport.name.toLowerCase() === 'tennis');
+    } else if (typeSport === 'combat') {
+        recommendedSport = sports.find(sport => sport.name.toLowerCase() === 'boxe');
+    } else {
+        recommendedSport = sports.find(sport => sport.name.toLowerCase() === 'football');
+    }
+
+    console.log('Sport recommandé :', recommendedSport);
+    setRecommendedSport(recommendedSport);
+
+    if (recommendedSport) {
+      fetch(`http://localhost:5000/events-for-sport/${recommendedSport.id}`)
+        .then(response => response.json())
+        .then(data => setRecommendedEvents(data))
+        .catch(error => console.error('Erreur lors de la récupération des événements :', error));
+    }
+  };
+
   return (
     <div>
-      <h2>Choisissez votre sport</h2>
-      {/* Ajoutez le contenu de la page ici */}
+      <h2>Formulaire de recommandation de sport</h2>
+      <ChooseSportForm onSubmit={recommendSport} />
+      
+
+      {/* Afficher les événements recommandés */}
+      {recommendedEvents.length > 0 && (
+        <>
+        <p>Votre sport de prédilection est : {recommendedSport ? recommendedSport.name : ''}</p>
+        <div>
+        <h2>Terrains proches :</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Nom</th>
+              <th>Date</th>
+              <th>Terrain</th>
+            </tr>
+          </thead>
+          <tbody>
+            {recommendedEvents.map(event => (
+              <tr key={event.id}>
+                <td>{event.id}</td>
+                <td>
+                  <Link to={`/add-reservation/${event.id}`}>{event.nom}</Link>
+                </td>
+                <td>{event.date}</td>
+                <td>{event.terrain.nom}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+        </div>
+        </>
+      )}
     </div>
   );
 };
