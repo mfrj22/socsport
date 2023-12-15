@@ -23,52 +23,130 @@ const ChooseSportPageForm = ({ onSubmit }) => {
 
   return (
     <form onSubmit={handleSubmit}>
-      <div>
+    <div>
         <label>
-          Préférez-vous les sports : 
-          <select name="teamSports" value={formData.teamSports} onChange={handleChange}>
-            <option value="">Sélectionnez</option>
-            <option value="equipe">En équipe</option>
-            <option value="indiv">Individuel</option>
-          </select>
-        </label>
-      </div>
-
-      <div>
-        <label>
-          Préférez-vous les sports :
-          <select name="individualSports" value={formData.individualSports} onChange={handleChange}>
-            <option value="">Sélectionnez</option>
-            <option value="ballon">De ballon</option>
-            <option value="raquette">De raquette</option>
-            <option value="combat">De combat</option>
-          </select>
-        </label>
-      </div>
-
-      <div>
-        <label>
-          Préférez-vous jouer :
-          <select name="individualSports" value={formData.individualSports} onChange={handleChange}>
-            <option value="">Sélectionnez</option>
-            <option value="main">A la main</option>
-            <option value="pied">Au pied</option>
-          </select>
-        </label>
-      </div>
-
-      <div>
-        <label>
-            Préférez-vous les sports d'intérieur ou d'extérieur ?
-            <select name="indoorOutdoor" value={formData.indoorOutdoor} onChange={handleChange}>
-            <option value="">Sélectionnez</option>
-            <option value="interieur">En intérieur</option>
-            <option value="exterieur">En extérieur</option>
-            </select>
-        </label>
+        Préférez-vous les sports en équipe ou individuels ?
+        <div>
+            <input
+            type="radio"
+            id="equipe"
+            name="teamOrIndividual"
+            value="equipe"
+            checked={formData.teamOrIndividual === "equipe"}
+            onChange={handleChange}
+            />
+            <label htmlFor="equipe">En équipe</label>
         </div>
-        
-      <button type="submit">Valider</button>
+        <div>
+            <input
+            type="radio"
+            id="individuel"
+            name="teamOrIndividual"
+            value="individuel"
+            checked={formData.teamOrIndividual === "individuel"}
+            onChange={handleChange}
+            />
+            <label htmlFor="individuel">Individuel</label>
+        </div>
+        </label>
+    </div>
+
+    <div>
+        <label>
+        Préférez-vous les sports de ballon, de raquette ou de combat ?
+        <div>
+            <input
+            type="radio"
+            id="ballon"
+            name="individualSports"
+            value="ballon"
+            checked={formData.individualSports === "ballon"}
+            onChange={handleChange}
+            />
+            <label htmlFor="ballon">De ballon</label>
+        </div>
+        <div>
+            <input
+            type="radio"
+            id="raquette"
+            name="individualSports"
+            value="raquette"
+            checked={formData.individualSports === "raquette"}
+            onChange={handleChange}
+            />
+            <label htmlFor="raquette">De raquette</label>
+        </div>
+        <div>
+            <input
+            type="radio"
+            id="combat"
+            name="individualSports"
+            value="combat"
+            checked={formData.individualSports === "combat"}
+            onChange={handleChange}
+            />
+            <label htmlFor="combat">De combat</label>
+        </div>
+        </label>
+    </div>
+
+    <div>
+        <label>
+        Préférez-vous jouer à la main ou au pied ?
+        <div>
+            <input
+            type="radio"
+            id="main"
+            name="playStyle"
+            value="main"
+            checked={formData.playStyle === "main"}
+            onChange={handleChange}
+            />
+            <label htmlFor="main">À la main</label>
+        </div>
+        <div>
+            <input
+            type="radio"
+            id="pied"
+            name="playStyle"
+            value="pied"
+            checked={formData.playStyle === "pied"}
+            onChange={handleChange}
+            />
+            <label htmlFor="pied">Au pied</label>
+        </div>
+        </label>
+    </div>
+
+    <div>
+        <label>
+        Préférez-vous les sports d'intérieur ou d'extérieur ?
+        <div>
+            <input
+            type="radio"
+            id="interieur"
+            name="indoorOutdoor"
+            value="interieur"
+            checked={formData.indoorOutdoor === "interieur"}
+            onChange={handleChange}
+            />
+            <label htmlFor="interieur">En intérieur</label>
+        </div>
+        <div>
+            <input
+            type="radio"
+            id="exterieur"
+            name="indoorOutdoor"
+            value="exterieur"
+            checked={formData.indoorOutdoor === "exterieur"}
+            onChange={handleChange}
+            />
+            <label htmlFor="exterieur">En extérieur</label>
+        </div>
+        </label>
+    </div>
+
+    <button type="submit">Valider</button>
     </form>
   );
 };
