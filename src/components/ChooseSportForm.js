@@ -58,9 +58,9 @@ const ChooseSportPageForm = ({ onSubmit }) => {
             <input
             type="radio"
             id="ballon"
-            name="individualSports"
+            name="typeSport"
             value="ballon"
-            checked={formData.individualSports === "ballon"}
+            checked={formData.typeSport === "ballon"}
             onChange={handleChange}
             />
             <label htmlFor="ballon">De ballon</label>
@@ -69,9 +69,9 @@ const ChooseSportPageForm = ({ onSubmit }) => {
             <input
             type="radio"
             id="raquette"
-            name="individualSports"
+            name="typeSport"
             value="raquette"
-            checked={formData.individualSports === "raquette"}
+            checked={formData.typeSport === "raquette"}
             onChange={handleChange}
             />
             <label htmlFor="raquette">De raquette</label>
@@ -80,9 +80,9 @@ const ChooseSportPageForm = ({ onSubmit }) => {
             <input
             type="radio"
             id="combat"
-            name="individualSports"
+            name="typeSport"
             value="combat"
-            checked={formData.individualSports === "combat"}
+            checked={formData.typeSport === "combat"}
             onChange={handleChange}
             />
             <label htmlFor="combat">De combat</label>
@@ -114,6 +114,17 @@ const ChooseSportPageForm = ({ onSubmit }) => {
             onChange={handleChange}
             />
             <label htmlFor="pied">Au pied</label>
+        </div>
+        <div>
+            <input
+            type="radio"
+            id="deux"
+            name="playStyle"
+            value="deux"
+            checked={formData.playStyle === "deux"}
+            onChange={handleChange}
+            />
+            <label htmlFor="deux">Les deux</label>
         </div>
         </label>
     </div>
