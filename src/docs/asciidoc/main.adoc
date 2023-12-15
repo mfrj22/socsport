@@ -105,14 +105,38 @@ Pour lancer l'API Flask, il vous faudra lancer un terminal depuis la racine du p
 python app.py
 ----
 
-== 7. Diagramme de classe 
+== 7. API 
+
+== OpenWeatherMap API
+
+L'API OpenWeatherMap est intégrée dans SocSport pour fournir des informations météorologiques en temps réel. Voici comment elle est utilisée dans l'application :
+
+* **Objectif :** L'API OpenWeatherMap est utilisée pour obtenir des données météorologiques basées sur les coordonnées géographiques de l'utilisateur.
+
+* **Fonctionnement :** Lorsque l'utilisateur soumet sa position actuelle à l'application, cette dernière envoie une requête à l'API OpenWeatherMap en incluant les coordonnées de l'utilisateur (latitude et longitude). En retour, l'API fournit des informations météorologiques, telles que la description météorologique (ensoleillé, nuageux, pluvieux, etc.) et la température. Ces informations sont ensuite affichées à l'utilisateur pour lui fournir une mise à jour en temps réel sur les conditions météorologiques locales.
+
+* **Avantages :** L'intégration de l'API OpenWeatherMap offre une expérience utilisateur enrichie, permettant aux utilisateurs de planifier leurs activités sportives en fonction des conditions météorologiques actuelles.
+
+== OpenRouteService API (OpenStreetMap)
+
+L'API OpenRouteService (basée sur OpenStreetMap) est utilisée dans SocSport pour fournir des itinéraires et des directions vers les terrains de sport sélectionnés. Voici comment elle est utilisée dans l'application :
+
+* **Objectif :** L'API OpenRouteService est utilisée pour obtenir des itinéraires de conduite entre la position actuelle de l'utilisateur et un terrain de sport sélectionné.
+
+* **Fonctionnement :** Lorsque l'utilisateur sélectionne un terrain de sport et demande des directions, l'application envoie une requête à l'API OpenRouteService. Cette requête inclut les coordonnées de la position actuelle de l'utilisateur et celles du terrain de sport sélectionné. En retour, l'API fournit les coordonnées des points le long de l'itinéraire, permettant à l'application d'afficher les directions de conduite à l'utilisateur.
+
+* **Avantages :** L'utilisation de l'API OpenRouteService améliore l'utilité de SocSport en fournissant des itinéraires pratiques pour que les utilisateurs atteignent rapidement et efficacement les terrains de sport de leur choix.
+
+Ces deux API, OpenWeatherMap et OpenRouteService (OpenStreetMap), sont des éléments clés de l'infrastructure de SocSport, contribuant à une expérience utilisateur complète et offrant des fonctionnalités pratiques pour la planification et la réalisation d'activités sportives.
+
+== 8. Diagramme de classe 
 
 image::models/images/DiagClasse.png[Diagramme de Classe]
 
-== 8. Diagramme de séquence 
+== 9. Diagramme de séquence 
 
 image::models/images/DiagSeq.png[Diagramme de Classe]
 
-== 9. Diagramme entité/association 
+== 10. Diagramme entité/association 
 
 image::models/images/DiagEA.png[Diagramme de Classe]
