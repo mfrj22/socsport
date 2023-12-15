@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import ChooseSportForm from './ChooseSportForm';
+import { Link } from 'react-router-dom';
 
 const ChooseSportPage = () => {
   const [sports, setSports] = useState([]);
   const [recommendedSport, setRecommendedSport] = useState('');
+  const [recommendedEvents, setRecommendedEvents] = useState([]);
 
   useEffect(() => {
     // Effectuer une requête vers le backend pour obtenir la liste des sports
@@ -36,13 +38,52 @@ const ChooseSportPage = () => {
 
     console.log('Sport recommandé :', recommendedSport);
     setRecommendedSport(recommendedSport);
+
+    if (recommendedSport) {
+      fetch(`http://localhost:5000/events-for-sport/${recommendedSport.id}`)
+        .then(response => response.json())
+        .then(data => setRecommendedEvents(data))
+        .catch(error => console.error('Erreur lors de la récupération des événements :', error));
+    }
   };
 
   return (
     <div>
       <h2>Formulaire de recommandation de sport</h2>
       <ChooseSportForm onSubmit={recommendSport} />
-      <p>Votre sport de prédilection est : {recommendedSport ? recommendedSport.name : ''}</p>
+      
+
+      {/* Afficher les événements recommandés */}
+      {recommendedEvents.length > 0 && (
+        <>
+        <p>Votre sport de prédilection est : {recommendedSport ? recommendedSport.name : ''}</p>
+        <div>
+        <h2>Terrains proches :</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Nom</th>
+              <th>Date</th>
+              <th>Terrain</th>
+            </tr>
+          </thead>
+          <tbody>
+            {recommendedEvents.map(event => (
+              <tr key={event.id}>
+                <td>{event.id}</td>
+                <td>
+                  <Link to={`/add-reservation/${event.id}`}>{event.nom}</Link>
+                </td>
+                <td>{event.date}</td>
+                <td>{event.terrain.nom}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+        </div>
+        </>
+      )}
     </div>
   );
 };

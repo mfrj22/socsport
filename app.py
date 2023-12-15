@@ -328,6 +328,38 @@ def sports():
     sports_data = [{'id': sport.id, 'name': sport.name} for sport in sports]
     return jsonify(sports_data)
 
+@app.route('/events-for-sport/<int:sportId>', methods=['GET'])
+def events_for_sport(sportId):
+    sport = Sport.query.get(sportId)
+    if sport:
+        terrains = sport.terrains
+        events = []
+        for terrain in terrains:
+            for event in terrain.evenements:
+                events.append({
+                    'id': event.id,
+                    'nom': event.nom,
+                    'date': str(event.date),
+                    'heure_debut': str(event.heure_debut),
+                    'heure_fin': str(event.heure_fin),
+                    'nb_participants': event.nb_participants,
+                    'terrain': {
+                        'id': terrain.id,
+                        'nom': terrain.nom,
+                        'adresse': terrain.adresse,
+                        'latitude': terrain.latitude,
+                        'longitude': terrain.longitude,
+                        'ville': terrain.ville.nom,
+                        'code_postal': terrain.ville.code_postal,
+                        'departement': terrain.ville.departement,
+                        'horaire_ouverture': str(terrain.horaire_ouverture),
+                        'horaire_fermeture': str(terrain.horaire_fermeture)
+                    }
+                })
+        return jsonify(events)
+    else:
+        return jsonify({'message': 'Sport non trouvé'}), 404
+
 @app.route('/all-reservations', methods=['GET'])
 def get_all_reservations():
     reservations = Reservation.query.all()
