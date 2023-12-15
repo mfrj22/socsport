@@ -16,6 +16,7 @@ import AddTerrainForm from './components/AddTerrainForm';
 import AddReservationForm from './components/AddReservationForm';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBell } from '@fortawesome/free-solid-svg-icons';
+import ChooseSportPage from './components/ChooseSportPage';
 
 function App() {
   const [userLocation, setUserLocation] = useState(null);
@@ -241,6 +242,7 @@ function App() {
             <FontAwesomeIcon icon={faBell} size="2x" />
             {notificationCount > 0 && <span style={{ marginLeft: '5px' }}>{notificationCount}</span>}
           </Link>
+          <Link to="/choose-sport" className="menu-button">Choisir son sport</Link>
           <div className="weather-info">
             {weather && (
               <p>
@@ -352,8 +354,10 @@ function App() {
           <Route path="/notifications" element={<Notifications />} />
 
           <Route path="/stats-event/:eventId" element={<AddStatistiquesForm />} />
-        </Routes>
 
+          <Route path="/choose-sport" element={<ChooseSportPage />} />
+
+        </Routes>
 
       </div>
     </Router>
