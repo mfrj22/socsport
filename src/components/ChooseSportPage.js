@@ -51,12 +51,12 @@ const ChooseSportPage = () => {
     <div>
       <h2>Formulaire de recommandation de sport</h2>
       <ChooseSportForm onSubmit={recommendSport} />
+      <p>Votre sport de prédilection est : {recommendedSport ? recommendedSport.name : ''}</p>
       
 
       {/* Afficher les événements recommandés */}
       {recommendedEvents.length > 0 && (
         <>
-        <p>Votre sport de prédilection est : {recommendedSport ? recommendedSport.name : ''}</p>
         <div>
         <h2>Terrains proches :</h2>
         <table>
