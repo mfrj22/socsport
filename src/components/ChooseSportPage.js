@@ -58,7 +58,7 @@ const ChooseSportPage = () => {
       {recommendedEvents.length > 0 && (
         <>
         <div>
-        <h2>Terrains proches :</h2>
+        <h2>Evenements associé à votre sport :</h2>
         <table>
           <thead>
             <tr>
