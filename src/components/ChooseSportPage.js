@@ -3,6 +3,7 @@ import ChooseSportForm from './ChooseSportForm';
 
 const ChooseSportPage = () => {
   const [sports, setSports] = useState([]);
+  const [recommendedSport, setRecommendedSport] = useState('');
 
   useEffect(() => {
     // Effectuer une requête vers le backend pour obtenir la liste des sports
@@ -34,12 +35,14 @@ const ChooseSportPage = () => {
     }
 
     console.log('Sport recommandé :', recommendedSport);
+    setRecommendedSport(recommendedSport);
   };
 
   return (
     <div>
       <h2>Formulaire de recommandation de sport</h2>
       <ChooseSportForm onSubmit={recommendSport} />
+      <p>Votre sport de prédilection est : {recommendedSport ? recommendedSport.name : ''}</p>
     </div>
   );
 };
