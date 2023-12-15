@@ -143,6 +143,7 @@ function App() {
           longitude: userLocation.lng,
         }),
       })
+      
         .then((response) => response.json())
         .then((data) => setNearestFields(data))
         .catch((error) => {
