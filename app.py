@@ -4,6 +4,7 @@ from geopy.distance import geodesic
 from flask_cors import CORS
 from flask_sqlalchemy import SQLAlchemy
 from dotenv import load_dotenv
+from sqlalchemy import func
 
 load_dotenv()
 
@@ -506,7 +507,19 @@ def add_note_to_event(eventId):
     else:
         return jsonify({'message': 'Invalid JSON data'}), 400
 
+@app.route('/average-notes')
+def get_average_notes():
+    # Utilisation de la fonction AVG() de SQLalchemy pour calculer la moyenne des notes
+    average_notes = (
+        db.session.query(Note.evenement_id, func.avg(Note.note).label('average_note'))
+        .group_by(Note.evenement_id)
+        .all()
+    )
 
+    # Création d'un dictionnaire avec les moyennes des notes pour chaque événement
+    average_notes_dict = {event_id: average_note for event_id, average_note in average_notes}
+
+    return jsonify(average_notes_dict)
 
 # Lancement du serveur
 if __name__ == '__main__':

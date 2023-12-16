@@ -12,6 +12,15 @@ const EventForm = () => {
   const [eventEndTime, setEventEndTime] = useState('');
   const [eventNbP, setEventNbP] = useState('');
   const [events, setEvents] = useState([]);
+  const [averageNotes, setAverageNotes] = useState({});
+
+  useEffect(() => {
+    // Récupérer les moyennes des notes pour chaque événement
+    fetch('http://localhost:5000/average-notes')
+      .then((response) => response.json())
+      .then((data) => setAverageNotes(data))
+      .catch((error) => console.error('Erreur lors de la récupération des moyennes des notes:', error));
+  }, []);
 
   useEffect(() => {
     fetch(`http://localhost:5000/events-for-field/${fieldId}`)
@@ -81,6 +90,10 @@ const EventForm = () => {
     return eventIds.includes(event.id);
   }
 
+  const round = (number, decimals) => {
+    return Number(Math.round(number + 'e' + decimals) + 'e-' + decimals);
+  };
+
 
   return (
     <div>
@@ -127,7 +140,8 @@ const EventForm = () => {
               <th>Heure fin</th>
               <th>Nombre de participants</th>
               <th>Stats</th>
-              <th>Note</th>
+              <th>Noter</th>
+              <th>Moyenne</th>
             </tr>
           </thead>
           <tbody>
@@ -150,6 +164,12 @@ const EventForm = () => {
                   {isEventInFuture(event) && isEventInLocalStorage(event) && (
                     <Link to={`/note-event/${event.id}`}>Noter</Link>
                   )}
+                </td>
+                {/* Moyenne des notes de l'event */}
+                <td>
+                <td>
+                  {averageNotes[event.id] !== undefined ? round(averageNotes[event.id], 2) : 'N/A'}
+                </td>
                 </td>
               </tr>
             ))}
