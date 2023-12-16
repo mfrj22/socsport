@@ -19,6 +19,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBell } from '@fortawesome/free-solid-svg-icons';
 import ChooseSportPage from './components/ChooseSportPage';
 import HistoriqueReservation from './components/HistoriqueReservation';
+import ClassementEvents from './components/ClassementEvents';
 
 function App() {
   const [userLocation, setUserLocation] = useState(null);
@@ -240,6 +241,7 @@ function App() {
       <div className="App centered-container">
         <div className="menu">
           <Link to="/add-terrain" className="menu-button">Ajouter un terrain</Link>
+          <Link to="/classement-events" className="menu-button">Classement</Link>
 
           <Link to="/notifications" className="menu-button">
             <FontAwesomeIcon icon={faBell} size="2x" />
@@ -365,6 +367,7 @@ function App() {
 
           <Route path="/historique-reservation" element={<HistoriqueReservation />} />
 
+          <Route path="/classement-events" element={<ClassementEvents />} />
   
         </Routes>
 
