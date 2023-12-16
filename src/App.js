@@ -289,7 +289,7 @@ function App() {
                         popupAnchor: [0, -40],
                       });
 
-                      return nearestFields.slice(0, 5).map((field) => (
+                      return nearestFields.slice(0, 7).map((field) => (
                         <Marker
                           key={field.id}
                           position={[field.latitude, field.longitude]}
