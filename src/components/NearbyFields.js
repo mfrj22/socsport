@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 const NearbyFields = ({ fields, onGetDirectionsClick }) => {
   const sortedFields = [...fields].sort((a, b) => a.distance - b.distance);
 
-  const nearestFields = sortedFields.slice(0, 3);
+  const nearestFields = sortedFields.slice(0, 5);
 
   const isEmpty = nearestFields.length === 0;
 
