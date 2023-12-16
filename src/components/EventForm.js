@@ -126,7 +126,8 @@ const EventForm = () => {
               <th>Heure début</th>
               <th>Heure fin</th>
               <th>Nombre de participants</th>
-              <th>Action</th>
+              <th>Stats</th>
+              <th>Note</th>
             </tr>
           </thead>
           <tbody>
@@ -143,6 +144,11 @@ const EventForm = () => {
                 <td>
                   {isEventInFuture(event) && isEventInLocalStorage(event) && (
                     <Link to={`/stats-event/${event.id}`}>Statistiques</Link>
+                  )}
+                </td>
+                <td>
+                  {isEventInFuture(event) && isEventInLocalStorage(event) && (
+                    <Link to={`/note-event/${event.id}`}>Noter</Link>
                   )}
                 </td>
               </tr>
