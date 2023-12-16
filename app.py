@@ -4,6 +4,7 @@ from geopy.distance import geodesic
 from flask_cors import CORS
 from flask_sqlalchemy import SQLAlchemy
 from dotenv import load_dotenv
+from sqlalchemy import func
 
 load_dotenv()
 
@@ -65,6 +66,12 @@ class Reservation(db.Model):
     email_participant = db.Column(db.String(100))
     tel_participant = db.Column(db.String(100))
     evenement = db.relationship('Evenement', backref=db.backref('reservations', lazy=True))
+
+class Note(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    evenement_id = db.Column(db.Integer, db.ForeignKey('evenement.id'))
+    note = db.Column(db.Integer)
+    evenement = db.relationship('Evenement', backref=db.backref('notes', lazy=True))
 
 # Création des tables dans la base de données
 with app.app_context():
@@ -232,6 +239,14 @@ with app.app_context():
         terrain11.sports.append(basketball)
 
     db.session.commit()
+@app.after_request
+def add_cors_headers(response):
+    response.headers['Access-Control-Allow-Origin'] = 'http://localhost:3000'  # Remplacez par votre domaine
+    response.headers['Access-Control-Allow-Headers'] = 'Content-Type,Authorization'
+    response.headers['Access-Control-Allow-Methods'] = 'GET,PUT,POST,DELETE,OPTIONS'
+    response.headers['Access-Control-Allow-Credentials'] = 'true'
+    return response
+
 
 # Routes de l'API
 @app.route('/nearest-fields', methods=['POST'])
@@ -474,6 +489,37 @@ def get_all_reservations():
 
     return jsonify(reservations_data)
 
+@app.route('/note-event/<int:eventId>', methods=['POST'])
+def add_note_to_event(eventId):
+    data = request.get_json()
+    if 'note' in data:
+        event = Evenement.query.get(eventId)
+        if event:
+            new_note = Note(
+                evenement_id=eventId,
+                note=data['note']
+            )
+            db.session.add(new_note)
+            db.session.commit()
+            return jsonify({'message': 'Note added successfully'})
+        else:
+            return jsonify({'message': 'Invalid event ID'}), 400
+    else:
+        return jsonify({'message': 'Invalid JSON data'}), 400
+
+@app.route('/average-notes')
+def get_average_notes():
+    # Utilisation de la fonction AVG() de SQLalchemy pour calculer la moyenne des notes
+    average_notes = (
+        db.session.query(Note.evenement_id, func.avg(Note.note).label('average_note'))
+        .group_by(Note.evenement_id)
+        .all()
+    )
+
+    # Création d'un dictionnaire avec les moyennes des notes pour chaque événement
+    average_notes_dict = {event_id: average_note for event_id, average_note in average_notes}
+
+    return jsonify(average_notes_dict)
 
 # Lancement du serveur
 if __name__ == '__main__':
