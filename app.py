@@ -353,7 +353,8 @@ def events_for_sport(sportId):
                         'code_postal': terrain.ville.code_postal,
                         'departement': terrain.ville.departement,
                         'horaire_ouverture': str(terrain.horaire_ouverture),
-                        'horaire_fermeture': str(terrain.horaire_fermeture)
+                        'horaire_fermeture': str(terrain.horaire_fermeture),
+                        'sports': [sport.name for sport in terrain.sports]
                     }
                 })
         return jsonify(events)

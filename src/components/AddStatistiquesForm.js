@@ -205,7 +205,7 @@ const AddStatistiquesForm = () => {
             {selectedSportComponent}
           </div>
         )}
-        <button type="submit">Ajouter les statistiques</button>
+        {/* <button type="submit">Ajouter les statistiques</button> */}
         {selectedSport && (
           <div>
             <h3>Score total :</h3>
