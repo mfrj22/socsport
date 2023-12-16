@@ -15,12 +15,17 @@ const EventForm = () => {
   const [averageNotes, setAverageNotes] = useState({});
 
   useEffect(() => {
-    // Récupérer les moyennes des notes pour chaque événement
+    // Récupérer les moyennes des notes depuis l'API
     fetch('http://localhost:5000/average-notes')
       .then((response) => response.json())
-      .then((data) => setAverageNotes(data))
-      .catch((error) => console.error('Erreur lors de la récupération des moyennes des notes:', error));
-  }, []);
+      .then((data) => {
+        // Mettre à jour l'état avec le classement trié
+        setAverageNotes(data);
+      })
+      .catch((error) => {
+        console.error('Erreur lors de la récupération du classement des événements:', error);
+      });
+  }, []); 
 
   useEffect(() => {
     fetch(`http://localhost:5000/events-for-field/${fieldId}`)

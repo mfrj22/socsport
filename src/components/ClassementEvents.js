@@ -8,17 +8,8 @@ const ClassementEvents = () => {
     fetch('http://localhost:5000/average-notes')
       .then((response) => response.json())
       .then((data) => {
-        // Convertir le dictionnaire de moyennes des notes en un tableau d'objets
-        const classementArray = Object.entries(data).map(([event_id, note_moyenne]) => ({
-          id: event_id,
-          note_moyenne: parseFloat(note_moyenne), // Assurez-vous que la note moyenne est un nombre
-        }));
-
-        // Trier le tableau par note moyenne de manière décroissante
-        const classementSorted = classementArray.sort((a, b) => b.note_moyenne - a.note_moyenne);
-
         // Mettre à jour l'état avec le classement trié
-        setClassement(classementSorted);
+        setClassement(data);
       })
       .catch((error) => {
         console.error('Erreur lors de la récupération du classement des événements:', error);
@@ -27,22 +18,22 @@ const ClassementEvents = () => {
 
   return (
     <div className="classement-container">
-      <h2>Classement des événements par note moyenne</h2>
+      <h2>Classement des événements</h2>
       {classement.length > 0 ? (
         <table className="classement-table">
           <thead>
             <tr>
               <th>Position</th>
-              <th>ID</th>
-              <th>Note moyenne</th>
+              <th>Nom de l'événement</th>
+              <th>Moyenne</th>
             </tr>
           </thead>
           <tbody>
             {classement.map((event, index) => (
-              <tr key={event.id} className="classement-item">
+              <tr key={event.evenement_id} className="classement-item">
                 <td>{index + 1}</td>
-                <td>{event.id}</td>
-                <td>{event.note_moyenne}</td>
+                <td>{event.evenement_nom}</td>
+                <td>{event.average_note}</td>
               </tr>
             ))}
           </tbody>
