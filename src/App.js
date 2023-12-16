@@ -261,7 +261,7 @@ function App() {
             path="/" 
             element={
               <>
-                <NearbyFields fields={nearestFields} onGetDirectionsClick={handleGetDirectionsClick} />
+                <NearbyFields fields={nearestFields} onGetDirectionsClick={handleGetDirectionsClick} sports={sports} />
                 <MapContainer
                     ref={mapRef}
                     center={
