@@ -509,7 +509,18 @@ def add_note_to_event(eventId):
 
 @app.route('/average-notes')
 def get_average_notes():
-    # Utilisation de la fonction AVG() de SQLalchemy pour calculer la moyenne des notes
+    average_notes = (
+        db.session.query(Note.evenement_id, func.avg(Note.note).label('average_note'))
+        .group_by(Note.evenement_id)
+        .all()
+    )
+
+    average_notes_dict = {event_id: average_note for event_id, average_note in average_notes}
+
+    return jsonify(average_notes_dict)
+
+@app.route('/classement-events')
+def get_classement():
     average_notes = (
         db.session.query(
             Evenement.id.label('evenement_id'),
@@ -521,7 +532,6 @@ def get_average_notes():
         .all()
     )
 
-    # Création d'une liste de dictionnaires avec les moyennes des notes pour chaque événement
     average_notes_list = [
         {'evenement_id': event_id, 'evenement_nom': evenement_nom, 'average_note': average_note}
         for event_id, evenement_nom, average_note in average_notes
@@ -529,7 +539,5 @@ def get_average_notes():
 
     return jsonify(average_notes_list)
 
-
-# Lancement du serveur
 if __name__ == '__main__':
     app.run(debug=True)

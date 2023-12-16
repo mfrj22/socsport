@@ -15,17 +15,11 @@ const EventForm = () => {
   const [averageNotes, setAverageNotes] = useState({});
 
   useEffect(() => {
-    // Récupérer les moyennes des notes depuis l'API
     fetch('http://localhost:5000/average-notes')
       .then((response) => response.json())
-      .then((data) => {
-        // Mettre à jour l'état avec le classement trié
-        setAverageNotes(data);
-      })
-      .catch((error) => {
-        console.error('Erreur lors de la récupération du classement des événements:', error);
-      });
-  }, []); 
+      .then((data) => setAverageNotes(data))
+      .catch((error) => console.error('Erreur lors de la récupération des moyennes des notes:', error));
+  }, []);
 
   useEffect(() => {
     fetch(`http://localhost:5000/events-for-field/${fieldId}`)
@@ -170,7 +164,6 @@ const EventForm = () => {
                     <Link to={`/note-event/${event.id}`}>Noter</Link>
                   )}
                 </td>
-                {/* Moyenne des notes de l'event */}
                 <td>
                   {averageNotes[event.id] !== undefined ? round(averageNotes[event.id], 2) : 'N/A'}
                 </td>

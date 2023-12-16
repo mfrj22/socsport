@@ -4,17 +4,20 @@ const ClassementEvents = () => {
   const [classement, setClassement] = useState([]);
 
   useEffect(() => {
-    // Récupérer les moyennes des notes depuis l'API
-    fetch('http://localhost:5000/average-notes')
+    fetch('http://localhost:5000/classement-events')
       .then((response) => response.json())
       .then((data) => {
-        // Mettre à jour l'état avec le classement trié
-        setClassement(data);
+        const classementData = data.map((event) => ({
+          ...event,
+          average_note: parseFloat(event.average_note),
+        }));
+        const classementTri = classementData.sort((a, b) => b.average_note - a.average_note);
+        setClassement(classementTri);
       })
       .catch((error) => {
         console.error('Erreur lors de la récupération du classement des événements:', error);
       });
-  }, []); // Utilisation de la dépendance vide pour s'assurer que cela s'exécute une seule fois après le rendu initial
+  }, []); 
 
   return (
     <div className="classement-container">
