@@ -18,6 +18,7 @@ import AddReservationForm from './components/AddReservationForm';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBell } from '@fortawesome/free-solid-svg-icons';
 import ChooseSportPage from './components/ChooseSportPage';
+import HistoriqueReservation from './components/HistoriqueReservation';
 
 function App() {
   const [userLocation, setUserLocation] = useState(null);
@@ -245,6 +246,7 @@ function App() {
             {notificationCount > 0 && <span style={{ marginLeft: '5px' }}>{notificationCount}</span>}
           </Link>
           <Link to="/choose-sport" className="menu-button">Choisir son sport</Link>
+          <Link to="/historique-reservation" className="menu-button">Historique des réservations</Link>
           <div className="weather-info">
             {weather && (
               <p>
@@ -360,6 +362,8 @@ function App() {
           <Route path="/choose-sport" element={<ChooseSportPage />} />
        
           <Route path="/note-event/:eventId" element={<NoteForm />} />
+
+          <Route path="/historique-reservation" element={<HistoriqueReservation />} />
 
   
         </Routes>
