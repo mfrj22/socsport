@@ -167,9 +167,7 @@ const EventForm = () => {
                 </td>
                 {/* Moyenne des notes de l'event */}
                 <td>
-                <td>
                   {averageNotes[event.id] !== undefined ? round(averageNotes[event.id], 2) : 'N/A'}
-                </td>
                 </td>
               </tr>
             ))}

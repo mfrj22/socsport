@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import { useParams } from 'react-router-dom';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const NoteForm = () => {
   const { eventId } = useParams(); // Récupère l'ID de l'événement depuis l'URL
@@ -18,6 +20,7 @@ const NoteForm = () => {
     })
       .then((response) => response.json())
       .then((data) => {
+        toast.success('Note ajoutée avec succès');
         // Gérer la réponse du serveur si nécessaire
         console.log('Réponse du serveur:', data);
         // Réinitialiser l'état de la note après l'enregistrement
@@ -30,6 +33,7 @@ const NoteForm = () => {
 
   return (
     <div>
+        <ToastContainer />
       <h2>Évaluer l'événement {eventId}</h2>
       <form onSubmit={handleNoteSubmit}>
         <label>Note :</label>
