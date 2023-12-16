@@ -66,6 +66,12 @@ class Reservation(db.Model):
     tel_participant = db.Column(db.String(100))
     evenement = db.relationship('Evenement', backref=db.backref('reservations', lazy=True))
 
+class Note(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    evenement_id = db.Column(db.Integer, db.ForeignKey('evenement.id'))
+    note = db.Column(db.Integer)
+    evenement = db.relationship('Evenement', backref=db.backref('notes', lazy=True))
+
 # Création des tables dans la base de données
 with app.app_context():
     db.create_all()
