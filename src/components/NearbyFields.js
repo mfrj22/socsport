@@ -66,7 +66,7 @@ const NearbyFields = ({ fields, onGetDirectionsClick, sports }) => {
         <select onChange={(e) => setSelectedSport(e.target.value)}>
           <option value="">Tous les sports</option>
           {sports.map((sport) => (
-            <option key={sport.id} value={sport.id}>
+            <option key={sport.id} value={sport.name}>
               {sport.name}
             </option>
           ))}

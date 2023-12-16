@@ -250,6 +250,7 @@ def nearest_fields():
                 'distance': distance,
                 'horaire_ouverture': str(terrain.horaire_ouverture),
                 'horaire_fermeture': str(terrain.horaire_fermeture),
+                'sports': [sport.name for sport in terrain.sports],
             })
 
     nearest = sorted(nearest, key=lambda x: x['distance'])
@@ -395,6 +396,7 @@ def ajouter_terrain():
     db.session.commit()
 
     return jsonify({'message': 'Terrain ajouté avec succès'})
+
 
 @app.route('/')
 def index():
