@@ -139,6 +139,100 @@ with app.app_context():
 
     db.session.commit()
 
+with app.app_context():
+    # Ajouter les associations entre les terrains et les sports dans la table d'association
+    # Terrain 1
+    # Terrain 1
+    terrain1 = Terrain.query.get(1)
+    football = Sport.query.get(1)
+    basketball = Sport.query.get(2)
+    tennis = Sport.query.get(3)
+    handball = Sport.query.get(4)
+    rugby = Sport.query.get(5)
+    boxe = Sport.query.get(6)
+
+    # vérifier que l'association n'existe pas déjà
+    if football not in terrain1.sports and basketball not in terrain1.sports and tennis not in terrain1.sports and handball not in terrain1.sports and rugby not in terrain1.sports and boxe not in terrain1.sports:
+        # Ajouter les associations entre le terrain et les sports dans la table d'association
+        terrain1.sports.append(football)
+        terrain1.sports.append(basketball)
+        terrain1.sports.append(handball)
+
+    # Terrain 2
+    terrain2 = Terrain.query.get(2)
+    if football not in terrain2.sports and basketball not in terrain2.sports and tennis not in terrain2.sports and handball not in terrain2.sports and rugby not in terrain2.sports and boxe not in terrain2.sports:
+        terrain2.sports.append(boxe)
+
+    # Terrain 3
+    terrain3 = Terrain.query.get(3)
+    if football not in terrain3.sports and basketball not in terrain3.sports and tennis not in terrain3.sports and handball not in terrain3.sports and rugby not in terrain3.sports and boxe not in terrain3.sports:
+        terrain3.sports.append(tennis)
+        terrain3.sports.append(rugby)
+
+    # Terrain 4
+    terrain4 = Terrain.query.get(4)
+    if football not in terrain4.sports and basketball not in terrain4.sports and tennis not in terrain4.sports and handball not in terrain4.sports and rugby not in terrain4.sports and boxe not in terrain4.sports:
+        terrain4.sports.append(football)
+        terrain4.sports.append(basketball)
+        terrain4.sports.append(tennis)
+        terrain4.sports.append(handball)
+        terrain4.sports.append(rugby)
+        terrain4.sports.append(boxe)
+
+
+    # Terrain 5
+    terrain5 = Terrain.query.get(5)
+    if football not in terrain5.sports and basketball not in terrain5.sports and tennis not in terrain5.sports and handball not in terrain5.sports and rugby not in terrain5.sports and boxe not in terrain5.sports:
+        terrain5.sports.append(football)
+        terrain5.sports.append(basketball)
+        terrain5.sports.append(tennis)
+        terrain5.sports.append(handball)
+        terrain5.sports.append(rugby)
+        terrain5.sports.append(boxe)
+
+    # Terrain 6
+    terrain6 = Terrain.query.get(6)
+    if football not in terrain6.sports and basketball not in terrain6.sports and tennis not in terrain6.sports and handball not in terrain6.sports and rugby not in terrain6.sports and boxe not in terrain6.sports:
+        terrain6.sports.append(football)
+        terrain6.sports.append(basketball)
+        terrain6.sports.append(tennis)
+
+    # Terrain 7
+    terrain7 = Terrain.query.get(7)
+    if football not in terrain7.sports and basketball not in terrain7.sports and tennis not in terrain7.sports and handball not in terrain7.sports and rugby not in terrain7.sports and boxe not in terrain7.sports:
+        terrain7.sports.append(football)
+        terrain7.sports.append(basketball)
+        terrain7.sports.append(tennis)
+        terrain7.sports.append(handball)
+
+
+    # Terrain 8
+    terrain8 = Terrain.query.get(8)
+    if football not in terrain8.sports and basketball not in terrain8.sports and tennis not in terrain8.sports and handball not in terrain8.sports and rugby not in terrain8.sports and boxe not in terrain8.sports:
+        terrain8.sports.append(football)
+        terrain8.sports.append(basketball)
+
+    # Terrain 9
+    terrain9 = Terrain.query.get(9)
+    if football not in terrain9.sports and basketball not in terrain9.sports and tennis not in terrain9.sports and handball not in terrain9.sports and rugby not in terrain9.sports and boxe not in terrain9.sports:
+        terrain9.sports.append(football)
+        terrain9.sports.append(basketball)
+        terrain9.sports.append(tennis)
+
+    # Terrain 10
+    terrain10 = Terrain.query.get(10)
+    if football not in terrain10.sports and basketball not in terrain10.sports and tennis not in terrain10.sports and handball not in terrain10.sports and rugby not in terrain10.sports and boxe not in terrain10.sports:
+        terrain10.sports.append(football)
+        terrain10.sports.append(basketball)
+
+    # Terrain 11
+    terrain11 = Terrain.query.get(11)
+    if football not in terrain11.sports and basketball not in terrain11.sports and tennis not in terrain11.sports and handball not in terrain11.sports and rugby not in terrain11.sports and boxe not in terrain11.sports:
+        terrain11.sports.append(football)
+        terrain11.sports.append(basketball)
+
+    db.session.commit()
+
 # Routes de l'API
 @app.route('/nearest-fields', methods=['POST'])
 def nearest_fields():
