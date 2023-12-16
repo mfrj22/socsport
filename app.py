@@ -238,6 +238,14 @@ with app.app_context():
         terrain11.sports.append(basketball)
 
     db.session.commit()
+@app.after_request
+def add_cors_headers(response):
+    response.headers['Access-Control-Allow-Origin'] = 'http://localhost:3000'  # Remplacez par votre domaine
+    response.headers['Access-Control-Allow-Headers'] = 'Content-Type,Authorization'
+    response.headers['Access-Control-Allow-Methods'] = 'GET,PUT,POST,DELETE,OPTIONS'
+    response.headers['Access-Control-Allow-Credentials'] = 'true'
+    return response
+
 
 # Routes de l'API
 @app.route('/nearest-fields', methods=['POST'])
@@ -479,6 +487,25 @@ def get_all_reservations():
         })
 
     return jsonify(reservations_data)
+
+@app.route('/note-event/<int:eventId>', methods=['POST'])
+def add_note_to_event(eventId):
+    data = request.get_json()
+    if 'note' in data:
+        event = Evenement.query.get(eventId)
+        if event:
+            new_note = Note(
+                evenement_id=eventId,
+                note=data['note']
+            )
+            db.session.add(new_note)
+            db.session.commit()
+            return jsonify({'message': 'Note added successfully'})
+        else:
+            return jsonify({'message': 'Invalid event ID'}), 400
+    else:
+        return jsonify({'message': 'Invalid JSON data'}), 400
+
 
 
 # Lancement du serveur

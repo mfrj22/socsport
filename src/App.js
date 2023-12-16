@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import LocationInput from './components/LocationInput';
 import NearbyFields from './components/NearbyFields';
 import EventForm from './components/EventForm';
+import NoteForm from './components/NoteForm';
 import Notifications from './components/Notifications';
 import AddStatistiquesForm from './components/AddStatistiquesForm';
 import Slider from 'react-slick';
@@ -357,7 +358,10 @@ function App() {
           <Route path="/stats-event/:eventId" element={<AddStatistiquesForm />} />
 
           <Route path="/choose-sport" element={<ChooseSportPage />} />
+       
+          <Route path="/note-event/:eventId" element={<NoteForm />} />
 
+  
         </Routes>
 
       </div>
