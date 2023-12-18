@@ -1,24 +1,18 @@
 @startuml
-actor User
-participant Client
-participant FlaskApp
-database Database
+actor Utilisateur
 
-User -> Client: Send POST request /nearest-fields
-activate Client
+Utilisateur -> Frontend: Sélectionne un terrain et remplit les détails de l'événement
+Frontend -> Backend: Requête de création d'événement avec les détails
+note over Backend
+  Vérifie la validité des données
+  (par exemple, terrain existant, horaires valides)
+end note
+Backend -> Database: Crée un nouvel événement dans la base de données
+Database --> Backend: Confirmation de la création
 
-Client -> FlaskApp: Handle POST /nearest-fields
-activate FlaskApp
+Backend -> Frontend: Réponse de succès avec les détails de l'événement créé
 
-FlaskApp -> Database: Query all terrains
-activate Database
-
-Database --> FlaskApp: Return terrain data
-deactivate Database
-
-FlaskApp --> Client: Return JSON response
-deactivate FlaskApp
-
-Client --> User: Return nearest fields data
-deactivate Client
+note over Utilisateur
+  Affiche un message de succès à l'utilisateur
+end note
 @enduml
