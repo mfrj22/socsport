@@ -252,7 +252,7 @@ function App() {
           <div className="weather-info">
             {weather && (
               <p>
-                Météo actuelle à {userLocation.lat}, {userLocation.lng}: {weather.weather[0].description}, {Math.round(weather.main.temp - 273.15)}°C
+                Météo actuelle à {weather.name}: {weather.weather[0].description}, {Math.round(weather.main.temp - 273.15)}°C;
               </p>
             )}
           </div>
