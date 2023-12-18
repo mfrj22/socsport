@@ -1,4 +1,5 @@
 @startuml
+
 entity "Ville" {
   + id: Integer
   nom: String
@@ -38,10 +39,21 @@ entity "Reservation" {
   tel_participant: String
 }
 
-Ville --{ Terrain
-Terrain --{ Evenement
-Evenement }--|> Terrain
-Evenement --{ Reservation
-Sport --{ Terrain
-Sport --{ Reservation
+entity "Note" {
+  + id: Integer
+  note: Integer
+}
+
+' entity "TerrainSportAssociation" {
+'   + terrain_id: Integer
+'   + sport_id: Integer
+' }
+
+Ville --|{ Terrain : "Contient"
+Terrain --|{ Evenement : "Héberge"
+Evenement --|{ Reservation : "Comprend"
+Evenement --|{ Note : "Enregistre"
+Sport }|--|{ Terrain : "Propose"
+
+
 @enduml
