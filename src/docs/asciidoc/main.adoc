@@ -135,8 +135,8 @@ image::models/images/DiagClasse.png[Diagramme de Classe]
 
 == 9. Diagramme de séquence 
 
-image::models/images/DiagSeq.png[Diagramme de Classe]
+image::models/images/DiagSeq.png[Diagramme de Séquence]
 
 == 10. Diagramme entité/association 
 
-image::models/images/DiagEA.png[Diagramme de Classe]
+image::models/images/DiagEA.png[Diagramme E/A]
