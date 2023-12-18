@@ -316,7 +316,7 @@ function App() {
 
                 <div className="carousel-container">
                   <Slider {...settings}>
-                    {nearestFields.slice(0, 3).map((field) => (
+                    {nearestFields.slice(0, 7).map((field) => (
                       <div key={field.id} className="carousel-item">
                         <img src={getStadiumImage(field.nom)} alt={field.nom}  style={{ height: "300px", objectFit: "cover", margin: "0 auto" }} />
                         <p className="legend" style={{ textAlign: 'center', fontSize: '16px', marginTop: '10px' }}>{field.nom}</p>

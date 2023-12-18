@@ -1,47 +1,63 @@
 @startuml
-class Ville {
-  + id: Integer
-  + nom: String
-  + code_postal: Integer
-  + departement: String
+!define TABLE class
+
+TABLE Ville {
+  +id: Integer
+  +nom: String
+  +code_postal: Integer
+  +departement: String
 }
 
-class Terrain {
-  + id: Integer
-  + nom: String
-  + adresse: String
-  + latitude: Float
-  + longitude: Float
-  + horaire_ouverture: Time
-  + horaire_fermeture: Time
+TABLE Terrain {
+  +id: Integer
+  +nom: String
+  +adresse: String
+  +latitude: Float
+  +longitude: Float
+  +ville_id: Integer
+  +horaire_ouverture: Time
+  +horaire_fermeture: Time
 }
 
-class Evenement {
-  + id: Integer
-  + nom: String
-  + date: Date
-  + heure_debut: Time
-  + heure_fin: Time
-  + nb_participants: Integer
+TABLE Evenement {
+  +id: Integer
+  +nom: String
+  +date: Date
+  +heure_debut: Time
+  +heure_fin: Time
+  +nb_participants: Integer
+  +terrain_id: Integer
 }
 
-class Sport {
-  + id: Integer
-  + name: String
+TABLE Sport {
+  +id: Integer
+  +name: String
 }
 
-class Reservation {
-  + id: Integer
-  + nom_participant: String
-  + prenom_participant: String
-  + email_participant: String
-  + tel_participant: String
+TABLE Reservation {
+  +id: Integer
+  +evenement_id: Integer
+  +nom_participant: String
+  +prenom_participant: String
+  +email_participant: String
+  +tel_participant: String
+}
+
+TABLE Note {
+  +id: Integer
+  +evenement_id: Integer
+  +note: Integer
+}
+
+TABLE TerrainSportAssociation {
+  +terrain_id: Integer
+  +sport_id: Integer
 }
 
 Ville "1" -- "*" Terrain : a
 Terrain "1" -- "*" Evenement : a
-Evenement "1" -- "0..1" Terrain : a
 Evenement "1" -- "*" Reservation : a
-Sport "1" -- "*" Terrain : a
-Sport "1" -- "*" Reservation : a
+Evenement "1" -- "*" Note : a
+TerrainSportAssociation "*" -- "1"Terrain : a
+TerrainSportAssociation "*" -- "1" Sport : a
 @enduml
