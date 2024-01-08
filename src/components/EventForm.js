@@ -2,10 +2,10 @@ import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-
+import './Form.css'
 const EventForm = () => {
   const { fieldId } = useParams();
-
+  const [fieldName, setFieldName] = useState('');
   const [eventName, setEventName] = useState('');
   const [eventDate, setEventDate] = useState('');
   const [eventStartTime, setEventStartTime] = useState('');
@@ -28,6 +28,7 @@ const EventForm = () => {
       .catch((error) => console.error('Erreur lors de la récupération des événements:', error));
   }, [fieldId]);
 
+  
   const handleEventSubmit = (e) => {
     e.preventDefault();
 
@@ -95,9 +96,10 @@ const EventForm = () => {
 
 
   return (
-    <div>
+    <>
+    <div className="form">
       <ToastContainer />
-      <h2>Créer un événement pour le terrain avec l'ID {fieldId}</h2>
+      <h2>Créer un événement pour le terrain d'ID {fieldId}</h2>
       <form onSubmit={handleEventSubmit}>
         <div>
         <label>Nom de l'événement:</label>
@@ -126,13 +128,14 @@ const EventForm = () => {
         {/* <input type="hidden" value={fieldId} /> */}
         <button type="submit">Créer l'événement</button>
       </form>
-
+    </div>
+    <div>
       <div>
         <h2>Événements pour le terrain avec l'ID {fieldId}</h2>
         <table>
           <thead>
             <tr>
-              <th>ID</th>
+             
               <th>Nom</th>
               <th>Date</th>
               <th>Heure début</th>
@@ -146,7 +149,7 @@ const EventForm = () => {
           <tbody>
             {events.map((event, index) => (
               <tr key={index}>
-                <td>{event.id}</td>
+               
                 <td>
                   <Link to={`/add-reservation/${event.id}`}>{event.nom}</Link>
                 </td>
@@ -173,6 +176,7 @@ const EventForm = () => {
         </table>
       </div>
     </div>
+  </>
   );
 };
 

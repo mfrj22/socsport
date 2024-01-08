@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { ToastContainer,toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-
+import './Form.css'
 function AddReservationForm() {
   const [reservationData, setReservationData] = useState({
     nom_participant: '',
@@ -64,7 +64,7 @@ function AddReservationForm() {
   };
 
   return (
-    <div>
+    <div className="form">
        <ToastContainer />
       <h2>Formulaire de Réservation</h2>
       <form onSubmit={handleSubmit}>

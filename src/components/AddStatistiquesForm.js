@@ -9,7 +9,7 @@ import BoxeStats from './StatsSports/BoxeStats';
 import TennisStats from './StatsSports/TennisStats'; 
 import RugbyStats from './StatsSports/RugbyStats'; 
 import HandballStats from './StatsSports/HandballStats';
-
+import './Form.css'
 const AddStatistiquesForm = () => {
   const { eventId } = useParams();
   
@@ -184,7 +184,7 @@ const AddStatistiquesForm = () => {
   
 
   return (
-    <div>
+    <div className="form">
       <ToastContainer />
       <Link to={`/add-reservation/${eventId}`}>Retour à l'événement</Link>
       <form onSubmit={handleStatistiquesSubmit}>

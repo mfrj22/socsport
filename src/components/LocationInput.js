@@ -42,31 +42,40 @@ const LocationInput = ({ onLocationSubmit }) => {
   };
 
   return (
-    <div className="centered-container"> 
-      <div>
+    <div className="centered-container">
+       <div className="input-container centered-input">
         <label>Latitude:</label>
         <input
+          className="location-input"
           type="number"
           step="0.000001"
           value={manualLatitude}
           onChange={(e) => setManualLatitude(e.target.value)}
         />
       </div>
-      <div>
+      <div className="input-container centered-input">
         <label>Longitude:</label>
         <input
+          className="location-input"
           type="number"
           step="0.000001"
           value={manualLongitude}
           onChange={(e) => setManualLongitude(e.target.value)}
         />
       </div>
-      <button onClick={handleManualSubmit}>Entrer les coordonnées</button>
-      <button onClick={handleLocateClick} disabled={isLocating}>
+      <button className="button submit-button" onClick={handleManualSubmit}>
+        Entrer les coordonnées
+      </button>
+      <button
+        className={`button locate-button ${isLocating ? 'locating-button' : ''}`}
+        onClick={handleLocateClick}
+        disabled={isLocating}
+      >
         {isLocating ? 'En cours de localisation...' : 'Obtenir ma position'}
       </button>
     </div>
   );
+  
 };
 
 export default LocationInput;

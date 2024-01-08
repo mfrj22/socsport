@@ -62,7 +62,6 @@ const ChooseSportPage = () => {
         <table>
           <thead>
             <tr>
-              <th>ID</th>
               <th>Nom</th>
               <th>Date</th>
               <th>Terrain</th>
@@ -71,7 +70,6 @@ const ChooseSportPage = () => {
           <tbody>
             {recommendedEvents.map(event => (
               <tr key={event.id}>
-                <td>{event.id}</td>
                 <td>
                   <Link to={`/add-reservation/${event.id}`}>{event.nom}</Link>
                 </td>

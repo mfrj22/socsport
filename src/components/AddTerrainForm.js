@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { ToastContainer,toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import './Form.css';
 const AddTerrainForm = ({ onTerrainSubmit, sports }) => {
   const [terrainData, setTerrainData] = useState({
     nom: '',
@@ -54,7 +55,7 @@ const AddTerrainForm = ({ onTerrainSubmit, sports }) => {
 
 
   return (
-    <div style={{ textAlign: 'center' }}>
+    <div className="form">
        <ToastContainer />
       <h2>Ajouter un terrain</h2>
       <form onSubmit={handleSubmit}>

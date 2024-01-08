@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-
+import './Form.css'
 const NoteForm = () => {
   const { eventId } = useParams(); 
   const [note, setNote] = useState(''); 
@@ -28,7 +28,7 @@ const NoteForm = () => {
   };
 
   return (
-    <div>
+    <div className="form">
         <ToastContainer />
       <h2>Évaluer l'événement {eventId}</h2>
       <form onSubmit={handleNoteSubmit}>

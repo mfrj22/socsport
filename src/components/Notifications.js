@@ -43,6 +43,7 @@ function Notifications({ updateNotificationCount }) {
 
     return filtered;
   };
+  
 
 //   fonction pour calculer le nombre de jours restants
   const getDaysLeft = (date) => {

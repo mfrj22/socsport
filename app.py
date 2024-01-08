@@ -272,6 +272,29 @@ def nearest_fields():
 
     return jsonify(nearest)
 
+# @app.route('/create-event/<int:fieldId>', methods=['POST'])
+# def create_event(fieldId):
+#     data = request.get_json()
+#     if 'name' in data and 'date' in data and 'startTime' in data and 'endTime' in data and 'nbParticipants' in data:
+#         terrain = Terrain.query.get(fieldId)
+#         if terrain:
+#             new_event = Evenement(
+#                 nom=data['name'],
+#                 date=data['date'],
+#                 heure_debut=data['startTime'],
+#                 heure_fin=data['endTime'],
+#                 nb_participants=data['nbParticipants'],
+#                 terrain_id=fieldId
+#             )
+#             db.session.add(new_event)
+#             db.session.commit()
+#             return jsonify({'message': 'Event created successfully'})
+#         else:
+#             # Terrain avec l'ID donné non trouvé
+#             return jsonify({'message': 'Invalid field ID'}), 400
+#     else:
+#         # Clés JSON manquantes
+#         return jsonify({'message': 'Invalid JSON data'}), 400
 @app.route('/create-event/<int:fieldId>', methods=['POST'])
 def create_event(fieldId):
     data = request.get_json()
@@ -288,13 +311,19 @@ def create_event(fieldId):
             )
             db.session.add(new_event)
             db.session.commit()
-            return jsonify({'message': 'Event created successfully'})
+            
+            # Récupérer le nom du terrain associé à l'ID
+            terrain_name = terrain.nom  # Assurez-vous que votre modèle Terrain a un attribut 'nom'
+            
+            # Retourner la réponse JSON avec le nom du terrain
+            return jsonify({'message': 'Event created successfully', 'terrain_name': terrain_name})
         else:
             # Terrain avec l'ID donné non trouvé
             return jsonify({'message': 'Invalid field ID'}), 400
     else:
         # Clés JSON manquantes
         return jsonify({'message': 'Invalid JSON data'}), 400
+
 
 @app.route('/add-reservation', methods=['POST'])
 def create_reservation():

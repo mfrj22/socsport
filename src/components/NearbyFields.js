@@ -61,9 +61,8 @@ const NearbyFields = ({ fields, onGetDirectionsClick, sports }) => {
       <h2>Terrains proches :</h2>
 
       {/* Ajouter les options de filtrage ici */}
-      <div>
-        <label>Sport :</label>
-        <select onChange={(e) => setSelectedSport(e.target.value)}>
+      <div className="filter-container">
+            <select onChange={(e) => setSelectedSport(e.target.value)}>
           <option value="">Tous les sports</option>
           {sports.map((sport) => (
             <option key={sport.id} value={sport.name}>
@@ -72,21 +71,21 @@ const NearbyFields = ({ fields, onGetDirectionsClick, sports }) => {
           ))}
         </select>
 
-        <label>Début de séance :</label>
+        <label>Début </label>
         <input
           type="time"
           value={selectedStartTime}
           onChange={(e) => setSelectedStartTime(e.target.value)}
         />
 
-        <label>Fin de séance :</label>
+        <label>Fin </label>
         <input
           type="time"
           value={selectedEndTime}
           onChange={(e) => setSelectedEndTime(e.target.value)}
         />
 
-        <label>Distance :</label>
+        
         <select onChange={(e) => setSelectedDistance(e.target.value)}>
           <option value="all">Toutes les distances</option>
           <option value="under1">Moins d'1 km</option>
@@ -94,11 +93,10 @@ const NearbyFields = ({ fields, onGetDirectionsClick, sports }) => {
           <option value="over5">Plus de 5 km</option>
         </select>
       </div>
-
+      <div className="table-container">
       <table>
         <thead>
           <tr>
-            <th>ID</th>
             <th>Terrain</th>
             <th>Latitude</th>
             <th>Longitude</th>
@@ -111,7 +109,7 @@ const NearbyFields = ({ fields, onGetDirectionsClick, sports }) => {
         <tbody>
           {filteredFields.map((field, index) => (
             <tr key={index}>
-              <td>{field.id}</td>
+            
               <td>
                 <Link to={`/create-event/${field.id}`}>{field.nom}</Link>
               </td>
@@ -121,12 +119,15 @@ const NearbyFields = ({ fields, onGetDirectionsClick, sports }) => {
               <td>{field.horaire_ouverture}</td>
               <td>{field.horaire_fermeture}</td>
               <td>
-                <button onClick={() => onGetDirectionsClick(field)}>Obtenir l'itinéraire</button>
+              <button className="directions-button" onClick={() => onGetDirectionsClick(field)}>
+                Obtenir l'itinéraire
+              </button>
               </td>
             </tr>
           ))}
         </tbody>
       </table>
+      </div>
     </div>
   );
 };

@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import './Form.css'
 
 const ChooseSportPageForm = ({ onSubmit }) => {
   const [formData, setFormData] = useState({
@@ -22,7 +23,8 @@ const ChooseSportPageForm = ({ onSubmit }) => {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    
+    <form onSubmit={handleSubmit} className="form">
     <div>
         <label>
         Préférez-vous les sports en équipe ou individuels ?

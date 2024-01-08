@@ -77,10 +77,7 @@ function App() {
       });
   };
 
-  // const handleLocationSubmit = (location) => {
-  //   setUserLocation(location);
-  //   //zoomToNearestFields(); 
-  // };
+ 
 
   const handleLocationSubmit = () => {
     if (navigator.geolocation) {
@@ -240,6 +237,15 @@ function App() {
     <Router>
       <div className="App centered-container">
         <div className="menu">
+        <div style={{ display: 'flex', alignItems: 'center' }}>
+        <div style={{ display: 'flex', alignItems: 'center' }}>
+        <Link to="/" style={{ textDecoration: 'none', color: 'inherit' }}>
+          <img src="./logo-socsport.jpg" alt="SocSport Logo" style={{ width: '50px', height: '50px', marginRight: '10px' }} />
+        </Link>
+      </div>
+
+            <h1 style={{ margin: 0 }}>SocSport</h1>
+      </div>
           <Link to="/add-terrain" className="menu-button">Ajouter un terrain</Link>
           <Link to="/classement-events" className="menu-button">Classement</Link>
 
@@ -249,15 +255,18 @@ function App() {
           </Link>
           <Link to="/choose-sport" className="menu-button">Choisir son sport</Link>
           <Link to="/historique-reservation" className="menu-button">Historique des réservations</Link>
-          <div className="weather-info">
-            {weather && (
-              <p>
-                Météo actuelle à {weather.name}: {weather.weather[0].description}, {Math.round(weather.main.temp - 273.15)}°C;
-              </p>
-            )}
-          </div>
+          <div>
+          {weather && (
+            <div>
+              <span style={{ display: 'inline-flex', alignItems: 'center' }}>
+                <img src={`https://openweathermap.org/img/w/${weather.weather[0].icon}.png`} alt="Weather Icon" style={{ marginRight: '5px' }} />
+                {weather.name} : {Math.round(weather.main.temp - 273.15)}°C
+              </span>
+            </div>
+          )}
         </div>
-        <h1>SocSport</h1>
+        </div>
+        {/* <h1>SocSport</h1> */}
         <div className="location-input">
           <LocationInput onLocationSubmit={handleLocationSubmit} />
         </div>
