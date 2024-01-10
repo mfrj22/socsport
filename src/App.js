@@ -387,7 +387,7 @@ function App() {
 
           <Route path="/classement-events" element={<ClassementEvents />} />
 
-          <Route path="/login" element={<LoginForm isAuthenticated={isAuthenticated} setIsAuthenticated={setIsAuthenticated} />} />
+          <Route path="/login" element={<LoginForm isAuthenticated={isAuthenticated} setIsAuthenticated={setIsAuthenticated} username={username} setUsername={setUsername} />} />
   
         </Routes>
 

@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 
-const LoginForm = ({ isAuthenticated, setIsAuthenticated }) => {
-  const [username, setUsername] = useState('');
+const LoginForm = ({ isAuthenticated, setIsAuthenticated, username, setUsername }) => {
 
+  // Charger l'état d'authentification depuis le stockage local au chargement de la page
   useEffect(() => {
     const storedUsername = localStorage.getItem('username');
     const storedIsAuthenticated = localStorage.getItem('isAuthenticated');
@@ -11,7 +11,7 @@ const LoginForm = ({ isAuthenticated, setIsAuthenticated }) => {
       setUsername(storedUsername);
       setIsAuthenticated(storedIsAuthenticated === 'true');
     }
-  }, [setIsAuthenticated]);
+  }, []); // Ne dépend d'aucun état, car cela devrait être effectué une seule fois
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -24,11 +24,13 @@ const LoginForm = ({ isAuthenticated, setIsAuthenticated }) => {
     });
     const data = await response.json();
     setIsAuthenticated(true);
+    setUsername(username); // Mettez à jour également le nom d'utilisateur ici
     localStorage.setItem('username', username);
     localStorage.setItem('isAuthenticated', 'true');
   };
 
   const handleLogout = () => {
+    // Réinitialiser l'état et supprimer du stockage local
     setIsAuthenticated(false);
     setUsername('');
     localStorage.removeItem('username');
