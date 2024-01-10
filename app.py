@@ -73,6 +73,10 @@ class Note(db.Model):
     note = db.Column(db.Integer)
     evenement = db.relationship('Evenement', backref=db.backref('notes', lazy=True))
 
+class User(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.String(80), unique=True, nullable=False)
+
 # Création des tables dans la base de données
 with app.app_context():
     db.create_all()
@@ -241,11 +245,30 @@ with app.app_context():
     db.session.commit()
 @app.after_request
 def add_cors_headers(response):
-    response.headers['Access-Control-Allow-Origin'] = 'http://localhost:3000'  # Remplacez par votre domaine
+    response.headers['Access-Control-Allow-Origin'] = 'http://localhost:3000'
     response.headers['Access-Control-Allow-Headers'] = 'Content-Type,Authorization'
     response.headers['Access-Control-Allow-Methods'] = 'GET,PUT,POST,DELETE,OPTIONS'
     response.headers['Access-Control-Allow-Credentials'] = 'true'
     return response
+
+@app.route('/login', methods=['POST'])
+def login():
+    data = request.get_json()
+    username = data.get('username')
+
+    # Vérifier si l'utilisateur existe dans la base de données
+    user = User.query.filter_by(username=username).first()
+
+    if user:
+        response = {'message': 'Utilisateur connecté'}
+    else:
+        # Créer l'utilisateur s'il n'existe pas
+        new_user = User(username=username)
+        db.session.add(new_user)
+        db.session.commit()
+        response = {'message': 'Nouvel utilisateur créé'}
+
+    return jsonify(response)
 
 
 # Routes de l'API

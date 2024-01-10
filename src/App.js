@@ -20,6 +20,7 @@ import { faBell } from '@fortawesome/free-solid-svg-icons';
 import ChooseSportPage from './components/ChooseSportPage';
 import HistoriqueReservation from './components/HistoriqueReservation';
 import ClassementEvents from './components/ClassementEvents';
+import LoginForm from './components/LoginForm';
 
 function App() {
   const [userLocation, setUserLocation] = useState(null);
@@ -377,6 +378,8 @@ function App() {
           <Route path="/historique-reservation" element={<HistoriqueReservation />} />
 
           <Route path="/classement-events" element={<ClassementEvents />} />
+
+          <Route path="/login" element={<LoginForm />} />
   
         </Routes>
 
