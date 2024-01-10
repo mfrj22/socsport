@@ -1,12 +1,22 @@
-// Exemple de composant React pour le formulaire de login
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 const LoginForm = () => {
   const [username, setUsername] = useState('');
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
 
-  const handleSubmit = async (e) => {
+  // Charger l'état d'authentification depuis le stockage local au chargement de la page
+  useEffect(() => {
+    const storedUsername = localStorage.getItem('username');
+    const storedIsAuthenticated = localStorage.getItem('isAuthenticated');
+
+    if (storedUsername && storedIsAuthenticated) {
+      setUsername(storedUsername);
+      setIsAuthenticated(storedIsAuthenticated === 'true');
+    }
+  }, []);
+
+  const handleLogin = async (e) => {
     e.preventDefault();
-    // Envoyer la requête au backend pour vérifier le nom d'utilisateur
     const response = await fetch('http://localhost:5000/login', {
       method: 'POST',
       headers: {
@@ -15,21 +25,42 @@ const LoginForm = () => {
       body: JSON.stringify({ username }),
     });
     const data = await response.json();
-    console.log(data); // Faire quelque chose avec la réponse du serveur
+    setIsAuthenticated(true);
+    localStorage.setItem('username', username);
+    localStorage.setItem('isAuthenticated', 'true');
+  };
+
+  const handleLogout = () => {
+    // Réinitialiser l'état et supprimer du stockage local
+    setIsAuthenticated(false);
+    setUsername('');
+    localStorage.removeItem('username');
+    localStorage.removeItem('isAuthenticated');
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <label>
-        Nom d'utilisateur:
-        <input
-          type="text"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
-        />
-      </label>
-      <button type="submit">Connexion</button>
-    </form>
+    <div>
+      {isAuthenticated ? (
+        <div>
+          <p>Bienvenue, {username}!</p>
+          <button onClick={handleLogout}>Déconnexion</button>
+        </div>
+      ) : (
+        <div>
+          <form onSubmit={handleLogin}>
+            <label>
+              Nom d'utilisateur:
+              <input
+                type="text"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+              />
+            </label>
+            <button type="submit">Connexion</button>
+          </form>
+        </div>
+      )}
+    </div>
   );
 };
 
