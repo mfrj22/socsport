@@ -34,8 +34,9 @@ function App() {
   const mapRef = useRef();
   const prevUserLocation = useRef();
   const [initialZoom, setInitialZoom] = useState(13);
-
+  const [username, setUsername] = useState('');
   const [selectedDirectionField, setSelectedDirectionField] = useState(null);
+  const [isAuthenticated, setIsAuthenticated] = useState(false); // Ajoutez cette ligne
 
   const fetchDirections = async (startLocation, endLocation) => {
     const apiKey = '5b3ce3597851110001cf6248f0d06cd0df8640da9da60b6f7788f270'; // Remplacez par votre clé API OpenRouteService
@@ -238,24 +239,31 @@ function App() {
     <Router>
       <div className="App centered-container">
         <div className="menu">
-        <div style={{ display: 'flex', alignItems: 'center' }}>
-        <div style={{ display: 'flex', alignItems: 'center' }}>
-        <Link to="/" style={{ textDecoration: 'none', color: 'inherit' }}>
-          <img src="./logo-socsport.jpg" alt="SocSport Logo" style={{ width: '50px', height: '50px', marginRight: '10px' }} />
-        </Link>
-      </div>
-
+          <div style={{ display: 'flex', alignItems: 'center' }}>
+            <div style={{ display: 'flex', alignItems: 'center' }}>
+              <Link to="/" style={{ textDecoration: 'none', color: 'inherit' }}>
+                <img src="./logo-socsport.jpg" alt="SocSport Logo" style={{ width: '50px', height: '50px', marginRight: '10px' }} />
+              </Link>
+            </div>
             <h1 style={{ margin: 0 }}>SocSport</h1>
-      </div>
+          </div>
+          
+          {isAuthenticated && (
+            <p style={{ margin: '0', paddingLeft: '10px' }}>Connecté en tant que {username}</p>
+          )}
+  
           <Link to="/add-terrain" className="menu-button">Ajouter un terrain</Link>
           <Link to="/classement-events" className="menu-button">Classement</Link>
-
+  
           <Link to="/notifications" className="menu-button">
             <FontAwesomeIcon icon={faBell} size="2x" />
             {notificationCount > 0 && <span style={{ marginLeft: '5px' }}>{notificationCount}</span>}
           </Link>
           <Link to="/choose-sport" className="menu-button">Choisir son sport</Link>
           <Link to="/historique-reservation" className="menu-button">Historique des réservations</Link>
+          <Link to="/login" className="menu-button">
+            {isAuthenticated ? 'Déconnexion' : 'Connexion'}
+          </Link>
           <div>
           {weather && (
             <div>
@@ -379,7 +387,7 @@ function App() {
 
           <Route path="/classement-events" element={<ClassementEvents />} />
 
-          <Route path="/login" element={<LoginForm />} />
+          <Route path="/login" element={<LoginForm isAuthenticated={isAuthenticated} setIsAuthenticated={setIsAuthenticated} />} />
   
         </Routes>
 
