@@ -74,12 +74,12 @@ class Note(db.Model):
     evenement = db.relationship('Evenement', backref=db.backref('notes', lazy=True))
 
 class User(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String(80), unique=True, nullable=False)
+    # id = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.String(80), primary_key=True)
 
 class StatUser(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    username = db.Column(db.String(80), db.ForeignKey('user.username'))
     score = db.Column(db.Integer)
 
 # Création des tables dans la base de données
@@ -619,11 +619,11 @@ def get_classement_users():
 @app.route('/add-score', methods=['POST'])
 def add_score():
     data = request.get_json()
-    if 'user_id' in data and 'score' in data:
-        user = User.query.get(data['user_id'])
+    if 'username' in data and 'score' in data:
+        user = User.query.get(data['username'])
         if user:
             new_score = StatUser(
-                user_id=data['user_id'],
+                username=data['username'],
                 score=data['score']
             )
             db.session.add(new_score)
