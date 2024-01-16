@@ -22,6 +22,8 @@ function AddReservationForm() {
   const handleSubmit = (e) => {
     e.preventDefault();
 
+    const username = localStorage.getItem('username');
+
     fetch(`http://localhost:5000/add-reservation`, {
       method: 'POST',
       headers: {
@@ -29,6 +31,7 @@ function AddReservationForm() {
       },
       body: JSON.stringify({
         evenement_id: eventId,
+        username: localStorage.getItem('username'),
         ...reservationData,
       }),
     })
@@ -61,6 +64,8 @@ function AddReservationForm() {
       }
       
     });
+    console.log('username:', localStorage.getItem('username'));
+
   };
 
   return (

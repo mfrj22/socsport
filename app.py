@@ -66,6 +66,7 @@ class Reservation(db.Model):
     email_participant = db.Column(db.String(100))
     tel_participant = db.Column(db.String(100))
     evenement = db.relationship('Evenement', backref=db.backref('reservations', lazy=True))
+    username = db.Column(db.String(80), db.ForeignKey('user.username'))
 
 class Note(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -367,7 +368,8 @@ def create_reservation():
                 nom_participant=data['nom_participant'],
                 prenom_participant=data['prenom_participant'],
                 email_participant=data['email_participant'],
-                tel_participant=data['tel_participant']
+                tel_participant=data['tel_participant'],
+                username=data['username']
             )
             # décrémenter le nombre de participants
             evenement.nb_participants -= 1
@@ -541,7 +543,8 @@ def get_all_reservations():
             'nom_participant': reservation.nom_participant,
             'prenom_participant': reservation.prenom_participant,
             'email_participant': reservation.email_participant,
-            'tel_participant': reservation.tel_participant
+            'tel_participant': reservation.tel_participant,
+            'user_id': reservation.user_id,
         })
 
     return jsonify(reservations_data)

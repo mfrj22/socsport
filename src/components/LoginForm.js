@@ -24,7 +24,7 @@ const LoginForm = ({ isAuthenticated, setIsAuthenticated, username, setUsername 
     });
     const data = await response.json();
     setIsAuthenticated(true);
-    setUsername(username); // Mettez à jour également le nom d'utilisateur ici
+    setUsername(username); 
     localStorage.setItem('username', username);
     localStorage.setItem('isAuthenticated', 'true');
   };
