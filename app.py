@@ -80,7 +80,7 @@ class User(db.Model):
 class StatUser(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(80), db.ForeignKey('user.username'))
-    score = db.Column(db.Integer)
+    score = db.Column(db.Float)
 
 # Création des tables dans la base de données
 with app.app_context():
