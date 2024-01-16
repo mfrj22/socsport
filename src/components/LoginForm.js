@@ -28,6 +28,7 @@ const LoginForm = ({ isAuthenticated, setIsAuthenticated, username, setUsername 
     localStorage.setItem('username', username);
     localStorage.setItem('isAuthenticated', 'true');
   };
+  
 
   const handleLogout = () => {
     // Réinitialiser l'état et supprimer du stockage local

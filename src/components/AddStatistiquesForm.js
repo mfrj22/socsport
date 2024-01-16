@@ -109,7 +109,7 @@ const AddStatistiquesForm = () => {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        user_id: localStorage.getItem('userId'),
+        user_id: localStorage.getItem('username'),
         score: totalScore,
       }),
     })
@@ -127,7 +127,7 @@ const AddStatistiquesForm = () => {
       .catch((error) => {
         toast.error(error.message);
       });
-      console.log('userId:', localStorage.getItem('userId'));
+      console.log('userId:', localStorage.getItem('username'));
 };
 
 
