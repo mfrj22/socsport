@@ -77,6 +77,11 @@ class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(80), unique=True, nullable=False)
 
+class StatUser(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    score = db.Column(db.Integer)
+
 # Création des tables dans la base de données
 with app.app_context():
     db.create_all()
@@ -590,6 +595,44 @@ def get_classement():
     ]
 
     return jsonify(average_notes_list)
+
+@app.route('/classement-users')
+def get_classement_users():
+    users = (
+        db.session.query(
+            User.id.label('user_id'),
+            User.username.label('username'),
+            func.sum(StatUser.score).label('total_score')
+        )
+        .join(StatUser, User.id == StatUser.user_id)
+        .group_by(User.id, User.username)
+        .all()
+    )
+
+    users_list = [
+        {'user_id': user_id, 'username': username, 'total_score': total_score}
+        for user_id, username, total_score in users
+    ]
+
+    return jsonify(users_list)
+
+@app.route('/add-score', methods=['POST'])
+def add_score():
+    data = request.get_json()
+    if 'user_id' in data and 'score' in data:
+        user = User.query.get(data['user_id'])
+        if user:
+            new_score = StatUser(
+                user_id=data['user_id'],
+                score=data['score']
+            )
+            db.session.add(new_score)
+            db.session.commit()
+            return jsonify({'message': 'Score added successfully'})
+        else:
+            return jsonify({'message': 'Invalid user ID'}), 400
+    else:
+        return jsonify({'message': 'Invalid JSON data'}), 400
 
 if __name__ == '__main__':
     app.run(debug=True)

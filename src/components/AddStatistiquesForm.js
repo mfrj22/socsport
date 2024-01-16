@@ -101,9 +101,35 @@ const AddStatistiquesForm = () => {
       return;
     }
 
-    localStorage.setItem('globalStats', JSON.stringify(globalStats));
-    console.log('Statistiques globales:', localStorage.getItem('globalStats'));
-  };
+    const totalScore = calculateTotalScore();
+
+    fetch('http://localhost:5000/add-score', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        user_id: localStorage.getItem('userId'),
+        score: totalScore,
+      }),
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error('Erreur lors de l\'ajout du score');
+        }
+        return response.json();
+      })
+      .then((data) => {
+        toast.success(data.message);
+        localStorage.setItem('globalStats', JSON.stringify(globalStats));
+        console.log('Statistiques globales:', localStorage.getItem('globalStats'));
+      })
+      .catch((error) => {
+        toast.error(error.message);
+      });
+      console.log('userId:', localStorage.getItem('userId'));
+};
+
 
   const calculateTotalScore = () => {
     const { football, basketball, boxe, tennis, rugby, handball } = globalStats;
@@ -205,7 +231,7 @@ const AddStatistiquesForm = () => {
             {selectedSportComponent}
           </div>
         )}
-        {/* <button type="submit">Ajouter les statistiques</button> */}
+        <button type="submit">Ajouter les statistiques</button>
         {selectedSport && (
           <div>
             <h3>Score total :</h3>
