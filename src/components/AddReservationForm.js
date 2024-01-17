@@ -46,22 +46,24 @@ function AddReservationForm() {
         console.log('Reservation created successfully:', data);
         toast.success('Réservation avec succès');
       
+        // Tej tout ca
         // Récupérer le tableau actuel des identifiants de réservation
-        const existingReservations = JSON.parse(localStorage.getItem('evenements')) || [];
+        // const existingReservations = JSON.parse(localStorage.getItem('evenements')) || [];
       
-        // Ajouter le nouvel identifiant à la liste
-        existingReservations.push(data.event_details);
+        // // Ajouter le nouvel identifiant à la liste
+        // existingReservations.push(data.event_details);
       
-        // Stocker le tableau mis à jour dans le localStorage
-        localStorage.setItem('evenements', JSON.stringify(existingReservations));
-        console.log('evenements id', localStorage.getItem('evenements'));
-        // navigate(`/nouvelle-page`);
+        // // Stocker le tableau mis à jour dans le localStorage
+        // localStorage.setItem('evenements', JSON.stringify(existingReservations));
+        // console.log('evenements id', localStorage.getItem('evenements'));
+        // // navigate(`/nouvelle-page`);
       })
       .catch((error) =>  {
       console.error('Error creating reservation:', error);
       if (error.message === 'Network response was not ok') {
         toast.error('Vous ne pouvez plus reserver!'); // Affichage de la notification
       }
+      // jusque la a peu pres
       
     });
     console.log('username:', localStorage.getItem('username'));

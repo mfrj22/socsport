@@ -68,7 +68,7 @@ class Reservation(db.Model):
     email_participant = db.Column(db.String(100))
     tel_participant = db.Column(db.String(100))
     evenement = db.relationship('Evenement', backref=db.backref('reservations', lazy=True))
-    username = db.Column(db.String(80), db.ForeignKey('user.username'))
+    username = db.Column(db.String(80), db.ForeignKey('user.username'), nullable=False)
 
 class Note(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -660,7 +660,6 @@ def get_historique(username):
     else:
         return jsonify({'message': 'Utilisateur non trouvé'}), 404
 
-# récupérer les notifications de l'utilisateur (càd les événements qu'il a réservé et dont la date est de 7j ou moins)
 @app.route('/notifications/<string:username>', methods=['GET'])
 def get_notifications(username):
     user = User.query.filter_by(username=username).first()
