@@ -7,6 +7,7 @@ from dotenv import load_dotenv
 from sqlalchemy import func
 from sqlalchemy.sql import func
 from sqlalchemy.sql.expression import text
+import logging
 
 load_dotenv()
 
@@ -722,15 +723,22 @@ def get_notifications(username):
     else:
         return jsonify({'message': 'Utilisateur non trouvé'}), 404
 
+# fonction pour supprimer une réservation d'un événement
 @app.route('/delete-reservation/<int:reservationId>', methods=['DELETE'])
 def delete_reservation(reservationId):
     reservation = Reservation.query.get(reservationId)
     if reservation:
-        db.session.delete(reservation)
-        db.session.commit()
-        return jsonify({'message': 'Reservation deleted successfully'})
+        evenement = Evenement.query.get(reservation.evenement_id)
+        if evenement:
+            evenement.nb_participants += 1
+            db.session.delete(reservation)
+            db.session.commit()
+            return jsonify({'message': 'Reservation deleted successfully'})
+        else:
+            return jsonify({'message': 'Associated event not found'}), 404
     else:
         return jsonify({'message': 'Invalid reservation ID'}), 400
+
 
 # réservations de l'utilisateur
 @app.route('/user-reservations/<string:username>', methods=['GET'])

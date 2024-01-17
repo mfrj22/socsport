@@ -114,7 +114,11 @@ const EventForm = () => {
     const currentDate = new Date();
     return eventDateObj < currentDate;
   };
-
+  
+  const getReservationId = (event) => {
+    const reservation = reservations.find(reservation => reservation.evenement_id === event.id);
+    return reservation ? reservation.id : null;
+  };  
 
   const round = (number, decimals) => {
     return Number(Math.round(number + 'e' + decimals) + 'e-' + decimals);
@@ -181,7 +185,7 @@ const EventForm = () => {
                     <Link to={`/add-reservation/${event.id}`}>{event.nom}</Link>
                   )}
                   {isEventReserved(event) && !isEventPassed(event) && (
-                    <Link to={`/delete-reservation/${event.id}`}>{event.nom}</Link>
+                    <Link to={`/delete-reservation/${getReservationId(event)}`}>{event.nom}</Link>
                   )}
                   {isEventPassed(event) && (
                     event.nom

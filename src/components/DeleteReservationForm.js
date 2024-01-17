@@ -5,26 +5,32 @@ import 'react-toastify/dist/ReactToastify.css';
 
 const DeleteReservationForm = () => {
   const { reservationId } = useParams();
+  console.log('reservationId:', reservationId);
   const navigate = useNavigate();
 
   const handleDelete = () => {
     fetch(`http://localhost:5000/delete-reservation/${reservationId}`, {
       method: 'DELETE',
     })
-    .then(response => response.json())
+    .then(response => {
+      if (!response.ok) {
+        throw new Error(response.status === 404 ? 'Reservation with provided ID does not exist' : response.statusText);
+      }
+      return response.json();
+    })
     .then(data => {
       if (data.message === 'Reservation deleted successfully') {
         toast.success('Réservation supprimée avec succès');
         navigate(-1);
-      } else {
-        toast.error('Erreur lors de la suppression de la réservation');
       }
     })
     .catch(error => {
       console.error('Erreur lors de la suppression de la réservation:', error);
-      toast.error('Erreur lors de la suppression de la réservation');
+      toast.error('Erreur lors de la suppression de la réservation: ' + error.message);
     });
-  };
+};
+
+
 
   return (
     <div>
