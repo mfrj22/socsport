@@ -658,5 +658,66 @@ def get_historique(username):
     else:
         return jsonify({'message': 'Utilisateur non trouvé'}), 404
 
+# récupérer les notifications de l'utilisateur (càd les événements qu'il a réservé et dont la date est de 7j ou moins)
+@app.route('/notifications/<string:username>', methods=['GET'])
+def get_notifications(username):
+    user = User.query.filter_by(username=username).first()
+
+    if user:
+        notifications = (
+            db.session.query(
+                Evenement.id.label('evenement_id'),
+                Evenement.nom.label('evenement_nom'),
+                Evenement.date.label('evenement_date'),
+                Evenement.heure_debut.label('evenement_heure_debut'),
+                Evenement.heure_fin.label('evenement_heure_fin'),
+                Terrain.id.label('terrain_id'),
+                Terrain.nom.label('terrain_nom'),
+                Terrain.adresse.label('terrain_adresse'),
+                Ville.nom.label('ville_nom'),
+                Ville.code_postal.label('ville_code_postal'),
+                Ville.departement.label('ville_departement'),
+            )
+            .join(Terrain, Evenement.terrain_id == Terrain.id)
+            .join(Ville, Terrain.ville_id == Ville.id)
+            .join(Reservation, Evenement.id == Reservation.evenement_id)
+            .filter(Reservation.username == username)
+            .filter(Evenement.date <= func.adddate(func.current_date(), 7))
+            .all()
+        )
+
+        notifications_list = [
+            {
+                'evenement_id': evenement_id,
+                'evenement_nom': evenement_nom,
+                'evenement_date': str(evenement_date),
+                'evenement_heure_debut': str(evenement_heure_debut),
+                'evenement_heure_fin': str(evenement_heure_fin),
+                'terrain_id': terrain_id,
+                'terrain_nom': terrain_nom,
+                'terrain_adresse': terrain_adresse,
+                'ville_nom': ville_nom,
+                'ville_code_postal': ville_code_postal,
+                'ville_departement': ville_departement,
+            }
+            for (
+                evenement_id,
+                evenement_nom,
+                evenement_date,
+                evenement_heure_debut,
+                evenement_heure_fin,
+                terrain_id,
+                terrain_nom,
+                terrain_adresse,
+                ville_nom,
+                ville_code_postal,
+                ville_departement,
+            ) in notifications
+        ]
+
+        return jsonify(notifications_list)
+    else:
+        return jsonify({'message': 'Utilisateur non trouvé'}), 404
+
 if __name__ == '__main__':
     app.run(debug=True)
