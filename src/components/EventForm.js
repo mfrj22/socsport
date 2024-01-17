@@ -177,8 +177,12 @@ const EventForm = () => {
                     <Link to={`/add-reservation/${event.id}`}>{event.nom}</Link>
                   )}
 {/* si l'utilisateur est inscrit */}
-                  {isEventReserved(event) && (
+                  {isEventReserved(event) && !isEventPassed(event) && (
                     <Link to={`/delete-reservation/${event.id}`}>{event.nom}</Link>
+                  )}
+{/* si l'utilisateur est inscrit et que l'événement est passé */}
+                  {isEventReserved(event) && isEventPassed(event) && (
+                    event.nom
                   )}
                 </td>
                 <td>{event.date}</td>
