@@ -21,6 +21,7 @@ import ChooseSportPage from './components/ChooseSportPage';
 import HistoriqueReservation from './components/HistoriqueReservation';
 import ClassementEvents from './components/ClassementEvents';
 import LoginForm from './components/LoginForm';
+import DeleteReservationForm from './components/DeleteReservationForm';
 
 function App() {
   const [userLocation, setUserLocation] = useState(null);
@@ -388,6 +389,8 @@ function App() {
           <Route path="/classement-events" element={<ClassementEvents />} />
 
           <Route path="/login" element={<LoginForm isAuthenticated={isAuthenticated} setIsAuthenticated={setIsAuthenticated} username={username} setUsername={setUsername} />} />
+
+          <Route path="/delete-reservation/:reservationId" element={<DeleteReservationForm />} />
   
         </Routes>
 

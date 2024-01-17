@@ -96,14 +96,18 @@ const EventForm = () => {
   };
 
   const isEventReserved = (event) => {
-    const isReserved = reservations.some(reservation => {
+    if(Array.isArray(reservations)) {
+      const isReserved = reservations.some(reservation => {
         console.log('Event ID:', event.id);
         console.log('Reservation ID:', reservation.evenement_id);
         return reservation.evenement_id === event.id;
-    });
-    console.log('Is reserved:', isReserved);
-    return isReserved;
-};
+      });
+      console.log('Is reserved:', isReserved);
+      return isReserved;
+    }
+    return false;
+  };
+  
 
   const isEventPassed = (event) => {
     const eventDateObj = new Date(event.date);
