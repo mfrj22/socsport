@@ -637,5 +637,26 @@ def add_score():
     else:
         return jsonify({'message': 'Invalid JSON data'}), 400
 
+
+@app.route('/historique/<string:username>', methods=['GET'])
+def get_historique(username):
+    user = User.query.filter_by(username=username).first()
+
+    if user:
+        historique = Reservation.query.filter_by(username=username).all()
+        historique_data = [
+            {
+                'id': res.id,
+                'nom': res.evenement.nom,
+                'date': str(res.evenement.date),
+                'heure_debut': str(res.evenement.heure_debut),
+                'heure_fin': str(res.evenement.heure_fin),
+            }
+            for res in historique
+        ]
+        return jsonify(historique_data)
+    else:
+        return jsonify({'message': 'Utilisateur non trouvé'}), 404
+
 if __name__ == '__main__':
     app.run(debug=True)
