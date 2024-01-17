@@ -653,6 +653,7 @@ def get_historique(username):
                 'date': str(res.evenement.date),
                 'heure_debut': str(res.evenement.heure_debut),
                 'heure_fin': str(res.evenement.heure_fin),
+                'evenement_id': res.evenement_id,
             }
             for res in historique
         ]
@@ -718,6 +719,38 @@ def get_notifications(username):
         ]
 
         return jsonify(notifications_list)
+    else:
+        return jsonify({'message': 'Utilisateur non trouvé'}), 404
+
+@app.route('/delete-reservation/<int:reservationId>', methods=['DELETE'])
+def delete_reservation(reservationId):
+    reservation = Reservation.query.get(reservationId)
+    if reservation:
+        db.session.delete(reservation)
+        db.session.commit()
+        return jsonify({'message': 'Reservation deleted successfully'})
+    else:
+        return jsonify({'message': 'Invalid reservation ID'}), 400
+
+# réservations de l'utilisateur
+@app.route('/user-reservations/<string:username>', methods=['GET'])
+def get_user_reservations(username):
+    user = User.query.filter_by(username=username).first()
+
+    if user:
+        reservations = Reservation.query.filter_by(username=username).all()
+        reservations_data = [
+            {
+                'id': res.id,
+                'evenement_id': res.evenement_id,
+                'nom_participant': res.nom_participant,
+                'prenom_participant': res.prenom_participant,
+                'email_participant': res.email_participant,
+                'tel_participant': res.tel_participant,
+            }
+            for res in reservations
+        ]
+        return jsonify(reservations_data)
     else:
         return jsonify({'message': 'Utilisateur non trouvé'}), 404
 

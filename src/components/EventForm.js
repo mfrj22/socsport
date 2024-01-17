@@ -13,6 +13,20 @@ const EventForm = () => {
   const [eventNbP, setEventNbP] = useState('');
   const [events, setEvents] = useState([]);
   const [averageNotes, setAverageNotes] = useState({});
+  const [reservations, setReservations] = useState([]);
+  const username = localStorage.getItem('username');
+
+  useEffect(() => {
+    fetch(`http://localhost:5000/historique/${username}`)
+    .then(response => response.json())
+    .then(data => {
+        console.log('Reservations:', data);
+        setReservations(data);
+    })
+    .catch(error => console.error('Erreur lors de la récupération des réservations:', error));
+}, [username]);
+
+
 
   useEffect(() => {
     fetch('http://localhost:5000/average-notes')
@@ -23,10 +37,13 @@ const EventForm = () => {
 
   useEffect(() => {
     fetch(`http://localhost:5000/events-for-field/${fieldId}`)
-      .then((response) => response.json())
-      .then((data) => setEvents(data))
-      .catch((error) => console.error('Erreur lors de la récupération des événements:', error));
-  }, [fieldId]);
+    .then((response) => response.json())
+    .then((data) => {
+        console.log('Events:', data);
+        setEvents(data);
+    })
+    .catch((error) => console.error('Erreur lors de la récupération des événements:', error));
+}, [fieldId]);
 
   
   const handleEventSubmit = (e) => {
@@ -78,17 +95,22 @@ const EventForm = () => {
       });
   };
 
-  const isEventInFuture = (event) => {
+  const isEventReserved = (event) => {
+    const isReserved = reservations.some(reservation => {
+        console.log('Event ID:', event.id);
+        console.log('Reservation ID:', reservation.evenement_id);
+        return reservation.evenement_id === event.id;
+    });
+    console.log('Is reserved:', isReserved);
+    return isReserved;
+};
+
+  const isEventPassed = (event) => {
     const eventDateObj = new Date(event.date);
     const currentDate = new Date();
     return eventDateObj < currentDate;
   };
 
-  const isEventInLocalStorage = (event) => {
-    const storedEvenements = JSON.parse(localStorage.getItem('evenements')) || [];
-    const eventIds = storedEvenements.map((evenement) => evenement.id);
-    return eventIds.includes(event.id);
-  }
 
   const round = (number, decimals) => {
     return Number(Math.round(number + 'e' + decimals) + 'e-' + decimals);
@@ -158,12 +180,12 @@ const EventForm = () => {
                 <td>{event.heure_fin}</td>
                 <td>{event.nb_participants}</td>
                 <td>
-                  {isEventInFuture(event) && isEventInLocalStorage(event) && (
+                  {isEventReserved(event) && isEventPassed(event) && (
                     <Link to={`/stats-event/${event.id}`}>Statistiques</Link>
                   )}
                 </td>
                 <td>
-                  {isEventInFuture(event) && isEventInLocalStorage(event) && (
+                  {isEventReserved(event) && isEventPassed(event) && (
                     <Link to={`/note-event/${event.id}`}>Noter</Link>
                   )}
                 </td>
