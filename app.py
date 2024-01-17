@@ -5,6 +5,8 @@ from flask_cors import CORS
 from flask_sqlalchemy import SQLAlchemy
 from dotenv import load_dotenv
 from sqlalchemy import func
+from sqlalchemy.sql import func
+from sqlalchemy.sql.expression import text
 
 load_dotenv()
 
@@ -682,7 +684,8 @@ def get_notifications(username):
             .join(Ville, Terrain.ville_id == Ville.id)
             .join(Reservation, Evenement.id == Reservation.evenement_id)
             .filter(Reservation.username == username)
-            .filter(Evenement.date <= func.adddate(func.current_date(), 7))
+            .filter(Evenement.date <= func.date_add(func.curdate(), text('interval 7 day')))
+            .filter(Evenement.date >= func.curdate())
             .all()
         )
 
