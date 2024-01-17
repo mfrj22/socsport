@@ -116,7 +116,6 @@ const EventForm = () => {
     return Number(Math.round(number + 'e' + decimals) + 'e-' + decimals);
   };
 
-
   return (
     <>
     <div className="form">
@@ -173,7 +172,14 @@ const EventForm = () => {
               <tr key={index}>
                
                 <td>
-                  <Link to={`/add-reservation/${event.id}`}>{event.nom}</Link>
+{/* si l'utilisateur n'est pas encore inscrit */}
+                  {!isEventReserved(event) && (
+                    <Link to={`/add-reservation/${event.id}`}>{event.nom}</Link>
+                  )}
+{/* si l'utilisateur est inscrit */}
+                  {isEventReserved(event) && (
+                    <Link to={`/delete-reservation/${event.id}`}>{event.nom}</Link>
+                  )}
                 </td>
                 <td>{event.date}</td>
                 <td>{event.heure_debut}</td>
