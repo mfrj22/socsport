@@ -172,15 +172,13 @@ const EventForm = () => {
               <tr key={index}>
                
                 <td>
-{/* si l'utilisateur n'est pas encore inscrit */}
-                  {!isEventReserved(event) && (
+                  {/* si l'utilisateur n'est pas encore inscrit */}
+                  {!isEventReserved(event) && !isEventPassed(event) && (
                     <Link to={`/add-reservation/${event.id}`}>{event.nom}</Link>
                   )}
-{/* si l'utilisateur est inscrit */}
                   {isEventReserved(event) && !isEventPassed(event) && (
                     <Link to={`/delete-reservation/${event.id}`}>{event.nom}</Link>
                   )}
-{/* si l'utilisateur est inscrit et que l'événement est passé */}
                   {isEventPassed(event) && (
                     event.nom
                   )}
