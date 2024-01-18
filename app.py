@@ -56,7 +56,6 @@ class Evenement(db.Model):
     nb_participants = db.Column(db.Integer)
     terrain_id = db.Column(db.Integer, db.ForeignKey('terrain.id'))
     terrain = db.relationship('Terrain', backref=db.backref('evenements', lazy=True))
-    moyenne_score_participant = db.Column(db.Float)
 
 class Sport(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -780,7 +779,7 @@ def get_average_score_users():
 
     return jsonify(average_scores_dict)
 
-# fonction pour calculer la moyenne des scores des participants d'un événement
+# fonction pour calculer la moyenne des scores des participants d'un événement et l'ajouter à la base de données
 @app.route('/average-score-event/<int:eventId>', methods=['GET'])
 def get_average_score_event(eventId):
     average_scores = (
