@@ -851,5 +851,65 @@ def get_upcoming_events():
 
     return jsonify(upcoming_events_list)
 
+# fonction pour calculer la moyenne des scores des participants de chaque événement qui ne sont pas encore passés avec l'id de l'événement, le nom, la date, l'heure et le terrain, si l'événement n'a pas de note, la moyenne est de 0
+@app.route('/average-score-events', methods=['GET'])
+def get_average_score_upcoming_events():
+    average_scores = (
+        db.session.query(
+            Evenement.id.label('evenement_id'),
+            Evenement.nom.label('evenement_nom'),
+            Evenement.date.label('evenement_date'),
+            Evenement.heure_debut.label('evenement_heure_debut'),
+            Evenement.heure_fin.label('evenement_heure_fin'),
+            Terrain.id.label('terrain_id'),
+            Terrain.nom.label('terrain_nom'),
+            Terrain.adresse.label('terrain_adresse'),
+            Ville.nom.label('ville_nom'),
+            Ville.code_postal.label('ville_code_postal'),
+            Ville.departement.label('ville_departement'),
+            func.avg(StatUser.score).label('average_score')
+        )
+        .join(Terrain, Evenement.terrain_id == Terrain.id)
+        .join(Ville, Terrain.ville_id == Ville.id)
+        .join(Reservation, Evenement.id == Reservation.evenement_id)
+        .join(StatUser, Reservation.username == StatUser.username)
+        .filter(Evenement.date >= func.curdate())
+        .group_by(Evenement.id, Evenement.nom, Evenement.date, Evenement.heure_debut, Evenement.heure_fin, Terrain.id, Terrain.nom, Terrain.adresse, Ville.nom, Ville.code_postal, Ville.departement)
+        .all()
+    )
+
+    average_scores_list = [
+        {
+            'evenement_id': evenement_id,
+            'evenement_nom': evenement_nom,
+            'evenement_date': str(evenement_date),
+            'evenement_heure_debut': str(evenement_heure_debut),
+            'evenement_heure_fin': str(evenement_heure_fin),
+            'terrain_id': terrain_id,
+            'terrain_nom': terrain_nom,
+            'terrain_adresse': terrain_adresse,
+            'ville_nom': ville_nom,
+            'ville_code_postal': ville_code_postal,
+            'ville_departement': ville_departement,
+            'average_score': average_score
+        }
+        for (
+            evenement_id,
+            evenement_nom,
+            evenement_date,
+            evenement_heure_debut,
+            evenement_heure_fin,
+            terrain_id,
+            terrain_nom,
+            terrain_adresse,
+            ville_nom,
+            ville_code_postal,
+            ville_departement,
+            average_score
+        ) in average_scores
+    ]
+
+    return jsonify(average_scores_list)
+
 if __name__ == '__main__':
     app.run(debug=True)
