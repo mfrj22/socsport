@@ -68,7 +68,6 @@ class Note(db.Model):
     evenement = db.relationship('Evenement', backref=db.backref('notes', lazy=True))
 
 class User(db.Model):
-    # id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(80), primary_key=True)
 
 class Evenement(db.Model):
@@ -86,6 +85,11 @@ class StatUser(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(80), db.ForeignKey('user.username'))
     score = db.Column(db.Float)
+
+class Connaissance(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.String(80), db.ForeignKey('user.username'))
+    connaissance = db.Column(db.String(80), db.ForeignKey('user.username'))
 
 # Création des tables dans la base de données
 with app.app_context():

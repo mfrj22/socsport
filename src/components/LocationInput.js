@@ -5,7 +5,9 @@ const LocationInput = ({ onLocationSubmit }) => {
   const [isLocating, setIsLocating] = useState(false);
   const [manualLatitude, setManualLatitude] = useState('');
   const [manualLongitude, setManualLongitude] = useState('');
+  const username = localStorage.getItem('username');
   const navigate = useNavigate();
+  const [connaissance, setConnaissance] = useState('');
 
   const handleLocateClick = () => {
     setIsLocating(true);
@@ -41,6 +43,19 @@ const LocationInput = ({ onLocationSubmit }) => {
     }
   };
 
+  const handleConnaissanceSubmit = () => {
+    fetch(`http://localhost:5000/add-connaissance/${username}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ connaissance })
+    })
+    .then(response => response.json())
+    .then(data => console.log(data))
+    .catch(error => console.error('Erreur lors de l\'ajout de la connaissance:', error));
+  };
+
   return (
     <div className="centered-container">
        <div className="input-container centered-input">
@@ -62,6 +77,13 @@ const LocationInput = ({ onLocationSubmit }) => {
           value={manualLongitude}
           onChange={(e) => setManualLongitude(e.target.value)}
         />
+        <label>Je connais:</label>
+        <input
+          className="connaissance-input"
+          type="text"
+          value={connaissance}
+          onChange={(e) => setConnaissance(e.target.value)}
+        />
       </div>
       <button className="button submit-button" onClick={handleManualSubmit}>
         Entrer les coordonnées
@@ -73,6 +95,11 @@ const LocationInput = ({ onLocationSubmit }) => {
       >
         {isLocating ? 'En cours de localisation...' : 'Obtenir ma position'}
       </button>
+      <button className="button submit-button" onClick={handleConnaissanceSubmit}>
+        Ajouter une connaissance
+      </button>
+
+
     </div>
   );
   
