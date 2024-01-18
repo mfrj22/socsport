@@ -48,6 +48,11 @@ const EventForm = () => {
   
   const handleEventSubmit = (e) => {
     e.preventDefault();
+    if (!username) {
+      // Afficher un toast si l'utilisateur n'est pas connecté
+      toast.error('Vous devez être connecté pour créer un événement');
+      return;
+    }
 
     if (!eventName || !eventDate || !eventStartTime || !eventEndTime) {
       alert('Veuillez remplir tous les champs');
