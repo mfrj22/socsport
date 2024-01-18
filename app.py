@@ -798,5 +798,59 @@ def get_average_score_event(eventId):
 
     return jsonify(average_scores_dict)
 
+# fonction pour récupérer les événements qui ne sont pas encore passés
+@app.route('/upcoming-events', methods=['GET'])
+def get_upcoming_events():
+    upcoming_events = (
+        db.session.query(
+            Evenement.id.label('evenement_id'),
+            Evenement.nom.label('evenement_nom'),
+            Evenement.date.label('evenement_date'),
+            Evenement.heure_debut.label('evenement_heure_debut'),
+            Evenement.heure_fin.label('evenement_heure_fin'),
+            Terrain.id.label('terrain_id'),
+            Terrain.nom.label('terrain_nom'),
+            Terrain.adresse.label('terrain_adresse'),
+            Ville.nom.label('ville_nom'),
+            Ville.code_postal.label('ville_code_postal'),
+            Ville.departement.label('ville_departement'),
+        )
+        .join(Terrain, Evenement.terrain_id == Terrain.id)
+        .join(Ville, Terrain.ville_id == Ville.id)
+        .filter(Evenement.date >= func.curdate())
+        .all()
+    )
+
+    upcoming_events_list = [
+        {
+            'evenement_id': evenement_id,
+            'evenement_nom': evenement_nom,
+            'evenement_date': str(evenement_date),
+            'evenement_heure_debut': str(evenement_heure_debut),
+            'evenement_heure_fin': str(evenement_heure_fin),
+            'terrain_id': terrain_id,
+            'terrain_nom': terrain_nom,
+            'terrain_adresse': terrain_adresse,
+            'ville_nom': ville_nom,
+            'ville_code_postal': ville_code_postal,
+            'ville_departement': ville_departement,
+        }
+        for (
+            evenement_id,
+            evenement_nom,
+            evenement_date,
+            evenement_heure_debut,
+            evenement_heure_fin,
+            terrain_id,
+            terrain_nom,
+            terrain_adresse,
+            ville_nom,
+            ville_code_postal,
+            ville_departement,
+        ) in upcoming_events
+    ]
+
+    return jsonify(upcoming_events_list)
+
 if __name__ == '__main__':
     app.run(debug=True)
