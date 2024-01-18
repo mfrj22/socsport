@@ -9,8 +9,12 @@ function EventConnaissance() {
   useEffect(() => {
     fetch(`http://localhost:5000/events-connaissance/${username}`)
       .then(response => response.json())
-      .then(data => setEvents(data));
+      .then(data => {
+        setEvents(data);
+        console.log('Events:', data);
+      });
   }, []);
+  
 
   useEffect(() => {
     fetch(`http://localhost:5000/historique/${username}`)

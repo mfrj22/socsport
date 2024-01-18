@@ -961,6 +961,7 @@ def get_events_connaissance(username):
     events = (
         db.session.query(
             User.username.label('connaissance_nom'),
+            Evenement.id.label('evenement_id'),
             Evenement.nom.label('evenement_nom'),
             Evenement.date.label('evenement_date'),
             Evenement.heure_debut.label('evenement_heure_debut'),
@@ -977,6 +978,7 @@ def get_events_connaissance(username):
     events_list = [
         {
             'connaissance_nom': connaissance_nom,
+            'evenement_id': evenement_id,
             'evenement_nom': evenement_nom,
             'evenement_date': str(evenement_date),
             'evenement_heure_debut': str(evenement_heure_debut),
@@ -985,6 +987,7 @@ def get_events_connaissance(username):
         }
         for (
             connaissance_nom,
+            evenement_id,
             evenement_nom,
             evenement_date,
             evenement_heure_debut,
