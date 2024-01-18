@@ -23,6 +23,7 @@ import ClassementEvents from './components/ClassementEvents';
 import LoginForm from './components/LoginForm';
 import DeleteReservationForm from './components/DeleteReservationForm';
 import UpcomingEvents from './components/UpcomingEvents';
+import EventConnaissance from './components/EventConnaissance';
 
 function App() {
   const [userLocation, setUserLocation] = useState(null);
@@ -264,6 +265,7 @@ function App() {
           <Link to="/choose-sport" className="menu-button">Choisir son sport</Link>
           <Link to="/historique-reservation" className="menu-button">Historique des réservations</Link>
           <Link to="/recommandation-events" className="menu-button">Recommandations</Link>
+          <Link to="/event-connaissance" className="menu-button">Connaissance</Link>
           <Link to="/login" className="menu-button">
             {isAuthenticated ? 'Déconnexion' : 'Connexion'}
           </Link>
@@ -395,6 +397,8 @@ function App() {
           <Route path="/delete-reservation/:reservationId" element={<DeleteReservationForm />} />
 
           <Route path="/recommandation-events" element={<UpcomingEvents />} />
+
+          <Route path="/event-connaissance" element={<EventConnaissance />} />
   
         </Routes>
 

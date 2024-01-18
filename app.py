@@ -960,58 +960,40 @@ def add_connaissance(username):
 def get_events_connaissance(username):
     events = (
         db.session.query(
-            Evenement.id.label('evenement_id'),
+            User.username.label('connaissance_nom'),
             Evenement.nom.label('evenement_nom'),
             Evenement.date.label('evenement_date'),
             Evenement.heure_debut.label('evenement_heure_debut'),
             Evenement.heure_fin.label('evenement_heure_fin'),
-            Terrain.id.label('terrain_id'),
             Terrain.nom.label('terrain_nom'),
-            Terrain.adresse.label('terrain_adresse'),
-            Ville.nom.label('ville_nom'),
-            Ville.code_postal.label('ville_code_postal'),
-            Ville.departement.label('ville_departement'),
         )
+        .join(Connaissance, User.username == Connaissance.connaissance)
+        .join(Evenement, Connaissance.connaissance == Evenement.username)
         .join(Terrain, Evenement.terrain_id == Terrain.id)
-        .join(Ville, Terrain.ville_id == Ville.id)
-        .join(Connaissance, Evenement.username == Connaissance.connaissance)
         .filter(Connaissance.username == username)
         .all()
     )
 
     events_list = [
         {
-            'evenement_id': evenement_id,
+            'connaissance_nom': connaissance_nom,
             'evenement_nom': evenement_nom,
             'evenement_date': str(evenement_date),
             'evenement_heure_debut': str(evenement_heure_debut),
             'evenement_heure_fin': str(evenement_heure_fin),
-            'terrain_id': terrain_id,
             'terrain_nom': terrain_nom,
-            'terrain_adresse': terrain_adresse,
-            'ville_nom': ville_nom,
-            'ville_code_postal': ville_code_postal,
-            'ville_departement': ville_departement,
         }
         for (
-            evenement_id,
+            connaissance_nom,
             evenement_nom,
             evenement_date,
             evenement_heure_debut,
             evenement_heure_fin,
-            terrain_id,
             terrain_nom,
-            terrain_adresse,
-            ville_nom,
-            ville_code_postal,
-            ville_departement,
         ) in events
     ]
 
     return jsonify(events_list)
-
-
-
 
 
 if __name__ == '__main__':
