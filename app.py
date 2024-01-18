@@ -936,5 +936,24 @@ def get_average_score_user(username):
 
     return jsonify(average_scores_dict)
 
+# fonction pour ajouter une connaissance à un user
+@app.route('/add-connaissance/<string:username>', methods=['POST'])
+def add_connaissance(username):
+    data = request.get_json()
+    if 'connaissance' in data:
+        user = User.query.get(username)
+        if user:
+            new_connaissance = Connaissance(
+                username=username,
+                connaissance=data['connaissance']
+            )
+            db.session.add(new_connaissance)
+            db.session.commit()
+            return jsonify({'message': 'Connaissance added successfully'})
+        else:
+            return jsonify({'message': 'Invalid user ID'}), 400
+    else:
+        return jsonify({'message': 'Invalid JSON data'}), 400
+
 if __name__ == '__main__':
     app.run(debug=True)
