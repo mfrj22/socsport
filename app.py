@@ -955,5 +955,64 @@ def add_connaissance(username):
     else:
         return jsonify({'message': 'Invalid JSON data'}), 400
 
+# fonction qui récupère les Event créés (champ username de la table Event) par un user qui nous connait (champ connaissance de la table Connaissance) sans utiliser la table Reservation
+@app.route('/events-connaissance/<string:username>', methods=['GET'])
+def get_events_connaissance(username):
+    events = (
+        db.session.query(
+            Evenement.id.label('evenement_id'),
+            Evenement.nom.label('evenement_nom'),
+            Evenement.date.label('evenement_date'),
+            Evenement.heure_debut.label('evenement_heure_debut'),
+            Evenement.heure_fin.label('evenement_heure_fin'),
+            Terrain.id.label('terrain_id'),
+            Terrain.nom.label('terrain_nom'),
+            Terrain.adresse.label('terrain_adresse'),
+            Ville.nom.label('ville_nom'),
+            Ville.code_postal.label('ville_code_postal'),
+            Ville.departement.label('ville_departement'),
+        )
+        .join(Terrain, Evenement.terrain_id == Terrain.id)
+        .join(Ville, Terrain.ville_id == Ville.id)
+        .join(Connaissance, Evenement.username == Connaissance.connaissance)
+        .filter(Connaissance.username == username)
+        .all()
+    )
+
+    events_list = [
+        {
+            'evenement_id': evenement_id,
+            'evenement_nom': evenement_nom,
+            'evenement_date': str(evenement_date),
+            'evenement_heure_debut': str(evenement_heure_debut),
+            'evenement_heure_fin': str(evenement_heure_fin),
+            'terrain_id': terrain_id,
+            'terrain_nom': terrain_nom,
+            'terrain_adresse': terrain_adresse,
+            'ville_nom': ville_nom,
+            'ville_code_postal': ville_code_postal,
+            'ville_departement': ville_departement,
+        }
+        for (
+            evenement_id,
+            evenement_nom,
+            evenement_date,
+            evenement_heure_debut,
+            evenement_heure_fin,
+            terrain_id,
+            terrain_nom,
+            terrain_adresse,
+            ville_nom,
+            ville_code_postal,
+            ville_departement,
+        ) in events
+    ]
+
+    return jsonify(events_list)
+
+
+
+
+
 if __name__ == '__main__':
     app.run(debug=True)
