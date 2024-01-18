@@ -936,7 +936,7 @@ def get_average_score_user(username):
 
     return jsonify(average_scores_dict)
 
-# fonction pour ajouter une connaissance à un user
+# fonction pour ajouter une connaissance à un user si la connaissance n'existe pas déjà
 @app.route('/add-connaissance/<string:username>', methods=['POST'])
 def add_connaissance(username):
     data = request.get_json()

@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const LocationInput = ({ onLocationSubmit }) => {
   const [isLocating, setIsLocating] = useState(false);
@@ -52,11 +54,20 @@ const LocationInput = ({ onLocationSubmit }) => {
       body: JSON.stringify({ connaissance })
     })
     .then(response => response.json())
-    .then(data => console.log(data))
-    .catch(error => console.error('Erreur lors de l\'ajout de la connaissance:', error));
+    .then(data => {
+      console.log(data);
+      toast.success('La connaissance a été ajoutée avec succès !');
+    })
+    .catch(error => {
+      console.error('Erreur lors de l\'ajout de la connaissance:', error);
+      toast.error('Erreur lors de l\'ajout de la connaissance.');
+    });
   };
+  
 
   return (
+    <>
+    <ToastContainer />
     <div className="centered-container">
        <div className="input-container centered-input">
         <label>Latitude:</label>
@@ -77,14 +88,19 @@ const LocationInput = ({ onLocationSubmit }) => {
           value={manualLongitude}
           onChange={(e) => setManualLongitude(e.target.value)}
         />
-        <label>Je connais:</label>
-        <input
-          className="connaissance-input"
-          type="text"
-          value={connaissance}
-          onChange={(e) => setConnaissance(e.target.value)}
-        />
       </div>
+      <div className="input-container centered-input">
+        <label>Je connais:</label>
+          <input
+            className="location-input"
+            type="text"
+            value={connaissance}
+            onChange={(e) => setConnaissance(e.target.value)}
+          />
+        <button className="button submit-button" onClick={handleConnaissanceSubmit}>
+          Ajouter
+        </button>
+        </div>
       <button className="button submit-button" onClick={handleManualSubmit}>
         Entrer les coordonnées
       </button>
@@ -95,12 +111,8 @@ const LocationInput = ({ onLocationSubmit }) => {
       >
         {isLocating ? 'En cours de localisation...' : 'Obtenir ma position'}
       </button>
-      <button className="button submit-button" onClick={handleConnaissanceSubmit}>
-        Ajouter une connaissance
-      </button>
-
-
     </div>
+    </>
   );
   
 };
