@@ -56,6 +56,7 @@ class Evenement(db.Model):
     nb_participants = db.Column(db.Integer)
     terrain_id = db.Column(db.Integer, db.ForeignKey('terrain.id'))
     terrain = db.relationship('Terrain', backref=db.backref('evenements', lazy=True))
+    moyenne_score_participant = db.Column(db.Float)
 
 class Sport(db.Model):
     id = db.Column(db.Integer, primary_key=True)
