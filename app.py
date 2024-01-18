@@ -780,5 +780,23 @@ def get_average_score_users():
 
     return jsonify(average_scores_dict)
 
+# fonction pour calculer la moyenne des scores des participants d'un événement
+@app.route('/average-score-event/<int:eventId>', methods=['GET'])
+def get_average_score_event(eventId):
+    average_scores = (
+        db.session.query(
+            Reservation.evenement_id.label('evenement_id'),
+            func.avg(StatUser.score).label('average_score')
+        )
+        .join(StatUser, Reservation.username == StatUser.username)
+        .group_by(Reservation.evenement_id)
+        .filter(Reservation.evenement_id == eventId)
+        .all()
+    )
+
+    average_scores_dict = {evenement_id: average_score for evenement_id, average_score in average_scores}
+
+    return jsonify(average_scores_dict)
+
 if __name__ == '__main__':
     app.run(debug=True)
