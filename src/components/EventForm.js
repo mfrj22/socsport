@@ -60,6 +60,7 @@ const EventForm = () => {
       startTime: eventStartTime,
       endTime: eventEndTime,
       nbParticipants: eventNbP,
+      username: username,
     };
 
     fetch(`http://localhost:5000/create-event/${fieldId}`, {

@@ -47,16 +47,6 @@ class Terrain(db.Model):
     sports = db.relationship('Sport', secondary=terrain_sport_association, backref=db.backref('terrains', lazy=True))
 
 
-class Evenement(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    nom = db.Column(db.String(100))
-    date = db.Column(db.Date)
-    heure_debut = db.Column(db.Time)
-    heure_fin = db.Column(db.Time)
-    nb_participants = db.Column(db.Integer)
-    terrain_id = db.Column(db.Integer, db.ForeignKey('terrain.id'))
-    terrain = db.relationship('Terrain', backref=db.backref('evenements', lazy=True))
-
 class Sport(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(100), unique=True, nullable=False)
@@ -69,7 +59,7 @@ class Reservation(db.Model):
     email_participant = db.Column(db.String(100))
     tel_participant = db.Column(db.String(100))
     evenement = db.relationship('Evenement', backref=db.backref('reservations', lazy=True))
-    username = db.Column(db.String(80), db.ForeignKey('user.username'), nullable=False)
+    username = db.Column(db.String(80), db.ForeignKey('user.username'))  # Add this line
 
 class Note(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -80,6 +70,17 @@ class Note(db.Model):
 class User(db.Model):
     # id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(80), primary_key=True)
+
+class Evenement(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    nom = db.Column(db.String(100))
+    date = db.Column(db.Date)
+    heure_debut = db.Column(db.Time)
+    heure_fin = db.Column(db.Time)
+    nb_participants = db.Column(db.Integer)
+    terrain_id = db.Column(db.Integer, db.ForeignKey('terrain.id'))
+    terrain = db.relationship('Terrain', backref=db.backref('evenements', lazy=True))
+    username = db.Column(db.String(80), db.ForeignKey('user.username'), nullable=False)
 
 class StatUser(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -330,8 +331,9 @@ def nearest_fields():
 @app.route('/create-event/<int:fieldId>', methods=['POST'])
 def create_event(fieldId):
     data = request.get_json()
-    if 'name' in data and 'date' in data and 'startTime' in data and 'endTime' in data and 'nbParticipants' in data:
+    if 'name' in data and 'date' in data and 'startTime' in data and 'endTime' in data and 'nbParticipants' in data and 'username' in data:
         terrain = Terrain.query.get(fieldId)
+        user = User.query.get(data['username'])
         if terrain:
             new_event = Evenement(
                 nom=data['name'],
@@ -339,7 +341,8 @@ def create_event(fieldId):
                 heure_debut=data['startTime'],
                 heure_fin=data['endTime'],
                 nb_participants=data['nbParticipants'],
-                terrain_id=fieldId
+                terrain_id=fieldId,
+                username=data['username']
             )
             db.session.add(new_event)
             db.session.commit()
