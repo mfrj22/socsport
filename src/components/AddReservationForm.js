@@ -24,6 +24,11 @@ function AddReservationForm() {
 
     const username = localStorage.getItem('username');
 
+    if(!username) {
+      toast.error('Vous devez être connecté pour réserver!'); // Affichage de la notification
+      return;
+    }
+
     fetch(`http://localhost:5000/add-reservation`, {
       method: 'POST',
       headers: {
