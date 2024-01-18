@@ -763,5 +763,22 @@ def get_user_reservations(username):
     else:
         return jsonify({'message': 'Utilisateur non trouvé'}), 404
 
+# fonction pour calculer la moyenne des scores des participants
+@app.route('/average-score-users', methods=['GET'])
+def get_average_score_users():
+    average_scores = (
+        db.session.query(
+            Reservation.username.label('username'),
+            func.avg(StatUser.score).label('average_score')
+        )
+        .join(StatUser, Reservation.username == StatUser.username)
+        .group_by(Reservation.username)
+        .all()
+    )
+
+    average_scores_dict = {username: average_score for username, average_score in average_scores}
+
+    return jsonify(average_scores_dict)
+
 if __name__ == '__main__':
     app.run(debug=True)
