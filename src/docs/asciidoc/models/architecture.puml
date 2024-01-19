@@ -1,0 +1,30 @@
+@startuml 
+
+package "socsport front-end" {
+    class App extends Home 
+
+    class Home extends Login, CreateEvent, AddTerrain, ClassementEvent, Notifications, ChooseSport, HistoriqueReservation, RecommandationEvent, ConnaissanceEvent
+
+    class Login
+
+    class CreateEvent extends AddReservation, DeleteReservation
+
+    class AddTerrain
+
+    class ClassementEvent
+
+    class Notifications
+
+    class ChooseSport extends AddReservation, DeleteReservation
+
+    class HistoriqueReservation
+
+    class RecommandationEvent extends AddReservation, DeleteReservation
+
+    class ConnaissanceEvent extends AddReservation, DeleteReservation
+
+    class AddReservation
+
+    class DeleteReservation
+
+}
