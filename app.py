@@ -12,7 +12,7 @@ import logging
 load_dotenv()
 
 app = Flask(__name__)
-CORS(app)
+CORS(app, resources={r"/*": {"origins": "http://localhost:3000"}})
 
 db_password = os.getenv('DB_PASSWORD')
 
@@ -59,7 +59,9 @@ class Reservation(db.Model):
     email_participant = db.Column(db.String(100))
     tel_participant = db.Column(db.String(100))
     evenement = db.relationship('Evenement', backref=db.backref('reservations', lazy=True))
-    username = db.Column(db.String(80), db.ForeignKey('user.username'))  # Add this line
+    username = db.Column(db.String(80), db.ForeignKey('user.username')) 
+    mot_de_passe = db.Column(db.String(100))  
+
 
 class Note(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -80,6 +82,8 @@ class Evenement(db.Model):
     terrain_id = db.Column(db.Integer, db.ForeignKey('terrain.id'))
     terrain = db.relationship('Terrain', backref=db.backref('evenements', lazy=True))
     username = db.Column(db.String(80), db.ForeignKey('user.username'), nullable=False)
+    mot_de_passe = db.Column(db.String(100)) 
+
 
 class StatUser(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -352,7 +356,8 @@ def create_event(fieldId):
                 heure_fin=data['endTime'],
                 nb_participants=data['nbParticipants'],
                 terrain_id=fieldId,
-                username=data['username']
+                username=data['username'],
+                mot_de_passe=data['mot_de_passe']
             )
             db.session.add(new_event)
             db.session.commit()
@@ -387,7 +392,8 @@ def create_reservation():
                 prenom_participant=data['prenom_participant'],
                 email_participant=data['email_participant'],
                 tel_participant=data['tel_participant'],
-                username=data['username']
+                username=data['username'],
+                mot_de_passe=data['mot_de_passe']
             )
             # décrémenter le nombre de participants
             evenement.nb_participants -= 1
@@ -406,12 +412,14 @@ def create_reservation():
                 'heure_debut': str(evenement.heure_debut),
                 'heure_fin': str(evenement.heure_fin),
                 'nb_participants': evenement.nb_participants,
+                'mot_de_passe': evenement.mot_de_passe
             }
 
             return jsonify({
                 'message': 'Reservation created successfully',
                 'evenement_id': evenement_id,
                 'event_details': event_details
+
             })
         else:
             # Événement avec l'ID donné non trouvé
