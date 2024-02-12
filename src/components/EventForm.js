@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
+import axios from 'axios';
 import 'react-toastify/dist/ReactToastify.css';
 import './Form.css'
 
-const EventForm = () => {
+const EventForm = ({ setSelectedEvent, latitude, longitude }) => {
   const { fieldId } = useParams();
   const [fieldName, setFieldName] = useState('');
   const [eventName, setEventName] = useState('');
@@ -16,7 +17,28 @@ const EventForm = () => {
   const [events, setEvents] = useState([]);
   const [averageNotes, setAverageNotes] = useState({});
   const [reservations, setReservations] = useState([]);
+  const [weather, setWeather] = useState(null);
   const username = localStorage.getItem('username');
+
+  const getWeatherForecast = async (date) => {
+    try {
+      const apiKey = "e46c347779f1d83501e8fda216cf14e1";
+      const response = await axios.get(`http://api.openweathermap.org/data/2.5/forecast?lat=${latitude}&lon=${longitude}&appid=${apiKey}`);
+      const forecastList = response.data.list;
+      const forecast = forecastList.find(forecast => forecast.dt_txt.includes(date));
+      setWeather(forecast);
+    } catch (error) {
+      console.error('Erreur lors de la récupération des prévisions météo:', error);
+    }
+  };
+  
+  const handleDateChange = async (e) => {
+    const date = e.target.value;
+    setEventDate(date);
+    const forecast = await getWeatherForecast(date);
+    console.log('Prévisions météo:', forecast);
+  };
+  
 
   useEffect(() => {
     fetch(`http://localhost:5000/historique/${username}`)
@@ -143,7 +165,7 @@ const EventForm = () => {
 
           <div>
             <label>Date:</label>
-            <input type="date" value={eventDate} onChange={(e) => setEventDate(e.target.value)} />
+            <input type="date" value={eventDate} onChange={handleDateChange} />
           </div>
 
           <div>
@@ -169,6 +191,14 @@ const EventForm = () => {
           <button type="submit">Créer l'événement</button>
         </form>
       </div>
+      {weather && (
+        <div>
+          <span style={{ display: 'inline-flex', alignItems: 'center' }}>
+            <img src={`https://openweathermap.org/img/w/${weather.weather[0].icon}.png`} alt="Weather Icon" style={{ marginRight: '5px' }} />
+            {weather.name} : {Math.round(weather.main.temp - 273.15)}°C
+          </span>
+        </div>
+      )}
       <div>
         <div>
           <h2>Événements pour le terrain avec l'ID {fieldId}</h2>

@@ -376,7 +376,7 @@ function App() {
             />
           ))}
 
-          <Route path="/create-event/:fieldId" element={<EventForm setSelectedEvent={setSelectedEvent} />} />
+          <Route path="/create-event/:fieldId" element={<EventForm setSelectedEvent={setSelectedEvent} latitude={userLocation?.lat} longitude={userLocation?.lng} />} />
 
           <Route path="/add-reservation/:eventId" element={<AddReservationForm selectedEvent={selectedEvent} />} />
 

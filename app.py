@@ -372,9 +372,6 @@ def create_event(fieldId):
         # Clés JSON manquantes
         return jsonify({'message': 'Invalid JSON data'}), 400
 
-
-
-
 @app.route('/add-reservation', methods=['POST'])
 def create_reservation():
     data = request.get_json()
