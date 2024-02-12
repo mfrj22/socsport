@@ -53,7 +53,7 @@ const EventForm = () => {
       return;
     }
 
-    if (!eventName || !eventDate || !eventStartTime || !eventEndTime || !eventPassword) {
+    if (!eventName || !eventDate || !eventStartTime || !eventEndTime) {
       alert('Veuillez remplir tous les champs');
       return;
     }
