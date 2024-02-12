@@ -60,8 +60,6 @@ class Reservation(db.Model):
     tel_participant = db.Column(db.String(100))
     evenement = db.relationship('Evenement', backref=db.backref('reservations', lazy=True))
     username = db.Column(db.String(80), db.ForeignKey('user.username')) 
-    mot_de_passe = db.Column(db.String(100))  
-
 
 class Note(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -381,11 +379,12 @@ def create_event(fieldId):
 def create_reservation():
     data = request.get_json()
 
-    if 'evenement_id' in data and 'nom_participant' in data and 'prenom_participant' in data and 'email_participant' in data and 'tel_participant' in data:
+    if 'evenement_id' in data and 'nom_participant' in data and 'prenom_participant' in data and 'email_participant' in data and 'tel_participant' in data and 'event_password' in data:
         evenement_id = data['evenement_id']
         evenement = Evenement.query.get(evenement_id)
 
-        if evenement and evenement.nb_participants > 0:
+        if evenement and evenement.nb_participants > 0 and evenement.mot_de_passe==data.get('event_password'):
+
             new_reservation = Reservation(
                 evenement_id=evenement_id,
                 nom_participant=data['nom_participant'],
@@ -393,7 +392,6 @@ def create_reservation():
                 email_participant=data['email_participant'],
                 tel_participant=data['tel_participant'],
                 username=data['username'],
-                mot_de_passe=data['mot_de_passe']
             )
             # décrémenter le nombre de participants
             evenement.nb_participants -= 1
@@ -423,7 +421,7 @@ def create_reservation():
             })
         else:
             # Événement avec l'ID donné non trouvé
-            return jsonify({'message': 'Invalid event ID'}), 400
+            return jsonify({'message': 'Invalid'}), 400
     else:
         # Clés JSON manquantes
         return jsonify({'message': 'Invalid JSON data'}), 400

@@ -9,6 +9,7 @@ function AddReservationForm() {
     prenom_participant: '',
     email_participant: '',
     tel_participant: '',
+    event_password: '',
   });
 
   const { eventId } = useParams();
@@ -109,6 +110,16 @@ function AddReservationForm() {
             value={reservationData.tel_participant}
             onChange={handleInputChange}
             required
+          />
+        </label>
+        <br />
+        <label>
+          Mot de passe :
+          <input
+            type="password"
+            name="event_password"
+            value={reservationData.event_password}
+            onChange={handleInputChange}
           />
         </label>
         <br />
