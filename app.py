@@ -339,6 +339,12 @@ def create_event(fieldId):
         terrain = Terrain.query.get(fieldId)
         user = User.query.get(data['username'])
         if terrain:
+            # Vérifier si un événement se déroule déjà à la même date et heure
+            existing_events = Evenement.query.filter(Evenement.date==data['date'], Evenement.terrain_id==fieldId, Evenement.heure_debut<data['endTime'], Evenement.heure_fin>data['startTime']).all()
+            if existing_events:
+                # Un ou plusieurs événements existent déjà à la même date et heure
+                return jsonify({'message': 'An event already exists at the same date and time'}), 400
+
             new_event = Evenement(
                 nom=data['name'],
                 date=data['date'],
@@ -362,6 +368,8 @@ def create_event(fieldId):
     else:
         # Clés JSON manquantes
         return jsonify({'message': 'Invalid JSON data'}), 400
+
+
 
 
 @app.route('/add-reservation', methods=['POST'])
