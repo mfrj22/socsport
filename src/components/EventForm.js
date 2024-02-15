@@ -5,9 +5,11 @@ import axios from 'axios';
 import 'react-toastify/dist/ReactToastify.css';
 import './Form.css'
 
-const EventForm = ({ setSelectedEvent, latitude, longitude }) => {
+const EventForm = ({ setSelectedEvent }) => {
   const { fieldId } = useParams();
   const [fieldName, setFieldName] = useState('');
+  const [lat , setLat] = useState('');
+  const [long , setLong] = useState('');
   const [eventName, setEventName] = useState('');
   const [eventDate, setEventDate] = useState('');
   const [eventStartTime, setEventStartTime] = useState('');
@@ -19,11 +21,12 @@ const EventForm = ({ setSelectedEvent, latitude, longitude }) => {
   const [reservations, setReservations] = useState([]);
   const [weather, setWeather] = useState(null);
   const username = localStorage.getItem('username');
+  const [isOutdoor, setIsOutdoor] = useState(null);  // Nouvel état pour la nature du terrain
 
   const getWeatherForecast = async (date) => {
     try {
       const apiKey = "e46c347779f1d83501e8fda216cf14e1";
-      const response = await axios.get(`http://api.openweathermap.org/data/2.5/forecast?lat=${latitude}&lon=${longitude}&appid=${apiKey}`);
+      const response = await axios.get(`http://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${long}&appid=${apiKey}`);
       const forecastList = response.data.list;
       const forecast = forecastList.find(forecast => forecast.dt_txt.includes(date));
       setWeather(forecast);
@@ -31,13 +34,40 @@ const EventForm = ({ setSelectedEvent, latitude, longitude }) => {
       console.error('Erreur lors de la récupération des prévisions météo:', error);
     }
   };
+
+  useEffect(() => {
+    fetch(`http://localhost:5000/terrain/${fieldId}`)
+      .then((response) => response.json())
+      .then((data) => {
+        console.log('Terrain:', data);
+        setLat(data.latitude);
+        setLong(data.longitude);
+      })
+      .catch((error) => console.error('Erreur lors de la récupération du terrain:', error));
+  }, [fieldId]);
   
   const handleDateChange = async (e) => {
     const date = e.target.value;
     setEventDate(date);
-    const forecast = await getWeatherForecast(date);
-    console.log('Prévisions météo:', forecast);
+    if (isOutdoor) {  // Conditionner l'appel de la fonction à l'état isOutdoor
+      const forecast = await getWeatherForecast(date);
+      console.log('Prévisions météo:', forecast);
+    }
   };
+
+  useEffect(() => {
+    fetch(`http://localhost:5000/terrain/${fieldId}`)
+      .then((response) => response.json())
+      .then((data) => {
+        console.log('Terrain:', data);
+        if (data.emplacement === 'extérieur') {
+          setIsOutdoor(true);
+        } else {
+          setIsOutdoor(false);
+        }
+      })
+      .catch((error) => console.error('Erreur lors de la récupération du terrain:', error));
+  }, [fieldId]);
   
 
   useEffect(() => {
@@ -191,7 +221,7 @@ const EventForm = ({ setSelectedEvent, latitude, longitude }) => {
           <button type="submit">Créer l'événement</button>
         </form>
       </div>
-      {weather && (
+      { weather && (
         <div>
           <span style={{ display: 'inline-flex', alignItems: 'center' }}>
             <img src={`https://openweathermap.org/img/w/${weather.weather[0].icon}.png`} alt="Weather Icon" style={{ marginRight: '5px' }} />

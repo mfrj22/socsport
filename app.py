@@ -442,6 +442,20 @@ def events_for_field(fieldId):
     else:
         return jsonify({'message': 'Terrain non trouvé'}), 404
 
+@app.route('/terrain/<int:fieldId>', methods=['GET'])
+def get_terrain(fieldId):
+    terrain = Terrain.query.get(fieldId)
+    if terrain:
+        return jsonify({
+            'id': terrain.id,
+            'emplacement': terrain.emplacement,
+            'latitude': terrain.latitude,
+            'longitude': terrain.longitude,
+        })
+    else:
+        return jsonify({'message': 'Terrain non trouvé'}), 404
+
+
 @app.route('/ajouter-terrain', methods=['POST'])
 def ajouter_terrain():
     data = request.get_json()
@@ -1012,6 +1026,28 @@ def get_events_connaissance(username):
 
     return jsonify(events_list)
 
+# fonction pour récupérer les terrains en extérieur
+@app.route('/terrains-exterieur', methods=['GET'])
+def get_terrains_exterieur():
+    terrains_exterieur = Terrain.query.filter(Terrain.emplacement == 'extérieur').all()
+    terrains_exterieur_data = [
+        {
+            'id': terrain.id,
+            'nom': terrain.nom,
+            'adresse': terrain.adresse,
+            'latitude': terrain.latitude,
+            'longitude': terrain.longitude,
+            'ville': terrain.ville.nom,
+            'code_postal': terrain.ville.code_postal,
+            'departement': terrain.ville.departement,
+            'horaire_ouverture': str(terrain.horaire_ouverture),
+            'horaire_fermeture': str(terrain.horaire_fermeture),
+            'emplacement': terrain.emplacement,
+        }
+        for terrain in terrains_exterieur
+    ]
+
+    return jsonify(terrains_exterieur_data)
 
 if __name__ == '__main__':
     app.run(debug=True)
