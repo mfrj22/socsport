@@ -11,6 +11,7 @@ const AddTerrainForm = ({ onTerrainSubmit, sports }) => {
     ville: '',
     horaire_ouverture: '',
     horaire_fermeture: '',
+    emplacement: '',
     sport: '', // Nouveau champ pour le sport sélectionné
   });
 
@@ -95,6 +96,14 @@ const AddTerrainForm = ({ onTerrainSubmit, sports }) => {
         <label>Horaire de fermeture:</label>
         <input type="time" name="horaire_fermeture" value={terrainData.horaire_fermeture} onChange={handleChange} required />
       </div>
+      <div>
+        <label>Emplacement:</label>
+        <select name="emplacement" value={terrainData.emplacement} onChange={handleChange} required>
+            <option value="intérieur">Intérieur</option>
+            <option value="extérieur">Extérieur</option>
+        </select>
+      </div>
+
       <div>
         <label>Sports:</label>
         {sports.map((sport) => (

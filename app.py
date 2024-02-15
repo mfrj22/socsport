@@ -43,6 +43,7 @@ class Terrain(db.Model):
     ville_id = db.Column(db.Integer, db.ForeignKey('ville.id'))
     horaire_ouverture = db.Column(db.Time)
     horaire_fermeture = db.Column(db.Time)
+    emplacement = db.Column(db.String(9))
     ville = db.relationship('Ville', backref=db.backref('terrains', lazy=True))
     sports = db.relationship('Sport', secondary=terrain_sport_association, backref=db.backref('terrains', lazy=True))
 
@@ -113,17 +114,17 @@ villes_a_ajouter = [
     Ville(nom="Boulogne-Billancourt", code_postal=92100, departement="Hauts-de-Seine"),
 ]
 terrains_a_ajouter = [
-    Terrain(nom="Stade Vincent Pascucci", adresse="135 Avenue de la Commune de Paris", latitude=48.907273, longitude=2.207743, ville_id=1, horaire_ouverture='08:00:00', horaire_fermeture='22:00:00'),
-    Terrain(nom="Stade Jean Coteau", adresse="81 Avenue François Vincent Raspail", latitude=48.807719, longitude=2.341501, ville_id=3, horaire_ouverture='09:00:00', horaire_fermeture='23:00:00'),
-    Terrain(nom="Stade Albert Smirlian", adresse="11 Avenue Renée", latitude=48.9193427, longitude=2.2699387, ville_id=2, horaire_ouverture='10:00:00', horaire_fermeture='21:00:00'),
-    Terrain(nom="Stade Emile Anthoine", adresse="2 Avenue de Suffren", latitude=48.8469924, longitude=2.3073936, ville_id=10, horaire_ouverture='08:00:00', horaire_fermeture='23:00:00'),
-    Terrain(nom="Stade du Parc", adresse="298 Avenue Napoléon Bonaparte", latitude=48.8719843, longitude=2.1616405, ville_id=7, horaire_ouverture='08:00:00', horaire_fermeture='21:00:00'),
-    Terrain(nom="Stade Jean Moulin", adresse="131 Boulevard Washington", latitude=48.8768955904541016, longitude=2.2169318199157715,ville_id=9, horaire_ouverture='09:00:00', horaire_fermeture='20:00:00'),
-    Terrain(nom="Stade Léon Rabbot", adresse="2 Allée Georges Hassoux", latitude=48.8773421, longitude=2.2440671,ville_id=8, horaire_ouverture='08:00:00', horaire_fermeture='22:00:00'),
-    Terrain(nom="Stade Landy", adresse="Rue Calon", latitude=48.9255492, longitude=2.3434684,ville_id=6, horaire_ouverture='08:00:00', horaire_fermeture='22:00:00'),
-    Terrain(nom="Stade de Gournail", adresse="179 Bouelvard de Stalingrad", latitude=48.80597686767578, longitude=2.3757195472717285,ville_id=5, horaire_ouverture='07:00:00', horaire_fermeture='18:00:00'),
-    Terrain(nom="Stade des Glacières", adresse="65 Rue Nationale", latitude=48.82695770263672, longitude=2.242238998413086,ville_id=10, horaire_ouverture='07:00:00', horaire_fermeture='20:00:00'),
-    Terrain(nom="Stade Gabriel Péri", adresse="136 Avenue Frédéric et Irène Joliot-Curie", latitude=48.89232635498047, longitude=2.209458112716675,ville_id=1, horaire_ouverture='09:00:00', horaire_fermeture='23:00:00'),
+    Terrain(nom="Stade Vincent Pascucci", adresse="135 Avenue de la Commune de Paris", latitude=48.907273, longitude=2.207743, ville_id=1, horaire_ouverture='08:00:00', horaire_fermeture='22:00:00', emplacement="extérieur"),
+    Terrain(nom="Stade Jean Coteau", adresse="81 Avenue François Vincent Raspail", latitude=48.807719, longitude=2.341501, ville_id=3, horaire_ouverture='09:00:00', horaire_fermeture='23:00:00', emplacement="extérieur"),
+    Terrain(nom="Stade Albert Smirlian", adresse="11 Avenue Renée", latitude=48.9193427, longitude=2.2699387, ville_id=2, horaire_ouverture='10:00:00', horaire_fermeture='21:00:00', emplacement="extérieur"),
+    Terrain(nom="Stade Emile Anthoine", adresse="2 Avenue de Suffren", latitude=48.8469924, longitude=2.3073936, ville_id=10, horaire_ouverture='08:00:00', horaire_fermeture='23:00:00', emplacement="extérieur"),
+    Terrain(nom="Stade du Parc", adresse="298 Avenue Napoléon Bonaparte", latitude=48.8719843, longitude=2.1616405, ville_id=7, horaire_ouverture='08:00:00', horaire_fermeture='21:00:00', emplacement="extérieur"),
+    Terrain(nom="Stade Jean Moulin", adresse="131 Boulevard Washington", latitude=48.8768955904541016, longitude=2.2169318199157715,ville_id=9, horaire_ouverture='09:00:00', horaire_fermeture='20:00:00', emplacement="extérieur"),
+    Terrain(nom="Stade Léon Rabbot", adresse="2 Allée Georges Hassoux", latitude=48.8773421, longitude=2.2440671,ville_id=8, horaire_ouverture='08:00:00', horaire_fermeture='22:00:00', emplacement="extérieur"),
+    Terrain(nom="Stade Landy", adresse="Rue Calon", latitude=48.9255492, longitude=2.3434684,ville_id=6, horaire_ouverture='08:00:00', horaire_fermeture='22:00:00', emplacement="extérieur"),
+    Terrain(nom="Stade de Gournail", adresse="179 Bouelvard de Stalingrad", latitude=48.80597686767578, longitude=2.3757195472717285,ville_id=5, horaire_ouverture='07:00:00', horaire_fermeture='18:00:00', emplacement="extérieur"),
+    Terrain(nom="Stade des Glacières", adresse="65 Rue Nationale", latitude=48.82695770263672, longitude=2.242238998413086,ville_id=10, horaire_ouverture='07:00:00', horaire_fermeture='20:00:00', emplacement="extérieur"),
+    Terrain(nom="Stade Gabriel Péri", adresse="136 Avenue Frédéric et Irène Joliot-Curie", latitude=48.89232635498047, longitude=2.209458112716675,ville_id=1, horaire_ouverture='09:00:00', horaire_fermeture='23:00:00', emplacement="extérieur"),
 ]
 
 sports_a_ajouter = [
@@ -453,6 +454,7 @@ def ajouter_terrain():
     departement = data.get('departement')
     horaire_ouverture = data.get('horaire_ouverture')
     horaire_fermeture = data.get('horaire_fermeture')
+    emplacement = data.get('emplacement')
     # sports_ids = data.get('sport')  # Utiliser les ID des sports sélectionnés
     #Utilise les ids des sports sélectionnés par l'utilisateur dans la checkbox
     sports_ids = Sport.query.filter(Sport.id.in_(data.get('sport'))).all()
@@ -475,6 +477,7 @@ def ajouter_terrain():
         ville_id=ville.id,
         horaire_ouverture=horaire_ouverture,
         horaire_fermeture=horaire_fermeture,
+        emplacement=emplacement,
     )
 
     db.session.add(nouveau_terrain)
