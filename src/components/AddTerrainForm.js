@@ -18,6 +18,7 @@ const AddTerrainForm = ({ onTerrainSubmit, sports }) => {
   const handleChange = (e) => {
     const { name, value } = e.target;
     setTerrainData({ ...terrainData, [name]: value });
+    console.log(terrainData);
   };
 
   // Nouvelle fonction pour gérer les changements dans la liste déroulante du sport
@@ -99,6 +100,7 @@ const AddTerrainForm = ({ onTerrainSubmit, sports }) => {
       <div>
         <label>Emplacement:</label>
         <select name="emplacement" value={terrainData.emplacement} onChange={handleChange} required>
+            <option value="">--Choisir--</option>
             <option value="intérieur">Intérieur</option>
             <option value="extérieur">Extérieur</option>
         </select>
