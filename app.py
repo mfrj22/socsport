@@ -1076,5 +1076,40 @@ def get_events_same_time(eventId):
         return jsonify({'message': 'Event not found'}), 404
 
 
+@app.route('/events-simultanes-user/<string:username>', methods=['GET'])
+def get_user_events_simultanes(username):
+    user = User.query.filter_by(username=username).first()
+    if user:
+        user_events = Evenement.query.filter_by(username=user.username).all()
+        events_simultanes = []
+        for event in user_events:
+            events_same_time = Evenement.query.filter(
+                Evenement.date == event.date,
+                Evenement.heure_debut < event.heure_fin,
+                Evenement.heure_fin > event.heure_debut,
+                Evenement.terrain_id == event.terrain_id,
+                Evenement.id != event.id
+            ).all()
+            for event_same_time in events_same_time:
+                if event_same_time not in events_simultanes:
+                    events_simultanes.append(event_same_time)
+        events_simultanes_data = [
+            {
+                'id': event.id,
+                'nom': event.nom,
+                'date': str(event.date),
+                'heure_debut': str(event.heure_debut),
+                'heure_fin': str(event.heure_fin),
+                'nb_participants': event.nb_participants,
+                'username': User.query.filter_by(username=event.username).first().username
+            }
+            for event in events_simultanes
+        ]
+        return jsonify(events_simultanes_data)
+    else:
+        return jsonify({'message': 'User not found'}), 404
+
+
+
 if __name__ == '__main__':
     app.run(debug=True)
