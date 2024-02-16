@@ -343,10 +343,10 @@ def create_event(fieldId):
         user = User.query.get(data['username'])
         if terrain:
             # Vérifier si un événement se déroule déjà à la même date et heure
-            existing_events = Evenement.query.filter(Evenement.date==data['date'], Evenement.terrain_id==fieldId, Evenement.heure_debut<data['endTime'], Evenement.heure_fin>data['startTime']).all()
-            if existing_events:
-                # Un ou plusieurs événements existent déjà à la même date et heure
-                return jsonify({'message': 'An event already exists at the same date and time'}), 400
+            # existing_events = Evenement.query.filter(Evenement.date==data['date'], Evenement.terrain_id==fieldId, Evenement.heure_debut<data['endTime'], Evenement.heure_fin>data['startTime']).all()
+            # if existing_events:
+            #     # Un ou plusieurs événements existent déjà à la même date et heure
+            #     return jsonify({'message': 'An event already exists at the same date and time'}), 400
 
             new_event = Evenement(
                 nom=data['name'],
@@ -1048,6 +1048,33 @@ def get_terrains_exterieur():
     ]
 
     return jsonify(terrains_exterieur_data)
+
+# fonction pour récupérer tous les événements qui ont lieu le même jour, à la même heure et dans le même terrain
+@app.route('/events-simultanes/<int:eventId>', methods=['GET'])
+def get_events_same_time(eventId):
+    event = Evenement.query.get(eventId)
+    if event:
+        events_same_time = Evenement.query.filter(
+            Evenement.date == event.date,
+            Evenement.heure_debut == event.heure_debut,
+            Evenement.terrain_id == event.terrain_id,
+            Evenement.id != eventId
+        ).all()
+        events_same_time_data = [
+            {
+                'id': event.id,
+                'nom': event.nom,
+                'date': str(event.date),
+                'heure_debut': str(event.heure_debut),
+                'heure_fin': str(event.heure_fin),
+                'nb_participants': event.nb_participants,
+            }
+            for event in events_same_time
+        ]
+        return jsonify(events_same_time_data)
+    else:
+        return jsonify({'message': 'Event not found'}), 404
+
 
 if __name__ == '__main__':
     app.run(debug=True)
