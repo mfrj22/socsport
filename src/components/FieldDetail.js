@@ -53,7 +53,7 @@ const FieldDetail = () => {
 
   // Définition de l'icône personnalisée pour le marqueur
   const stadiumIcon = L.icon({
-    iconUrl: 'icon-markeur.png',
+    iconUrl: '/icon-interet.png',
     iconSize: [40, 40],
     iconAnchor: [20, 40],
     popupAnchor: [0, -40],
