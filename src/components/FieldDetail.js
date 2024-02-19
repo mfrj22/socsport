@@ -87,7 +87,12 @@ const FieldDetail = () => {
         {/* Marqueurs pour les points d'intérêt */}
         {pointsOfInterest && pointsOfInterest.length > 0 && pointsOfInterest.map((poi) => (
           <Marker position={[poi.geocodes.main.latitude, poi.geocodes.main.longitude]} key={poi.id} icon={stadiumIcon}>
-            <Popup>{poi.name} - Distance: {Math.round(poi.distance)} mètres</Popup>
+            <Popup>
+              {poi.name}
+              <br></br>
+              Distance: {Math.round(poi.distance)*0.001} km
+              <br></br>
+              Catégorie: {poi.categories[0].name}</Popup>
           </Marker>
         ))}
       </MapContainer>
