@@ -51,7 +51,15 @@ const FieldDetail = () => {
     return <div>Loading...</div>;
   }
 
-  // Définition de l'icône personnalisée pour le marqueur
+  // Définition de l'icône personnalisée pour le marqueur du terrain
+  const fieldIcon = L.icon({
+    iconUrl: '/icon-markeur.png',
+    iconSize: [40, 40],
+    iconAnchor: [20, 40],
+    popupAnchor: [0, -40],
+  });
+
+  // Définition de l'icône personnalisée pour les points d'intérêt
   const stadiumIcon = L.icon({
     iconUrl: '/icon-interet.png',
     iconSize: [40, 40],
@@ -71,6 +79,12 @@ const FieldDetail = () => {
         <TileLayer
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
+        {/* Marqueur pour le terrain */}
+        <Marker position={[field.latitude, field.longitude]} icon={fieldIcon}>
+          <Popup>{field.nom}</Popup>
+        </Marker>
+        
+        {/* Marqueurs pour les points d'intérêt */}
         {pointsOfInterest && pointsOfInterest.length > 0 && pointsOfInterest.map((poi) => (
           <Marker position={[poi.geocodes.main.latitude, poi.geocodes.main.longitude]} key={poi.id} icon={stadiumIcon}>
             <Popup>{poi.name}</Popup>
