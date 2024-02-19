@@ -75,7 +75,7 @@ const FieldDetail = () => {
       <img src={`https://openweathermap.org/img/w/${weather.weather[0].icon}.png`} alt="Weather Icon" style={{ marginRight: '5px' }} />
       {weather.name} : {Math.round(weather.main.temp - 273.15)}°C <br/>
       <h2>Points d'intérêt à proximité :</h2>
-      <MapContainer center={[field.latitude, field.longitude]} zoom={12} style={{ height: "400px", objectFit: "cover", width: '60%', margin: "0 auto" }}>
+      <MapContainer center={[field.latitude, field.longitude]} zoom={12} style={{ height: "400px", objectFit: "cover", width: '60%', margin: "0 auto", marginBottom: "2%" }}>
         <TileLayer
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
