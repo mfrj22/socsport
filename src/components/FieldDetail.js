@@ -90,6 +90,8 @@ const FieldDetail = () => {
             <Popup>
               {poi.name}
               <br></br>
+              Adresse: {poi.location.address}, {poi.location.locality}, {poi.location.postalCode}
+              <br></br>
               Distance: {Math.round(poi.distance)*0.001} km
               <br></br>
               Catégorie: {poi.categories[0].name}</Popup>
