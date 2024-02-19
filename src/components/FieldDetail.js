@@ -72,8 +72,16 @@ const FieldDetail = () => {
       <h1>{field.nom}</h1>
       <p>Latitude: {field.latitude}</p>
       <p>Longitude: {field.longitude}</p>
-      <img src={`https://openweathermap.org/img/w/${weather.weather[0].icon}.png`} alt="Weather Icon" style={{ marginRight: '5px' }} />
-      {weather.name} : {Math.round(weather.main.temp - 273.15)}°C <br/>
+      <div>
+          {weather && (
+            <div>
+              <span style={{ display: 'inline-flex', alignItems: 'center' }}>
+                <img src={`https://openweathermap.org/img/w/${weather.weather[0].icon}.png`} alt="Weather Icon" style={{ marginRight: '5px' }} />
+                {weather.name} : {Math.round(weather.main.temp - 273.15)}°C
+              </span>
+            </div>
+          )}
+        </div>
       <h2>Points d'intérêt à proximité :</h2>
       <MapContainer center={[field.latitude, field.longitude]} zoom={12} style={{ height: "400px", objectFit: "cover", width: '60%', margin: "0 auto", marginBottom: "2%" }}>
         <TileLayer
@@ -86,11 +94,11 @@ const FieldDetail = () => {
         
         {/* Marqueurs pour les points d'intérêt */}
         {pointsOfInterest && pointsOfInterest.length > 0 && pointsOfInterest.map((poi) => (
-          <Marker position={[poi.geocodes.main.latitude, poi.geocodes.main.longitude]} key={poi.id} icon={stadiumIcon}>
+          <Marker position={[poi.geocodes.main.latitude, poi.geocodes.main.longitude]} key={poi.fsq_id} icon={stadiumIcon}>
             <Popup>
               {poi.name}
               <br></br>
-              Adresse: {poi.location.address}, {poi.location.locality}, {poi.location.postalCode}
+              Adresse: {poi.location.address}, {poi.location.locality}
               <br></br>
               Distance: {Math.round(poi.distance)*0.001} km
               <br></br>
