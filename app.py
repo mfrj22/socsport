@@ -287,6 +287,32 @@ def login():
 
     return jsonify(response)
 
+# route pour récupérer les informations d'un terrain et la distance à ce terrain depuis la position de l'utilisateur
+@app.route('/fields/<int:fieldId>', methods=['GET'])
+def terrain_info(fieldId):
+    # user_location = request.get_json()
+    # user_coordinates = (user_location['latitude'], user_location['longitude'])
+
+    terrain = Terrain.query.get(fieldId)
+    if terrain:
+        # distance = geodesic(user_coordinates, (terrain.latitude, terrain.longitude)).kilometers
+        terrain_info = {
+            'id': terrain.id,
+            'nom': terrain.nom,
+            'adresse': terrain.adresse,
+            'latitude': terrain.latitude,
+            'longitude': terrain.longitude,
+            'ville': terrain.ville.nom,
+            'code_postal': terrain.ville.code_postal,
+            'departement': terrain.ville.departement,
+            'horaire_ouverture': str(terrain.horaire_ouverture),
+            'horaire_fermeture': str(terrain.horaire_fermeture),
+            # 'distance': distance,
+            'sports': [sport.name for sport in terrain.sports],
+        }
+        return jsonify(terrain_info)
+    else:
+        return jsonify({'message': 'Terrain non trouvé'}), 404
 
 # Routes de l'API
 @app.route('/nearest-fields', methods=['POST'])

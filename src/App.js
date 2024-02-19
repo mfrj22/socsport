@@ -24,6 +24,7 @@ import LoginForm from './components/LoginForm';
 import DeleteReservationForm from './components/DeleteReservationForm';
 import UpcomingEvents from './components/UpcomingEvents';
 import EventConnaissance from './components/EventConnaissance';
+import FieldDetail from './components/FieldDetail'
 
 function App() {
   const [userLocation, setUserLocation] = useState(null);
@@ -324,7 +325,9 @@ function App() {
                           icon={stadiumIcon}
                         >
                           <Popup>
-                            {field.nom}
+                            <Link to={`/field/${field.id}`}>
+                               {field.nom}
+                            </Link>
                           </Popup>
                         </Marker>
                       ));
@@ -399,6 +402,8 @@ function App() {
           <Route path="/recommandation-events" element={<UpcomingEvents />} />
 
           <Route path="/event-connaissance" element={<EventConnaissance />} />
+
+          <Route path="/field/:fieldId" element={<FieldDetail />} />
   
         </Routes>
 
