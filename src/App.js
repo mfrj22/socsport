@@ -41,6 +41,9 @@ function App() {
   const [username, setUsername] = useState('');
   const [selectedDirectionField, setSelectedDirectionField] = useState(null);
   const [isAuthenticated, setIsAuthenticated] = useState(false); // Ajoutez cette ligne
+  const [messages, setMessages] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+
 
   const fetchDirections = async (startLocation, endLocation) => {
     const apiKey = '5b3ce3597851110001cf6248f0d06cd0df8640da9da60b6f7788f270'; // Remplacez par votre clé API OpenRouteService
@@ -83,7 +86,33 @@ function App() {
       });
   };
 
- 
+  function handleChatSubmit(event) {
+    event.preventDefault();
+    const message = event.target.elements.message.value;
+    setMessages([...messages, { role: 'user', content: message }]);
+    sendMessage(message);
+  }
+
+  function sendMessage(message) {
+    setIsLoading(true); // Active l'indicateur de chargement
+    fetch('http://localhost:5000/chat', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ message: message }),
+    })
+    .then(response => response.json())
+    .then(data => {
+      setMessages(messages => [...messages, { role: 'bot', content: data.response }]);
+      setIsLoading(false); // Désactive l'indicateur de chargement
+    })
+    .catch((error) => {
+      console.error('Error:', error);
+      setIsLoading(false); // Désactive l'indicateur de chargement en cas d'erreur
+    });
+  }
+  
 
   const handleLocationSubmit = () => {
     if (navigator.geolocation) {
@@ -350,6 +379,19 @@ function App() {
                     ))}
                   </Slider>
                 </div>
+                <div className="chat">
+                  {messages.map((message, index) => (
+                    <div key={index} className={message.role}>
+                      <p>{message.content}</p>
+                    </div>
+                  ))}
+                  {isLoading && <p>Chargement...</p>} {/* Affiche "Chargement..." lorsque la réponse est en attente */}
+                  <form onSubmit={handleChatSubmit}>
+                    <input name="message" type="text" />
+                    <button type="submit">Send</button>
+                  </form>
+                </div>
+
               </>
             } />
 
@@ -402,11 +444,8 @@ function App() {
           <Route path="/recommandation-events" element={<UpcomingEvents />} />
 
           <Route path="/event-connaissance" element={<EventConnaissance />} />
-
           <Route path="/field/:fieldId" element={<FieldDetail />} />
-  
         </Routes>
-
       </div>
     </Router>
   );

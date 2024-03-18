@@ -8,6 +8,7 @@ from sqlalchemy import func
 from sqlalchemy.sql import func
 from sqlalchemy.sql.expression import text
 import logging
+import ollama
 
 load_dotenv()
 
@@ -1134,6 +1135,23 @@ def get_user_events_simultanes(username):
         return jsonify(events_simultanes_data)
     else:
         return jsonify({'message': 'User not found'}), 404
+
+@app.route('/chat', methods=['POST'])
+def chat():
+    data = request.get_json()
+    if 'message' in data:
+        response = ollama.chat(
+            model='mistral',
+            messages=[
+                {
+                    'role': 'user',
+                    'content': data['message'],
+                },
+            ]
+        )
+        return jsonify({'response': response['message']['content']})
+    else:
+        return jsonify({'message': 'Invalid JSON data'}), 400
 
 
 
