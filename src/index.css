@@ -295,14 +295,16 @@ tbody tr:hover {
 }
 
 .chat input[type="text"] {
-  flex-grow: 1;
+  width: calc(100% - 60px); /* Ajustez selon la largeur du bouton d'envoi */
   padding: 8px;
-  border-radius: 4px;
+  margin-right: 10px; /* Espacement entre l'input et le bouton */
   border: 1px solid #ccc;
+  border-radius: 4px;
 }
 
 .chat button {
-  padding: 8px 16px;
+  width: 50px; /* Définissez une largeur fixe pour le bouton */
+  padding: 8px;
   background-color: #007bff;
   color: white;
   border: none;
@@ -338,4 +340,19 @@ tbody tr:hover {
 .chat p {
   text-align: center;
   color: #aaa;
+}
+.chat-header {
+  display: flex;
+  justify-content: space-between; /* This will align children with space between them */
+  align-items: center;
+  background-color: #333; /* Your color might be different */
+  color: #fff;
+  padding: 5px;
+}
+
+.minimize-chatbox {
+  background: none;
+  border: none;
+  color: #fff;
+  cursor: pointer;
 }

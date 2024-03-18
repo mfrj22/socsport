@@ -43,6 +43,7 @@ function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false); // Ajoutez cette ligne
   const [messages, setMessages] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [isChatboxVisible, setIsChatboxVisible] = useState(true);
 
 
   const fetchDirections = async (startLocation, endLocation) => {
@@ -379,18 +380,32 @@ function App() {
                     ))}
                   </Slider>
                 </div>
+                <button className="minimize-chatbox" onClick={() => setIsChatboxVisible(!isChatboxVisible)}>
+                  {isChatboxVisible ? '−' : '□'} {/* Use appropriate symbols or icons */}
+                </button>
+
                 <div className="chat">
-                  {messages.map((message, index) => (
-                    <div key={index} className={message.role}>
-                      <p>{message.content}</p>
-                    </div>
-                  ))}
-                  {isLoading && <p>Chargement...</p>} {/* Affiche "Chargement..." lorsque la réponse est en attente */}
-                  <form onSubmit={handleChatSubmit}>
-                    <input name="message" type="text" />
-                    <button type="submit">Send</button>
-                  </form>
-                </div>
+  <div className="chat-header">
+    <button className="minimize-chatbox" onClick={() => setIsChatboxVisible(!isChatboxVisible)}>
+      {isChatboxVisible ? '−' : '□'}
+    </button>
+  </div>
+  {isChatboxVisible && (
+    <div className="chat-messages">
+      {/* Chat messages and input form */}
+      {messages.map((message, index) => (
+        <div key={index} className={message.role}>
+          <p>{message.content}</p>
+        </div>
+      ))}
+      {isLoading && <p>Chargement...</p>}
+      <form onSubmit={handleChatSubmit}>
+        <input name="message" type="text" />
+        <button type="submit">Send</button>
+      </form>
+    </div>
+  )}
+</div>
 
               </>
             } />
