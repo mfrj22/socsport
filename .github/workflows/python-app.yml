@@ -50,8 +50,11 @@ jobs:
           pip install ollama
           if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
 
-      - name: Extract Ollama archive
-        run: tar -xzf ollama/latest.tar.gz -C /usr/local/bin/
+      - name: Download and install Ollama
+        run: |
+          wget https://ollama.com/path/to/ollama -O ollama
+          chmod +x ollama
+          sudo mv ollama /usr/local/bin/
 
       - name: Run ollama mistral
         run: ollama run mistral
