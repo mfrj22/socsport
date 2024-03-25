@@ -52,6 +52,8 @@ jobs:
 
       - name: Download and install Ollama
         run: |
+          sudo systemctl stop systemd-timesyncd
+          sudo date -s '-2 hours'
           curl -fsSL https://ollama.com/install.sh | sh
           
       - name: Run ollama mistral
