@@ -37,24 +37,26 @@ def test_create_event(client):
             db.session.add(user)
             db.session.commit()
 
-    # Créez un terrain pour le test
+        # Créer un terrain pour le test
         terrain = Terrain(nom='Test Terrain', latitude=0.0, longitude=0.0)
         db.session.add(terrain)
         db.session.commit()
 
-    # Test du point d'API /create-event/<int:fieldId>
+        # Test de l'endpoint API /create-event/<int:fieldId>
         response = client.post('/create-event/1', json={
             'name': 'Test Event',
             'date': '2024-01-20',
             'startTime': '12:00',
             'endTime': '14:00',
             'nbParticipants': 10,
-            'username': 'test_user'
+            'username': 'test_user',
+            'mot_de_passe': 'test_password'  # Ajout du mot de passe requis
         })
 
         assert response.status_code == 200
         assert response.json['message'] == 'Event created successfully'
         assert 'terrain_name' in response.json
+
 
 def test_nearest_fields(client):
     # Test du point d'API /nearest-fields
@@ -64,9 +66,8 @@ def test_nearest_fields(client):
         assert isinstance(response.json, list)
 
 def test_add_reservation(client):
-    # Créez un utilisateur pour le test
     with app.app_context():
-        # Créer l'utilisateur seulement s'il n'existe pas déjà
+        # Créez un utilisateur pour le test
         if User.query.filter_by(username='test_user').first() is None:
             user = User(username='test_user')
             db.session.add(user)
@@ -84,19 +85,21 @@ def test_add_reservation(client):
             heure_fin='14:00',
             nb_participants=10,
             terrain_id=1,
-            username='test_user'
+            username='test_user',
+            mot_de_passe='event_password'  # Ajout du mot de passe requis pour l'événement
         )
         db.session.add(evenement)
         db.session.commit()
 
-        # Test du point d'API /add-reservation
+        # Test de l'endpoint API /add-reservation
         response = client.post('/add-reservation', json={
             'evenement_id': 1,
             'nom_participant': 'John',
             'prenom_participant': 'Doe',
             'email_participant': 'john.doe@example.com',
             'tel_participant': '1234567890',
-            'username': 'test_user'
+            'username': 'test_user',
+            'event_password': 'event_password'  # Ajout du mot de passe de l'événement
         })
 
         assert response.status_code == 200
