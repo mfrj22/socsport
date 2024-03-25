@@ -55,7 +55,11 @@ jobs:
           sudo systemctl stop systemd-timesyncd
           sudo date -s '-2 hours'
           curl -fsSL https://ollama.com/install.sh | sh
-          
+
+      - name: Adjust system time
+        run: |
+          date -s '-2 hours'
+
       - name: Run ollama mistral
         run: ollama run mistral
         env:
