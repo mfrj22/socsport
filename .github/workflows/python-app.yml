@@ -52,7 +52,7 @@ jobs:
 
       - name: Adjust system time
         run: |
-          date -s '-2 hours'
+          sudo date -s '-2 hours'
 
       - name: Download and install Ollama
         run: |
