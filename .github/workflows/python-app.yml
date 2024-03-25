@@ -49,6 +49,12 @@ jobs:
           pip install python_dotenv
           pip install ollama
           if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+
+      - name: Install ollama
+        run: |
+          wget -q https://github.com/ollama/ollama/releases/download/v0.1.29/ollama-0.1.29-linux-x64.tar.gz
+          tar -xzf ollama-0.1.29-linux-x64.tar.gz
+          sudo mv ollama /usr/local/bin/
           
       - name: Run ollama mistral
         run: ollama run mistral
