@@ -56,6 +56,9 @@ jobs:
           
       - name: Run ollama mistral
         run: ollama run mistral
+        env:
+          CURL_OPTS: -k
+
           
       - name: Install Code Climate Test Reporter
         run: |
