@@ -52,9 +52,7 @@ jobs:
 
       - name: Download and install Ollama
         run: |
-          wget https://ollama.com -O ollama
-          chmod +x ollama
-          sudo mv ollama /usr/local/bin/
+          curl -fsSL https://ollama.com/install.sh | sh
           
       - name: Run ollama mistral
         run: ollama run mistral
