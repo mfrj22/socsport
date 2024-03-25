@@ -52,7 +52,7 @@ jobs:
 
       - name: Download and install Ollama
         run: |
-          wget https://ollama.com/path/to/ollama -O ollama
+          wget https://ollama.com -O ollama
           chmod +x ollama
           sudo mv ollama /usr/local/bin/
           
