@@ -15,6 +15,7 @@ entity "Terrain" {
   longitude: Float
   horaire_ouverture: Time
   horaire_fermeture: Time
+  emplacement : String
 }
 
 entity "Evenement" {
@@ -24,6 +25,7 @@ entity "Evenement" {
   heure_debut: Time
   heure_fin: Time
   nb_participants: Integer
+  mot_de_passe: String
 }
 
 entity "Sport" {
@@ -44,6 +46,19 @@ entity "Note" {
   note: Integer
 }
 
+entity "User" {
+  + username : String
+}
+
+entity "Connaissance" {
+  + id : Integer
+  connaissance : String
+}
+
+entity "Stat_user" {
+  +id : Integer
+  score : Integer
+}
 ' entity "TerrainSportAssociation" {
 '   + terrain_id: Integer
 '   + sport_id: Integer
@@ -54,6 +69,11 @@ Terrain --|{ Evenement : "Héberge"
 Evenement --|{ Reservation : "Comprend"
 Evenement --|{ Note : "Enregistre"
 Sport }|--|{ Terrain : "Propose"
+User --|{ Evenement : "Organise"
+Connaissance --|{ User : "Connait"
+User --|{ Reservation : "Effectue"
+User --|{ Stat_user : "Possède"
+
 
 
 @enduml

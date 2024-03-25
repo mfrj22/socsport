@@ -1,81 +1,69 @@
-@startuml
-
-package "socsport back-end" {
-
-  class Ville {
-    +id : Integer
-    +nom : String
-    +code_postal : Integer
-    +departement : String
-  }
-
-  class Terrain {
-    +id : Integer
-    +nom : String
-    +adresse : String
-    +latitude : Float
-    +longitude : Float
-    +ville_id : Integer
-    +horaire_ouverture : Time
-    +horaire_fermeture : Time
-  }
-
-  class Sport {
-    +id : Integer
-    +name : String
-  }
-
-  class Reservation {
-    +id : Integer
-    +evenement_id : Integer
-    +nom_participant : String
-    +prenom_participant : String
-    +email_participant : String
-    +tel_participant : String
-    +username : String
-  }
-
-  class Note {
-    +id : Integer
-    +evenement_id : Integer
-    +note : Integer
-  }
-
-  class User {
-    +username : String
-  }
-
-  class Evenement {
-    +id : Integer
-    +nom : String
-    +date : Date
-    +heure_debut : Time
-    +heure_fin : Time
-    +nb_participants : Integer
-    +terrain_id : Integer
-    +username : String
-  }
-
-  class StatUser {
-    +id : Integer
-    +username : String
-    +score : Float
-  }
-
-  class Connaissance {
-    +id : Integer
-    +username : String
-    +connaissance : String
-  }
-
-  Ville "1" -- "*" Terrain 
-  Terrain "*" -- "*" Sport 
-  Reservation "*" -- "1" Evenement 
-  Reservation "*" -- "1" User 
-  Note "*" -- "1" Evenement 
-  Evenement "*" -- "1" Terrain 
-  Evenement "*" -- "1" User 
-  StatUser "1" -- "1" User 
-  Connaissance "*" -- "1" User 
+class Ville {
+  + id: Integer
+  nom: String
+  code_postal: Integer
+  departement: String
 }
-@enduml
+
+class Terrain {
+  + id: Integer
+  nom: String
+  adresse: String
+  latitude: Float
+  longitude: Float
+  horaire_ouverture: Time
+  horaire_fermeture: Time
+  emplacement : String
+}
+
+class Evenement {
+  + id: Integer
+  nom: String
+  date: Date
+  heure_debut: Time
+  heure_fin: Time
+  nb_participants: Integer
+  mot_de_passe: String
+}
+
+class Sport {
+  + id: Integer
+  name: String
+}
+
+class Reservation {
+  + id: Integer
+  nom_participant: String
+  prenom_participant: String
+  email_participant: String
+  tel_participant: String
+}
+
+class Note {
+  + id: Integer
+  note: Integer
+}
+
+class User {
+  + username : String
+}
+
+class Connaissance {
+  + id : Integer
+  connaissance : String
+}
+
+class Stat_user {
+  +id : Integer
+  score : Integer
+}
+
+Ville "1" -- "0..*" Terrain : Contient
+Terrain "1" -- "0..*" Evenement : Héberge
+Evenement "1" -- "0..*" Reservation : Comprend
+Evenement "1" -- "0..*" Note : Enregistre
+Sport "0..*" -- "0..*" Terrain : Propose
+User "1" -- "0..*" Evenement : Organise
+Connaissance "0..*" -- "0..*" User : Connait
+User "1" -- "0..*" Reservation : Effectue
+User "1" -- "0..1" Stat_user : Possède

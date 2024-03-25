@@ -1,18 +1,28 @@
 @startuml
-actor Utilisateur
 
-Utilisateur -> Frontend: Sélectionne un terrain et remplit les détails de l'événement
-Frontend -> Backend: Requête de création d'événement avec les détails
-note over Backend
-  Vérifie la validité des données
-  (par exemple, terrain existant, horaires valides)
-end note
-Backend -> Database: Crée un nouvel événement dans la base de données
-Database --> Backend: Confirmation de la création
+participant User
+participant "Evenement" as EvenementEntity
+participant "Reservation" as ReservationEntity
+participant "Terrain" as TerrainEntity
 
-Backend -> Frontend: Réponse de succès avec les détails de l'événement créé
+User -> EvenementEntity: Consulter événements disponibles
+activate EvenementEntity
+loop Choix de l'événement
+    User -> EvenementEntity: Choisir événement
+end
+deactivate EvenementEntity
 
-note over Utilisateur
-  Affiche un message de succès à l'utilisateur
-end note
+User -> ReservationEntity: Effectuer réservation
+activate ReservationEntity
+ReservationEntity -> EvenementEntity: Enregistrement réservation
+activate EvenementEntity
+EvenementEntity -> TerrainEntity: Recherche de terrain
+activate TerrainEntity
+TerrainEntity --> EvenementEntity: Terrain disponible
+deactivate TerrainEntity
+EvenementEntity --> ReservationEntity: Confirmation de la réservation
+deactivate EvenementEntity
+ReservationEntity --> User: Confirmation de la réservation
+deactivate ReservationEntity
+
 @enduml
