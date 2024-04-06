@@ -92,4 +92,4 @@ jobs:
 
       - name: Generate PDF from Asciidoctor
         run: |
-          asciidoctor-pdf -D assets src/docs/asciidoc/main.adoc
+          asciidoctor-pdf -D assets web/frontend/src/docs/asciidoc/main.adoc
