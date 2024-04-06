@@ -1,0 +1,69 @@
+class Ville {
+  + id: Integer
+  nom: String
+  code_postal: Integer
+  departement: String
+}
+
+class Terrain {
+  + id: Integer
+  nom: String
+  adresse: String
+  latitude: Float
+  longitude: Float
+  horaire_ouverture: Time
+  horaire_fermeture: Time
+  emplacement : String
+}
+
+class Evenement {
+  + id: Integer
+  nom: String
+  date: Date
+  heure_debut: Time
+  heure_fin: Time
+  nb_participants: Integer
+  mot_de_passe: String
+}
+
+class Sport {
+  + id: Integer
+  name: String
+}
+
+class Reservation {
+  + id: Integer
+  nom_participant: String
+  prenom_participant: String
+  email_participant: String
+  tel_participant: String
+}
+
+class Note {
+  + id: Integer
+  note: Integer
+}
+
+class User {
+  + username : String
+}
+
+class Connaissance {
+  + id : Integer
+  connaissance : String
+}
+
+class Stat_user {
+  +id : Integer
+  score : Integer
+}
+
+Ville "1" -- "0..*" Terrain : Contient
+Terrain "1" -- "0..*" Evenement : Héberge
+Evenement "1" -- "0..*" Reservation : Comprend
+Evenement "1" -- "0..*" Note : Enregistre
+Sport "0..*" -- "0..*" Terrain : Propose
+User "1" -- "0..*" Evenement : Organise
+Connaissance "0..*" -- "0..*" User : Connait
+User "1" -- "0..*" Reservation : Effectue
+User "1" -- "0..1" Stat_user : Possède

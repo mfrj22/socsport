@@ -1,0 +1,97 @@
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f7f7f7;
+  margin: 0;
+  padding: 0;
+}
+
+.header {
+  background-color: #4CAF50;
+  color: white;
+  text-align: center;
+  padding: 1rem;
+}
+
+.App {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #000000; /* Couleur de fond légèrement différente */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Ombre plus subtile */
+}
+
+
+h1 {
+  text-align: center;
+  margin-bottom: 20px;
+  font-family: 'Arial Black', sans-serif;
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+}
+
+.location-input {
+  margin-bottom: 1rem;
+}
+
+.field-link {
+  display: block;
+  padding: 10px;
+  margin-bottom: 10px;
+  background-color: #4caf50;
+  color: white;
+  text-align: center;
+  text-decoration: none;
+  border-radius: 5px;
+}
+
+.field-link:hover {
+  background-color: #45a049;
+}
+
+.event-form {
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 5px;
+}
+
+.nearby-fields {
+  margin-top: 20px;
+}
+
+.slick-slider {
+  width: 80%;
+  margin: 0 auto;
+}
+
+
+
+
+
+.caption {
+  font-size: 14px;
+  text-align: center;
+  margin-top: 10px;
+}
+.custom-map-container {
+  height: 300px; /* Définissez la hauteur souhaitée */
+  width: 100%; /* Utilisez toute la largeur disponible */
+  margin-bottom: 20px; /* Ajoutez un espacement en bas si nécessaire */
+}
+.map-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  pointer-events: none; /* Pour que les événements passent à travers la carte */
+}
+.centered-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+.legend {
+  text-align: center;
+}
