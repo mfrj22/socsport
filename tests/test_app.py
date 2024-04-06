@@ -6,7 +6,7 @@ sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')
 import json
 import pytest
 from flask import Flask, jsonify
-from app import app, db, Evenement, Note, StatUser, User, Connaissance, Terrain, Ville, Reservation, Sport
+from web.backend.app import app, db, Evenement, Note, StatUser, User, Connaissance, Terrain, Ville, Reservation, Sport
 
 @pytest.fixture
 def client():
