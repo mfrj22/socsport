@@ -12,7 +12,7 @@
 # production
 /build
 
-/web/backend/data/sql_password.txt
+web/backend/data/sql_password.txt
 
 # misc
 .DS_Store
