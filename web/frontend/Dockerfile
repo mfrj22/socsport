@@ -19,17 +19,8 @@ COPY ./public ./public
 # Construction de l'application React.js
 RUN npm run build
 
-# Utilisation d'une image légère d'nginx pour servir l'application construite
-FROM nginx:alpine
+# Définit l'URL à 0.0.0.0 avant de démarrer l'application
+ENV HOST=0.0.0.0
 
-# Suppression de la configuration par défaut de Nginx
-RUN rm -rf /usr/share/nginx/html/*
-
-# Copie des fichiers construits de l'application React.js dans le répertoire de travail de nginx
-COPY --from=builder /app/build /usr/share/nginx/html
-
-# Exposition du port 80 pour nginx
-EXPOSE 80
-
-# Commande pour démarrer nginx
-CMD ["nginx", "-g", "daemon off;"]
+# Démarre l'application React.js
+CMD ["npm", "start"]

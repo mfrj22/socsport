@@ -26,7 +26,7 @@ default_db_uri = f"mysql+pymysql://root:{db_password}@localhost/socsport"
 # Vérifie si l'application s'exécute dans un conteneur Docker
 if os.environ.get('DOCKER_ENVIRONMENT') == 'true':
     # Adresse de la base de données pour le conteneur Docker
-    db_uri = f"mysql+pymysql://root:{db_password}@172.29.0.2:3306/socsport"
+    db_uri = f"mysql+pymysql://root:{db_password}@docker-data-instance:3306/socsport"
 else:
     # Utilise l'adresse de la base de données par défaut
     db_uri = default_db_uri

@@ -21,5 +21,10 @@ COPY ./.env .
 # Exposition du port 5000 pour Flask
 EXPOSE 5000
 
+ENV DOCKER_ENVIRONMENT="true"
+
+# ENV HOST=0.0.0.0
+
 # Commande pour démarrer l'application Flask
-CMD ["python", "app.py", "--host", "172.29.0.3"]
+# CMD ["python", "app.py", "--host", "172.29.0.3"]
+CMD ["python", "app.py", "--host", "0.0.0.0"]

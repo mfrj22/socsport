@@ -13,4 +13,5 @@ ENV MYSQL_DATABASE=socsport \
 EXPOSE 3306
 
 # Commande pour exécuter MySQL
-CMD ["mysqld", "--bind-address=172.29.0.2"]
+# CMD ["mysqld", "--bind-address=172.29.0.2"]
+CMD ["mysqld", "--bind-address=0.0.0.0"]
