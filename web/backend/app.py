@@ -1167,7 +1167,8 @@ def chat():
     else:
         return jsonify({'message': 'Invalid JSON data'}), 400
 
-
-
 if __name__ == '__main__':
-    app.run(debug=True)
+    if os.environ.get('DOCKER_ENVIRONMENT') == 'true':
+        app.run(host="0.0.0.0", debug=True)
+    else:
+        app.run(debug=True)

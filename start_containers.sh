@@ -1,6 +1,9 @@
 docker rm --force docker-data-instance
 docker rm --force docker-back-instance
 docker rm --force docker-front-instance
+docker network rm ResProjet
+
+docker network create --subnet 172.29.0.0/16 ResProjet
 
 # Démarrage du conteneur docker-data
 docker run --net ResProjet -d --name docker-data-instance docker-data

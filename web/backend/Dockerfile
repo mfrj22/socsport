@@ -27,4 +27,5 @@ ENV DOCKER_ENVIRONMENT="true"
 
 # Commande pour démarrer l'application Flask
 # CMD ["python", "app.py", "--host", "172.29.0.3"]
-CMD ["python", "app.py", "--host", "0.0.0.0"]
+# CMD ["python", "app.py", "--host", "0.0.0.0"]
+CMD ["python", "app.py"]

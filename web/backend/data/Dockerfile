@@ -2,6 +2,7 @@
 FROM mysql:latest
 
 COPY ./sql_password.txt /sql_password.txt
+COPY ./init.sql /docker-entrypoint-initdb.d/init.sql
 
 # Définition des variables d'environnement pour la configuration de MySQL
 ENV MYSQL_DATABASE=socsport \
@@ -10,7 +11,7 @@ ENV MYSQL_DATABASE=socsport \
     MYSQL_PASSWORD_FILE=sql_password.txt 
 
 # Exposition du port MySQL
-EXPOSE 3306
+EXPOSE 3307:3306
 
 # Commande pour exécuter MySQL
 # CMD ["mysqld", "--bind-address=172.29.0.2"]
