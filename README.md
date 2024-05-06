@@ -151,13 +151,13 @@ bash create_and_start.sh
 Une fois nos scripts lancés, notre appplication se lance sur nos serveurs de déploiement. [http://localhost:3000](http://localhost:3000), [http://localhost:5000](http://localhost:5000)
 
 
-## Utilisation de l'Application (v1.1)
-La v1.1 de notre application SocSport vous permet de créer un événement en limitant l'inscription aux perosnnes possédant le mot de passe de l'événement. Elle permet également d'empêcher les organisateurs de créer des événements qui ont lieu au même moment et au même endroit. 
+## Utilisation de l'Application (v1.2)
+La v1.2 de notre application SocSport vous permet de créer un événement en limitant l'inscription aux perosnnes possédant le mot de passe de l'événement. Elle permet également d'empêcher les organisateurs de créer des événements qui ont lieu au même moment et au même endroit. 
 Ensuite, l'application permet de visualiser une fiche pour chaque terrain présent sur la carte avec :
 * L'emplacement du terrain
 * La météo actuelle sur le terrain
 * Les points d'intêrets à proximité (la distance à ceux là, l'adresse et la catégorie)
-Enfin, la v1.1 intègre un chatbot qui permet de répondre à toutes les questions de nutrition, blessures sportives, équipements...
+Enfin, la v1.2 intègre un chatbot qui permet de répondre à toutes les questions de nutrition, blessures sportives, équipements...
 
 Nous apprécions toutes les contributions et le feedback de la communauté !
 
