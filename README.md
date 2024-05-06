@@ -110,6 +110,8 @@ Vous pouvez faire de même avec la commande :
 ```
 
 ## Lancement de l'Application
+
+### Lancement de l'Application
 Vous êtes maintenant prêt à lancer l'application !
 Utilisez la commande suivante pour démarrer le serveur de développement :
 
@@ -125,6 +127,29 @@ python app.py
 L'application sera disponible à l'adresse : [http://localhost:3000](http://localhost:3000)
 
 L'API Flask sera disponible à l'adresse : [http://localhost:5000](http://localhost:5000)
+
+## Conteneurisation 
+
+Afin de regrouper toutes les dépendances de notre application, nous avons mis en place des conteneurs : un pour le front, un pour le back, et un pour la base de données.
+Nous avons également mis en place des scripts afin d'automatiser le processus de création et de lancement de nos conteneurs.
+
+Voici les commandes pour lancer nos scripts : 
+
+Le premier permet de lancer nos 3 conteneurs 
+```
+bash start_containers.sh
+```
+Le second permet de créer nos 3 conteneurs 
+```
+bash create_containers.sh
+```
+Le trosième permet de créer et de lancer nos 3 conteneurs
+```
+bash create_and_start.sh
+```
+
+Une fois nos scripts lancés, notre appplication se lance sur nos serveurs de déploiement. [http://localhost:3000](http://localhost:3000), [http://localhost:5000](http://localhost:5000)
+
 
 ## Utilisation de l'Application (v1.1)
 La v1.1 de notre application SocSport vous permet de créer un événement en limitant l'inscription aux perosnnes possédant le mot de passe de l'événement. Elle permet également d'empêcher les organisateurs de créer des événements qui ont lieu au même moment et au même endroit. 
