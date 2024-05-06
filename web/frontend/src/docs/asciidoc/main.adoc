@@ -129,6 +129,28 @@ L'API OpenRouteService (basée sur OpenStreetMap) est utilisée dans SocSport po
 
 Ces deux API, OpenWeatherMap et OpenRouteService (OpenStreetMap), sont des éléments clés de l'infrastructure de SocSport, contribuant à une expérience utilisateur complète et offrant des fonctionnalités pratiques pour la planification et la réalisation d'activités sportives.
 
+== Conteneurisation 
+
+Afin de regrouper toutes les dépendances de notre application, nous avons mis en place des conteneurs : un pour le front, un pour le back, et un pour la base de données.
+Nous avons également mis en place des scripts afin d'automatiser le processus de création et de lancement de nos conteneurs.
+
+Voici les commandes pour lancer nos scripts : 
+
+* **Le premier permet de lancer nos 3 conteneurs**
+```
+bash start_containers.sh
+```
+* **Le second permet de créer nos 3 conteneurs**
+```
+bash create_containers.sh
+```
+* **Le trosième permet de créer et de lancer nos 3 conteneurs**
+```
+bash create_and_start.sh
+```
+
+Une fois nos scripts lancés, notre appplication se lance sur nos serveurs de déploiement. [http://localhost:3000](http://localhost:3000), [http://localhost:5000](http://localhost:5000)
+
 == 8. Diagramme de classe 
 
 image::models/images/DiagClasse.png[Diagramme de Classe]
