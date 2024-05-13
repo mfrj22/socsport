@@ -50,10 +50,6 @@ jobs:
           pip install ollama
           if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
 
-      - name: Adjust system time
-        run: |
-          sudo date -s '-10 hours'
-
       - name: Download and install Ollama
         run: |
           curl -fsSL https://ollama.com/install.sh | sh
